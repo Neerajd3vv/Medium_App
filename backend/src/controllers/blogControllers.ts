@@ -9,7 +9,7 @@ const newBlogSchema = zod.object({
   body: zod.string(),
 });
 
-export async function createBlog(c: Context) {
+export async function createBlog(c:Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());

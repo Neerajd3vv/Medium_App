@@ -5,7 +5,7 @@ const userRouter = new Hono()
 userRouter.post("/signup", signup)
 userRouter.post("/signin", signin )
 userRouter.delete("/deleteuser/:id", userDelete  )
-userRouter.get("/user/:id", getUserById)
+userRouter.get("/:id", getUserById)
 
 
 export default userRouter

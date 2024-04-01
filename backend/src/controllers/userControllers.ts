@@ -2,7 +2,7 @@ import { Context } from "hono";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { PrismaClient } from "@prisma/client/edge";
 import zod from "zod";
-import { Jwt } from "hono/utils/jwt";
+import { sign } from "hono/jwt";
 
 // status code
 enum status {
@@ -52,7 +52,7 @@ export async function signup(c: Context) {
         },
       });
       const authorId = newUser.id;
-      const token = await Jwt.sign(authorId, c.env.JWT_KEY);
+      const token = await sign(authorId, c.env.JWT_KEY);
       return c.json({
         message: "User created sucessfully!",
         user: {
@@ -94,7 +94,7 @@ export async function signin(c: Context) {
       return c.json({ msg: "User does'nt exist with those credentials" });
     } else {
       const authorId = userExists.id
-      const token = await Jwt.sign(authorId, c.env.JWT_KEY);
+      const token = await sign(authorId, c.env.JWT_KEY);
       return c.json({
         msg: "Logged in",
         user: {
@@ -144,13 +144,10 @@ export async function getUserById(c: Context) {
         id: id,
       },
     });
-    return c.json({
-      user: {
-        id: userFound?.id,
-        username: userFound?.username,
-        email: userFound?.email,
-      },
-    });
+    if (!userFound) {
+      return c.text("No user found!")
+    }
+    return c.json({user: userFound})
   } catch (error) {
     return c.json(`Internal server error: ${error}`, 500);
   }

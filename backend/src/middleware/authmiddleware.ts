@@ -1,5 +1,5 @@
 import { Context, Next } from "hono";
-import { Jwt } from "hono/utils/jwt";
+import { verify } from "hono/jwt";
 
 async function authmiddleware(c: Context, next: Next) {
   const token = c.req.header("Authorization");
@@ -8,7 +8,7 @@ async function authmiddleware(c: Context, next: Next) {
   }
   const fineToken = token.split(" ")[1];
   try {
-    const decoded = await Jwt.verify(fineToken, c.env.JWT_KEY);
+    const decoded = await verify(fineToken, c.env.JWT_KEY);
     console.log(decoded);
 
     if (!decoded) {
