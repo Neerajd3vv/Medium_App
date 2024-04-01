@@ -1,8 +1,2 @@
-```
-npm install
-npm run dev
-```
-
-```
-npm run deploy
-```
+# Medium_App
+ Trying to built something very similar to medium app

@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { PrismaClient } from "@prisma/client/edge";
-import zod from "zod";
+import { signupSchema,signinSchema } from "@neerajrandom/medium-common";
 import { sign } from "hono/jwt";
 
 // status code
@@ -11,17 +11,6 @@ enum status {
   NOTPERMISSION = 403,
 }
 
-// zod schema
-const signupSchema = zod.object({
-  username: zod.string(),
-  email: zod.string().email(),
-  password: zod.string(),
-});
-
-const signinSchema = zod.object({
-  email: zod.string(),
-  password: zod.string(),
-});
 
 export async function signup(c: Context) {
   const prisma = new PrismaClient({

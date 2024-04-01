@@ -1,15 +1,10 @@
 import { Context } from "hono/";
-import zod from "zod";
+import { newBlogSchema, updateSchema } from "@neerajrandom/medium-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-// creteBlod schema
-const newBlogSchema = zod.object({
-  title: zod.string(),
-  body: zod.string(),
-});
 
-export async function createBlog(c:Context) {
+export async function createBlog(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
@@ -21,7 +16,7 @@ export async function createBlog(c:Context) {
 
     const { success } = newBlogSchema.safeParse(body);
     if (!success) {
-      return c.body("Invalid user input", 400);
+      return c.body("Zod validation failed", 400);
     }
     const newBlogPost = await prisma.blogs.create({
       data: {
@@ -99,7 +94,7 @@ export async function blogById(c: Context) {
   try {
     const id = c.req.param("id");
     console.log(blogById);
-    
+
     const blogExists = await prisma.blogs.findFirst({
       where: {
         id: id,
@@ -136,6 +131,10 @@ export async function updateBlog(c: Context) {
       title: string;
       body: string;
     } = await c.req.json();
+    const { success } = updateSchema.safeParse(body);
+    if (!success) {
+      return c.text("Zod validtion failed!");
+    }
     const Blog = await prisma.blogs.update({
       where: {
         id: id,
