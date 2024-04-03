@@ -14,7 +14,7 @@ export default {
         Abril:["Abril Fatface", "serif"],
         Protest:["Protest Strike", "sans-serif"],
         Merri:["Merriweather", "serif"],
-        Manrope:["Manrope", "sans-serif"],
+        Poppins:["Manrope", "sans-serif"],
         Poppins:["Poppins", "sans-serif"],
         Mullish:["Mulish", "sans-serif"],
         Bebus:["Bebas Neue", "sans-serif"],

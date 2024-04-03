@@ -3,8 +3,9 @@ import Inputbox from "./Inputbox";
 import { useState } from "react";
 import { SignupSchema } from "@neerajrandom/medium-common";
 import Button from "./Button";
-
-
+import axios from "axios";
+import { BACKEND_URL } from "../config";
+import { useNavigate } from "react-router-dom";
 function SignupInputs() {
   // So here is we are inforcing/giving a type to authinputs state variable , which we have defined in common module of this project
   const [authInputs, setAuthInputs] = useState<SignupSchema>({
@@ -12,16 +13,36 @@ function SignupInputs() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+  async function signupBackend() {
+    console.log("called");
+
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/user/signup`,
+        authInputs
+      );
+      const token = response.data.token;
+
+      if (!token ) {
+        alert("No token returned, use different email!");
+        return;
+      }
+      localStorage.setItem("token", token);
+      navigate("/blogs");
+    } catch (error) {
+      alert("Request failed!");
+    }
+  }
   return (
-    
     <div className="flex flex-col justify-center h-screen ">
-    {/* {JSON.stringify(authInputs)} */}
+      {/* {JSON.stringify(authInputs)} */}
       <div className="flex justify-center ">
         <div>
-          <div className="  font-Poppins text-3xl font-bold flex justify-center  text-bubblyblue ">
+          <div className="  font-Poppins text-3xl mb-4 font-bold flex justify-center  text-bubblyblue ">
             Create an account
           </div>
-        
+
           <Inputbox
             label="Username"
             placeholder="Enter your username"
@@ -44,6 +65,7 @@ function SignupInputs() {
           />
           <Inputbox
             label="Password"
+            type="password"
             placeholder="Enter password"
             onChange={(e) => {
               setAuthInputs({
@@ -52,14 +74,14 @@ function SignupInputs() {
               });
             }}
           />
-            <div className="font-Poppins flex justify-center">
+          <div className="font-Poppins pt-2 flex justify-center">
             Already have an account?
             <Link className="text-heheblu underline" to={"/signin"}>
               {" "}
               Signin
             </Link>
           </div>
-          <Button button="signup"/>
+          <Button button="signup" onClick={signupBackend} />
         </div>
       </div>
     </div>
