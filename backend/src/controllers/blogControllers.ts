@@ -98,7 +98,7 @@ export async function blogById(c: Context) {
     const blogExists = await prisma.blogs.findFirst({
       where: {
         id: id,
-        authorId: c.get("authorId"),
+
       },
       include: {
         author: true,

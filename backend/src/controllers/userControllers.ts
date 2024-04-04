@@ -73,14 +73,14 @@ export async function signin(c: Context) {
     if (!success) {
       return c.text("Zod validation failed!");
     }
-    const userExists = await prisma.user.findFirst({
+    const userExists = await prisma.user.findUnique({
       where: {
         email: body.email,
         password: body.password,
       },
     });
     if (!userExists) {
-      return c.json({ msg: "User does'nt exist with those credentials" });
+      return c.json({ msg: "User doesn't exist with those credentials" });
     } else {
       const authorId = userExists.id
       const token = await sign(authorId, c.env.JWT_KEY);
