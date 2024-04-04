@@ -2,6 +2,8 @@
 import {useBlogbyId}  from "../Hooks/Bloghook"
 import ParticularBlog from "../components/ParticularBlog"
 import { useParams } from "react-router-dom"
+import { ParticularBlogSkeleton } from "../components/Skeleton"
+import AppBar from "../components/AppBar"
 
 function Blog() {
   const {id} =  useParams()
@@ -10,7 +12,8 @@ function Blog() {
     })
     if (loading) {
       return <div>
-        loading...
+        <AppBar/>
+      <ParticularBlogSkeleton/>
       </div>
     }
   return (
