@@ -1,11 +1,14 @@
 import { Avatar } from "./BlogCard";
 import MediumLogo from "../images/Medium-Logo.png";
+import { Link } from "react-router-dom";
 
 function AppBar() {
   return (
     <div className="flex justify-between px-12 border-b-2 py-4 border-slate-200">
-      <div className="w-32  flex">
-        <img src={MediumLogo} alt="Medium-Logo " />
+      <div className="flex ">
+        <Link to={"/blogs"}>
+        <img src={MediumLogo} alt="Medium-Logo " className="w-32" />
+        </Link>
         <div className="flex items-center ml-3">
           <AppBarSearchbox />
         </div>
@@ -29,7 +32,7 @@ function AppBar() {
           </svg>
         </div>
         <div className="pl-6">
-          <Avatar size={10} authorName="Neeraj" />
+          <Avatar  authorName="Neeraj" />
         </div>
       </div>
     </div>

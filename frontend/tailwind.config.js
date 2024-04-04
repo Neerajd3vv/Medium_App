@@ -22,7 +22,10 @@ export default {
         Sora : ["Sora", "sans-serif"],
         rowdies: ["Rowdies", "sans-serif"],
         proteststrike: ["Protest Strike", "sans-serif"],
-        passion: ["Passion One", "sans-serif"]
+        passion: ["Passion One", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
+        railway: ["Raleway", "sans-serif"]
+        
       },
       colors: {
         "MainBlack": "#111111",
@@ -42,6 +45,7 @@ export default {
         "hehetwo" : "#219ebc",
         "kuch" :"#f4f1de",
         "kuch1" : "#284b63"
+        
       }
       
     },

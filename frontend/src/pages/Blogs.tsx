@@ -20,10 +20,12 @@ function Blog() {
     <div>
        {allBlogs.map(blogs => 
        <BlogCard
+        
         title={blogs.title}
         authorName={blogs.authorname}
         mainbody={blogs.content}
-        publishDate="not available"
+        publishDate="4th march, 2024"
+        id={blogs.id}
        />
         )}
     </div>
