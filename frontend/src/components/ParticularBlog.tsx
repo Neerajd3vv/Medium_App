@@ -29,7 +29,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             </div>
           </div>
           {/* Right Part */}
-          <div className="col-span-12  lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
+          <div className="col-span-12 pb-12 lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
             <div className="font-semibold text-md text-slate-700 pb-2 font-poppins">
               Author
             </div>
