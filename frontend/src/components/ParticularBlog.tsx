@@ -24,7 +24,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             <div className="font-bold text-md text-slate-500 font-poppins">
               Posted on 3 April, 2024
             </div>
-            <div className="font-hind  w-full max-w-4xl pt-4 text-md lg:text-xl leading-normal tracking-wide">
+            <div className="font-lora  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-normal tracking-wide">
               {blogById?.body}
             </div>
           </div>
@@ -38,10 +38,10 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
                 <Avatar authorName={blogById?.authorname} />
               </div>
               <div>
-                <div className="text-2xl font-Poppins">
+                <div className="text-2xl font-passion font-semibold">
                   {blogById?.authorname}
                 </div>
-                <div className="font-roboto">
+                <div className="font-Poppins">
                   Master of mirth, purveyor of puns, and the funniest person in
                   the kingdom
                 </div>

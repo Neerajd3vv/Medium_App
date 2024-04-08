@@ -5,6 +5,7 @@ import Signup from './pages/Signup'
 import Signin from './pages/Signin'
 import Blogs from './pages/Blogs'
 import Blog from './pages/Blog'
+import NewBlog from './pages/NewBlog'
 
 function App() {
  
@@ -17,6 +18,7 @@ function App() {
       <Route path='/signin' element={<Signin/>}/>
       <Route path='/blogs' element={<Blogs/>}/>
       <Route path='/blog/:id' element={<Blog/>}/>
+      <Route path='/create-blog' element={<NewBlog/>} />
     </Routes>
     </BrowserRouter>
     </>

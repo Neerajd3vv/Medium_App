@@ -4,10 +4,11 @@ interface LabelInput  {
     label: string;
     placeholder : string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    type?: string
+    type?: string;
+    
 }
 
-function Inputbox({label, placeholder, onChange,type}: LabelInput) {
+function Inputbox({label, placeholder, onChange,type, }: LabelInput) {
   return (
     <div className="flex flex-col py-2 ">
         <label className="font-Hind font-semibold">{label}</label>

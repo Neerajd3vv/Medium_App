@@ -24,7 +24,10 @@ export default {
         proteststrike: ["Protest Strike", "sans-serif"],
         passion: ["Passion One", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
-        railway: ["Raleway", "sans-serif"]
+        railway: ["Raleway", "sans-serif"],
+        playflair: ["Playfair Display", "serif"],
+        ptserif: ["PT Serif", "serif"],
+        lora: [ "Lora", "serif"],
         
       },
       colors: {

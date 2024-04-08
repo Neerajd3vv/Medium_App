@@ -13,7 +13,7 @@ function BlogCard({ authorName, title, mainbody, publishDate , id}: blogCardType
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
     bodyWord.length > 100
-      ? `${bodyWord.slice(0, 60).join(" ")} readmore...`
+      ? `${bodyWord.slice(0, 60).join(" ")}  Readmore...`
       : mainbody;
   return (
     <Link to={"/blog/"+ id}>
@@ -29,7 +29,7 @@ function BlogCard({ authorName, title, mainbody, publishDate , id}: blogCardType
           <div className="text-gray-400  font-Afacad">{publishDate}</div>
         </div>
         <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
-        <div className="text-lg text-slate-700 mb-8 font-semibold font-Merri">
+        <div className="text-lg text-slate-500 mb-8 font-semibold font-lora">
           {truncatedBody}
         </div>
         <div className="font-Afacad font-semibold text-gray-600 ">
