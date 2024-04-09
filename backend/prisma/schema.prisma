@@ -9,24 +9,34 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id String @id @default(uuid())
-  username String 
-  email String @unique
-  password String 
-  blog Blogs[]
+  id       String   @id @default(uuid())
+  username String
+  email    String   @unique
+  password String
+  blog     Blogs[]
+  profile  Profile?
+}
+
+model Profile {
+  id             String  @id @default(uuid())
+  profileId      String  @unique
+  profilePicture String?
+  bio            String?
+  user           User    @relation(fields: [profileId], references: [id])
 }
 
 model Blogs {
-  id String  @id @default(uuid())
-  authorId String
-  title String 
-  body String
-  published Boolean @default(false)
-  author User @relation(fields: [authorId], references: [id])
+  id          String   @id @default(uuid())
+  authorId    String
+  title       String
+  body        String   @db.Text
+  published   Boolean  @default(false)
+  publishDate DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id])
 }

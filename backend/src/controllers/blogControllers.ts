@@ -3,7 +3,6 @@ import { newBlogSchema, updateSchema } from "@neerajrandom/medium-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-
 export async function createBlog(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -78,8 +77,19 @@ export async function authorblogs(c: Context) {
       where: {
         authorId: c.get("authorId"),
       },
+      include: {
+        author: true,
+      },
     });
-    return c.json({ AuthorBlogs: authorPosts });
+    return c.json({
+      AuthorBlogs: authorPosts.map((res) => ({
+        id: res.id,
+        title: res.title,
+        body: res.body,
+        authorId: res.authorId,
+        authorname: res.author.username,
+      })),
+    });
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);
   }
@@ -98,7 +108,6 @@ export async function blogById(c: Context) {
     const blogExists = await prisma.blogs.findFirst({
       where: {
         id: id,
-
       },
       include: {
         author: true,

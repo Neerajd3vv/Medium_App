@@ -22,7 +22,7 @@ function CreateBlog() {
       `${BACKEND_URL}/api/v1/blog/createblog`,
       {
         title,
-        body:blogBody,
+        body: blogBody,
       },
       {
         headers: {
@@ -31,9 +31,9 @@ function CreateBlog() {
       }
     );
     if (!response) {
-        return; 
+      return;
     }
-    navigate("/blogs")
+    navigate("/blogs");
   }
   return (
     <>
@@ -52,7 +52,7 @@ function CreateBlog() {
         onEditorChange={handleEditorChange}
         init={{
           height: 600,
-          
+
           menubar: true,
           plugins: [
             "advlist",

@@ -1,6 +1,6 @@
 import zod from 'zod'
 
-// zod schema
+// zod schema -> bckend will require these schema's
 export const signupSchema = zod.object({
     username: zod.string(),
     email: zod.string().email(),
@@ -25,7 +25,7 @@ export   const updateSchema = zod.object({
     body: zod.string(),
   });
 
-
+// frontend will need this 
 export type SignupSchema = zod.infer<typeof signupSchema>
 export type SigninSchema = zod.infer<typeof signinSchema>
 export type NewBlogSchema = zod.infer<typeof newBlogSchema>

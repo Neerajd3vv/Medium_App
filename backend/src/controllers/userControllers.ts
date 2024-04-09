@@ -1,8 +1,8 @@
 import { Context } from "hono";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { PrismaClient } from "@prisma/client/edge";
-import { signupSchema,signinSchema } from "@neerajrandom/medium-common";
-import { sign } from "hono/jwt";
+import { signupSchema, signinSchema } from "@neerajrandom/medium-common";
+import { sign, verify } from "hono/jwt";
 
 // status code
 enum status {
@@ -10,7 +10,6 @@ enum status {
   NOTFOUND = 404,
   NOTPERMISSION = 403,
 }
-
 
 export async function signup(c: Context) {
   const prisma = new PrismaClient({
@@ -82,7 +81,7 @@ export async function signin(c: Context) {
     if (!userExists) {
       return c.json({ msg: "User doesn't exist with those credentials" });
     } else {
-      const authorId = userExists.id
+      const authorId = userExists.id;
       const token = await sign(authorId, c.env.JWT_KEY);
       return c.json({
         msg: "Logged in",
@@ -134,9 +133,31 @@ export async function getUserById(c: Context) {
       },
     });
     if (!userFound) {
-      return c.text("No user found!")
+      return c.text("No user found!");
     }
-    return c.json({user: userFound})
+    return c.json({ user: userFound });
+  } catch (error) {
+    return c.json(`Internal server error: ${error}`, 500);
+  }
+}
+
+export async function firstMount(c: Context) {
+ 
+  const token = c.req.header("Authorization");
+  if (!token || !token.startsWith("Bearer ")) {
+    return c.json({ msg: "Token foramt incorrect" });
+  }
+  const actualToken = token.split(" ")[1];
+  // console.log(actualToken);
+
+  try {
+    const decoded = await verify(actualToken, c.env.JWT_KEY);
+    console.log(decoded);
+    // console.log(decoded.authorId);
+    if (!decoded) {
+      return c.text("Decoding failed");
+    }
+    return c.json({ Userid: decoded });
   } catch (error) {
     return c.json(`Internal server error: ${error}`, 500);
   }

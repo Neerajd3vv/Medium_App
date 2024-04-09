@@ -29,27 +29,60 @@ function useBlog() {
 export interface blogIdType {
   id: string;
   title: string;
-  body:string;
-  authorname:string;
+  body: string;
+  authorname: string;
 }
 
-export function  useBlogbyId ({id} : {id: string}){
-  const [blogById , setBlogById] = useState<blogIdType>()
-  const [loading , setloading] = useState(true)
+export function useBlogbyId({ id }: { id: string }) {
+  const [blogById, setBlogById] = useState<blogIdType>();
+  const [loading, setloading] = useState(true);
 
-  useEffect(()=>{
-    axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
-      headers:{
-        Authorization : `Bearer ${localStorage.getItem("token")}`
-      }
-    }).then((response) =>{
-      setBlogById(response.data.YourBlogs)
-      setloading(false)
-    })
-  },[id])
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setBlogById(response.data.YourBlogs);
+        setloading(false);
+      });
+  }, [id]);
   return {
     loading,
-    blogById
+    blogById,
+  };
+}
+
+interface AuthorBlogs {
+  id: string;
+  authorId: string;
+  title: string;
+  body: string;
+  authorname:string
+}
+
+export function usePersonalBlogs() {
+  const [loading, setloading] = useState(true);
+  const [myPersonalblog, setMyPersonalBlog] = useState<AuthorBlogs[]>([]);
+
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_URL}/api/v1/blog/author-blog`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setMyPersonalBlog(response.data.AuthorBlogs);
+        setloading(false)
+      });
+  },[]);
+
+  return {
+  loading,
+  myPersonalblog
   }
 }
 

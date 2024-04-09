@@ -1,26 +1,21 @@
 import { Link } from "react-router-dom";
+import { Avatar } from "./BlogCard";
 
-interface blogCardType {
-  authorName: string;
-  title: string;
-  mainbody: string;
-  publishDate: string;
+interface MineBlogType {
   id: string;
+  title: string;
+  body: string;
+  publishDate: string;
+  authorName: string;
 }
 
-function BlogCard({
-  authorName,
-  title,
-  mainbody,
-  publishDate,
-  id,
-}: blogCardType) {
-  const bodyWord = mainbody.split(" ");
+function MyBlogs({ id, title, body, publishDate, authorName }: MineBlogType) {
+  const bodyWord = body.split(" ");
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
     bodyWord.length > 100
       ? `${bodyWord.slice(0, 60).join(" ")}  Readmore...`
-      : mainbody;
+      : body;
   return (
     <Link to={"/blog/" + id}>
       <div className="flex justify-center mb-2 ">
@@ -46,25 +41,4 @@ function BlogCard({
   );
 }
 
-export function Avatar({
-  authorName,
-  size = 8 ,
-}: {
-  authorName?: string;
-  size?: number;
-}) {
-  if (!authorName) {
-    // Handle the case when authorName is undefined
-    return; // or render a placeholder avatar
-  }
-
-  return (
-    <div className={`relative w-${size} inline-flex items-center h-${size} justify-center  overflow-hidden bg-heheblu rounded-full `}>
-      <span className="font-medium  text-white font-Merri  dark:text-black">
-        {authorName.toUpperCase()[0]}
-      </span>
-    </div>
-  );
-}
-
-export default BlogCard;
+export default MyBlogs;
