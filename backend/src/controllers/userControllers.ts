@@ -141,11 +141,32 @@ export async function getUserById(c: Context) {
   }
 }
 
+export async function loggedUser(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const userFound = await prisma.user.findFirst({
+      where: {
+        id: c.get("authorId"),
+      },
+    });
+    console.log(userFound);
+    
+    if (!userFound) {
+      return c.json({ msg: "No user with such id " });
+    }
+    return c.json({ User: userFound });
+  } catch (error) {
+    return c.json(`Internal server error: ${error}`, 500);
+  }
+}
+
 export async function firstMount(c: Context) {
- 
   const token = c.req.header("Authorization");
   if (!token || !token.startsWith("Bearer ")) {
-    return c.json({ msg: "Token foramt incorrect" });
+    return c.json({ msg: "Token format incorrect" });
   }
   const actualToken = token.split(" ")[1];
   // console.log(actualToken);

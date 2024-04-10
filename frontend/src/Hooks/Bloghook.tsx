@@ -8,6 +8,7 @@ export interface BlogType {
   content: string;
   authorId: string;
   authorname: string;
+  publishDate: string;
 }
 
 function useBlog() {
@@ -29,8 +30,10 @@ function useBlog() {
 export interface blogIdType {
   id: string;
   title: string;
-  body: string;
+  content: string;
+  authorId: string;
   authorname: string;
+  publishDate: string;
 }
 
 export function useBlogbyId({ id }: { id: string }) {
@@ -45,7 +48,7 @@ export function useBlogbyId({ id }: { id: string }) {
         },
       })
       .then((response) => {
-        setBlogById(response.data.YourBlogs);
+        setBlogById(response.data);
         setloading(false);
       });
   }, [id]);
@@ -60,7 +63,8 @@ interface AuthorBlogs {
   authorId: string;
   title: string;
   body: string;
-  authorname:string
+  authorname: string;
+  publishDate: string;
 }
 
 export function usePersonalBlogs() {
@@ -76,14 +80,62 @@ export function usePersonalBlogs() {
       })
       .then((response) => {
         setMyPersonalBlog(response.data.AuthorBlogs);
-        setloading(false)
+        setloading(false);
       });
-  },[]);
+  }, []);
 
   return {
-  loading,
-  myPersonalblog
-  }
+    loading,
+    myPersonalblog,
+  };
 }
 
 export default useBlog;
+
+// +++++++++++++++ logged in bases avatar showcase ++++++++++++
+
+interface userDataType {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export  function useLoggedUser() {
+  const [userDatay, setUserData] = useState<userDataType | null> (null);
+
+  const getUserData = async (token: string) => {
+    const response = await axios.post(
+      `${BACKEND_URL}/api/v1/user/loggedinuser`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const userData = response.data.User;
+    
+    
+    setUserData(userData);
+  };
+
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      await getUserData(token);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  
+  return {
+    userDatay,
+    
+  };
+  
+  
+}

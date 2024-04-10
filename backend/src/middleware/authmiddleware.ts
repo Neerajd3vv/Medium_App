@@ -9,7 +9,7 @@ async function authmiddleware(c: Context, next: Next) {
   const fineToken = token.split(" ")[1];
   try {
     const decoded = await verify(fineToken, c.env.JWT_KEY);
-    console.log(decoded);
+    
 
     if (!decoded) {
       return c.text(" Token Not decoded");

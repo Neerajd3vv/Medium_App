@@ -32,7 +32,7 @@ function Blog() {
             title={blog.title}
             authorName={blog.authorname}
             mainbody={blog.content}
-            publishDate="4th March, 2024" // Assuming you want a static publish date
+            publishDate= {blog.publishDate}// Assuming you want a static publish date
             id={blog.id}
           />
         ))}

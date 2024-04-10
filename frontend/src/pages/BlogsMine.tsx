@@ -30,7 +30,7 @@ function BlogsMine() {
             body={blog.body}
             title={blog.title}
             authorName={blog.authorname}
-            publishDate="4th March, 2024"
+            publishDate={blog.publishDate}
           />
         ))}
       </div>

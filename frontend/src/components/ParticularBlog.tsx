@@ -4,8 +4,9 @@ import { Avatar } from "./BlogCard";
 interface BlogtypeId {
   id: string;
   title: string;
-  body: string;
+  content: string;
   authorname: string;
+  publishDate: string
 }
 
 function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
@@ -22,10 +23,10 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
               {blogById?.title}
             </div>
             <div className="font-bold text-md text-slate-500 font-poppins">
-              Posted on 3 April, 2024
+              {blogById?.publishDate}
             </div>
             <div className="font-lora  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-normal tracking-wide">
-              {blogById?.body}
+             {blogById?.content}
             </div>
           </div>
           {/* Right Part */}

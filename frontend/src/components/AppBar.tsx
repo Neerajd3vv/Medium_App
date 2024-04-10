@@ -3,8 +3,14 @@ import MediumLogo from "../images/Medium-Logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useLoggedUser } from "../Hooks/Bloghook";
+
 
 function AppBar() {
+  const {userDatay} = useLoggedUser()
+  console.log(userDatay);
+  
+
   const [dropBox, setDropBox] = useState(false);
   const navigate = useNavigate();
   function handleNavigate() {
@@ -22,6 +28,8 @@ function AppBar() {
     localStorage.removeItem("token");
     navigate("/signin");
   };
+
+ 
 
   return (
     <div className="flex justify-between px-12 border-b-2 py-4 border-slate-200">
@@ -67,7 +75,7 @@ function AppBar() {
         )}
         {localStorage.getItem("token") ? (
           <div className=" cursor-pointer mx-6 " onClick={dropOn}>
-            <Avatar authorName="Neeraj" size={8} />
+            <Avatar authorName={userDatay?.username} size={8} />
           </div>
         ) : (
           <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">

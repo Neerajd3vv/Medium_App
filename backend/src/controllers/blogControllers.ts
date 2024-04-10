@@ -27,14 +27,36 @@ export async function createBlog(c: Context) {
         author: true,
       },
     });
+
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const postPublishDate = new Date(newBlogPost.publishDate);
+    const properDate = `${postPublishDate.getDate()} ${
+      months[postPublishDate.getMonth()]
+    } ${postPublishDate.getFullYear()}`;
+
     return c.json({
-      msg: "Blog creted Successfully",
+      msg: "Blog created Successfully",
       Blog: {
         id: newBlogPost.id,
         title: newBlogPost.title,
         content: newBlogPost.body,
         authorId: newBlogPost.authorId,
         authorName: newBlogPost.author.username,
+        publishDate: properDate,
       },
     });
   } catch (error) {
@@ -53,6 +75,21 @@ export async function getallblogs(c: Context) {
         author: true,
       },
     });
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
     return c.json({
       Blogs: multipleBlogs.map((res) => ({
         id: res.id,
@@ -60,6 +97,9 @@ export async function getallblogs(c: Context) {
         content: res.body,
         authorId: res.authorId,
         authorname: res.author.username,
+        publishDate: `${res.publishDate.getDate()} ${
+          months[res.publishDate.getMonth()]
+        } ${res.publishDate.getFullYear()}`,
       })),
     });
   } catch (error) {
@@ -81,13 +121,29 @@ export async function authorblogs(c: Context) {
         author: true,
       },
     });
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
     return c.json({
       AuthorBlogs: authorPosts.map((res) => ({
         id: res.id,
         title: res.title,
         body: res.body,
-        authorId: res.authorId,
         authorname: res.author.username,
+        publishDate: `${res.publishDate.getDate()} ${
+          months[res.publishDate.getMonth()]
+        } ${res.publishDate.getFullYear()}`,
       })),
     });
   } catch (error) {
@@ -96,7 +152,6 @@ export async function authorblogs(c: Context) {
 }
 
 // get blog by id
-
 export async function blogById(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -116,14 +171,32 @@ export async function blogById(c: Context) {
     if (!blogExists) {
       return c.body("Post does not exists", 404);
     }
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const postPublishDate = new Date(blogExists.publishDate);
+    const properDate = `${postPublishDate.getDate()} ${
+      months[postPublishDate.getMonth()]
+    } ${postPublishDate.getFullYear()}`;
 
     return c.json({
-      YourBlogs: {
-        id: blogExists.id,
-        title: blogExists.title,
-        body: blogExists.body,
-        authorname: blogExists.author.username,
-      },
+      id: blogExists.id,
+      title: blogExists.title,
+      content: blogExists.body,
+      authorId: blogExists.authorId,
+      authorname: blogExists.author.username,
+      publishDate: properDate,
     });
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);
@@ -158,11 +231,30 @@ export async function updateBlog(c: Context) {
         author: true,
       },
     });
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const postPublishDate = new Date(Blog.publishDate);
+    const properDate = `${postPublishDate.getDate()} ${
+      months[postPublishDate.getMonth()]
+    } ${postPublishDate.getFullYear()}`;
     return c.json({
       updatedBlog: {
         authorName: Blog.author.username,
         title: Blog.title,
         content: Blog.body,
+        publishDate: properDate,
       },
     });
   } catch (error) {
