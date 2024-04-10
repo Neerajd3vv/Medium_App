@@ -6,9 +6,9 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import NewBlog from "./pages/NewBlog";
 import BlogsMine from "./pages/BlogsMine";
-import UserProfile from "./pages/UserProfile";
-
 import Me from "./pages/Me";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -22,7 +22,8 @@ function App() {
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/create-blog" element={<NewBlog />} />
           <Route path="/myblogs" element={<BlogsMine />} />
-          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </BrowserRouter>
     </>

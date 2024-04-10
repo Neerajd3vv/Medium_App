@@ -102,7 +102,7 @@ interface userDataType {
 }
 
 export  function useLoggedUser() {
-  const [userDatay, setUserData] = useState<userDataType | null> (null);
+  const [userData, setUserData] = useState<userDataType | null> (null);
 
   const getUserData = async (token: string) => {
     const response = await axios.post(
@@ -133,7 +133,7 @@ export  function useLoggedUser() {
 
   
   return {
-    userDatay,
+    userData,
     
   };
   

@@ -59,7 +59,7 @@ export function Avatar({
   }
 
   return (
-    <div className={`relative w-${size} inline-flex items-center h-${size} justify-center  overflow-hidden bg-heheblu rounded-full `}>
+    <div className={`relative w-${size} inline-flex items-center h-${size} justify-center  overflow-hidden bg-redMe rounded-full `}>
       <span className="font-medium  text-white font-Merri  dark:text-black">
         {authorName.toUpperCase()[0]}
       </span>

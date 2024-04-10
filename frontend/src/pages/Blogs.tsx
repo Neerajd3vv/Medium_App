@@ -3,6 +3,7 @@ import BlogCard  from "../components/BlogCard";
 import Skeleton from "../components/Skeleton";
 import useBlog from "../Hooks/Bloghook";
 import AppBar from "../components/AppBar";
+import AppBarLogged from "../components/AppBarLogged";
 
 function Blog() {
   const { loading, allBlogs } = useBlog();
@@ -24,7 +25,7 @@ function Blog() {
 
   return (
     <div>
-      <AppBar />
+      <AppBarLogged />
       <div>
         {allBlogs.map((blog) => (
           <BlogCard
