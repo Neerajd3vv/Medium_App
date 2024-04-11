@@ -164,9 +164,18 @@ export async function blogById(c: Context) {
       where: {
         id: id,
       },
-      include: {
-        author: true,
-      },
+    include:{
+      author:{
+        select:{
+          username: true,
+          profile: {
+            select:{
+              bio:true
+            }
+          }
+        }
+      }
+    }
     });
     if (!blogExists) {
       return c.body("Post does not exists", 404);
@@ -197,6 +206,7 @@ export async function blogById(c: Context) {
       authorId: blogExists.authorId,
       authorname: blogExists.author.username,
       publishDate: properDate,
+      authorBio: blogExists.author.profile?.bio
     });
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);

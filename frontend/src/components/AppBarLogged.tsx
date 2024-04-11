@@ -13,6 +13,8 @@ function AppBarLogged() {
 
   const Logout = () => {
     localStorage.removeItem("token");
+    setDropBox(!dropBox);
+    window.location.reload();
   };
   const { userData } = useLoggedUser();
   return (
@@ -29,11 +31,16 @@ function AppBarLogged() {
         {dropBox && (
           <div className="absolute bg-white shadow-xl top-14 border-2 rounded-md py-2 mt-2 w-40 text-center z-10 ">
             <ul>
-                <Link to={"/profile"}>
+              <Link to={"/myblogs"}>
+                <li className="py-2 px-4 font-Afacad font-semibold cursor-pointer hover:bg-slate-200 ">
+                  My Blogs
+                </li>
+              </Link>
+              
+              
               <li className="py-2 px-4 font-Afacad font-semibold cursor-pointer hover:bg-slate-200">
                 Profile
               </li>
-              </Link>
 
               <li
                 className="py-2 px-4 font-Afacad font-semibold cursor-pointer hover:bg-slate-200"
@@ -41,12 +48,6 @@ function AppBarLogged() {
               >
                 Logout
               </li>
-
-              <Link to={"/settings"}>
-                <li className="py-2 px-4 font-Afacad font-semibold cursor-pointer hover:bg-slate-200">
-                  Settings
-                </li>
-              </Link>
             </ul>
           </div>
         )}

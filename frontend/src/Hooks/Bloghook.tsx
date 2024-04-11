@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
@@ -34,6 +34,7 @@ export interface blogIdType {
   authorId: string;
   authorname: string;
   publishDate: string;
+  authorBio: string
 }
 
 export function useBlogbyId({ id }: { id: string }) {
@@ -101,8 +102,8 @@ interface userDataType {
   password: string;
 }
 
-export  function useLoggedUser() {
-  const [userData, setUserData] = useState<userDataType | null> (null);
+export function useLoggedUser() {
+  const [userData, setUserData] = useState<userDataType | null>(null);
 
   const getUserData = async (token: string) => {
     const response = await axios.post(
@@ -115,15 +116,14 @@ export  function useLoggedUser() {
       }
     );
     const userData = response.data.User;
-    
-    
+
     setUserData(userData);
   };
 
-  const fetchUserData = async () => {
+  const fetchUserData =  () => {
     const token = localStorage.getItem("token");
     if (token) {
-      await getUserData(token);
+       getUserData(token);
     }
   };
 
@@ -131,11 +131,44 @@ export  function useLoggedUser() {
     fetchUserData();
   }, []);
 
-  
   return {
     userData,
-    
   };
-  
-  
+}
+
+// Is user exists with such token or not on that bases render one of two appbar
+
+export function useTokenExists() {
+  const [userTokenExists, setUserTokenExists] = useState(false);
+  const memoizedUserToken = useMemo(() => userTokenExists , [userTokenExists])
+  const fetchUserData = async (token: string) => {
+    const response = await axios.post(
+      `${BACKEND_URL}/api/v1/user/loggedinuser`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const userData = response.data.User;
+    if (userData) {
+      setUserTokenExists(true);
+    }
+  };
+
+  const getUserData =  () => {
+    const token =  localStorage.getItem("token");
+    if (token) {
+      fetchUserData(token);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
+
+  return {
+  memoizedUserToken
+  };
 }

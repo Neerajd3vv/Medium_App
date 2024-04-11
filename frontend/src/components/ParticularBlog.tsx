@@ -1,4 +1,4 @@
-import AppBar from "./AppBar";
+
 import { Avatar } from "./BlogCard";
 
 interface BlogtypeId {
@@ -7,6 +7,7 @@ interface BlogtypeId {
   content: string;
   authorname: string;
   publishDate: string
+  authorBio: string
 }
 
 function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
@@ -14,7 +15,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
 
   return (
     <div>
-      <AppBar />
+     
       <div className="flex justify-center">
         <div className="grid grid-cols-1  lg:grid-cols-12 lg:max-w-screen-xl px-12 pt-20">
           {/* Left Part */}
@@ -39,12 +40,11 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
                 <Avatar authorName={blogById?.authorname} />
               </div>
               <div>
-                <div className="text-2xl font-passion font-semibold">
+                <div className="text-2xl font-ptserif font-semibold">
                   {blogById?.authorname}
                 </div>
-                <div className="font-Poppins">
-                  Master of mirth, purveyor of puns, and the funniest person in
-                  the kingdom
+                <div className="font-Afacad text-xl">
+                 {blogById?.authorBio}
                 </div>
               </div>
             </div>

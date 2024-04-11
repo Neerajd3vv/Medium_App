@@ -1,31 +1,31 @@
-
-import BlogCard  from "../components/BlogCard";
+import BlogCard from "../components/BlogCard";
 import Skeleton from "../components/Skeleton";
-import useBlog from "../Hooks/Bloghook";
+import useBlog, { useTokenExists } from "../Hooks/Bloghook";
 import AppBar from "../components/AppBar";
 import AppBarLogged from "../components/AppBarLogged";
 
 function Blog() {
   const { loading, allBlogs } = useBlog();
+  const { memoizedUserToken } = useTokenExists();
 
-   if (loading) {
+  if (loading) {
     return (
       <div>
-        <AppBar />
+        {memoizedUserToken ? <AppBarLogged /> : <AppBar />}
         <div>
-         <Skeleton/>
-         <Skeleton/>
-         <Skeleton/>
-         <Skeleton/>
-         <Skeleton/>
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
         </div>
       </div>
     );
-         } 
+  }
 
   return (
     <div>
-      <AppBarLogged />
+      {memoizedUserToken ? <AppBarLogged /> : <AppBar />}
       <div>
         {allBlogs.map((blog) => (
           <BlogCard
@@ -33,7 +33,7 @@ function Blog() {
             title={blog.title}
             authorName={blog.authorname}
             mainbody={blog.content}
-            publishDate= {blog.publishDate}// Assuming you want a static publish date
+            publishDate={blog.publishDate} // Assuming you want a static publish date
             id={blog.id}
           />
         ))}

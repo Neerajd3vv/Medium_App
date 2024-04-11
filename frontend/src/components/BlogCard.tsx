@@ -30,7 +30,7 @@ function BlogCard({
               <Avatar authorName={authorName} />
             </div>
 
-            <div className="px-2 font-rowdies ">{authorName} •</div>
+            <div className="px-2 font-Afacad text-lg ">{authorName} •</div>
             <div className="text-gray-400  font-Afacad">{publishDate}</div>
           </div>
           <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>

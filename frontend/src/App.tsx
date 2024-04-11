@@ -6,7 +6,7 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import NewBlog from "./pages/NewBlog";
 import BlogsMine from "./pages/BlogsMine";
-import Me from "./pages/Me";
+// import Me from "./pages/Me";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 
@@ -15,7 +15,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Me />} />
+          <Route path="/" element={<Blogs/>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/blogs" element={<Blogs />} />

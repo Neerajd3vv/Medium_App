@@ -1,14 +1,15 @@
-import { usePersonalBlogs } from "../Hooks/Bloghook";
+import { usePersonalBlogs, useTokenExists } from "../Hooks/Bloghook";
 import AppBar from "../components/AppBar";
 import MyBlogs from "../components/MyBlogs";
 import Skeleton from "../components/Skeleton";
-
+import AppBarLogged from "../components/AppBarLogged";
 function BlogsMine() {
+  const { memoizedUserToken } = useTokenExists();
   const { loading, myPersonalblog } = usePersonalBlogs();
   if (loading) {
     return (
       <div>
-        <AppBar />
+        {memoizedUserToken ? <AppBarLogged /> : <AppBar />}
         <div>
           <Skeleton />
           <Skeleton />
@@ -22,7 +23,7 @@ function BlogsMine() {
 
   return (
     <div>
-      <AppBar />
+      {memoizedUserToken ? <AppBarLogged /> : <AppBar />}
       <div>
         {myPersonalblog.map((blog) => (
           <MyBlogs

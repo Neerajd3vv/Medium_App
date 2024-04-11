@@ -4,8 +4,8 @@ import {
   signup,
   userDelete,
   getUserById,
-  firstMount,
   loggedUser,
+  bioUser,
 } from "../controllers/userControllers";
 import authmiddleware from "../middleware/authmiddleware";
 
@@ -15,6 +15,7 @@ userRouter.post("/signin", signin);
 userRouter.delete("/deleteuser/:id", userDelete);
 userRouter.get("/:id", getUserById);
 userRouter.post("/loggedinuser", authmiddleware, loggedUser);
-userRouter.post("/verify", firstMount);
+userRouter.post("/loggedinuser", authmiddleware, loggedUser);
+userRouter.post("/userbio", authmiddleware, bioUser);
 
 export default userRouter;

@@ -4,13 +4,6 @@ import { PrismaClient } from "@prisma/client/edge";
 import { signupSchema, signinSchema } from "@neerajrandom/medium-common";
 import { sign, verify } from "hono/jwt";
 
-// status code
-enum status {
-  BARREQ = 400,
-  NOTFOUND = 404,
-  NOTPERMISSION = 403,
-}
-
 export async function signup(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -153,11 +146,30 @@ export async function loggedUser(c: Context) {
       },
     });
     console.log(userFound);
-    
+
     if (!userFound) {
       return c.json({ msg: "No user with such id " });
     }
     return c.json({ User: userFound });
+  } catch (error) {
+    return c.json(`Internal server error: ${error}`, 500);
+  }
+}
+
+// user bio api endpoint
+export async function bioUser(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const userBio = await c.req.text();
+    const newBio = await prisma.profile.create({
+      data: {
+        bio: userBio,
+        profileId: c.get("authorId"),
+      },
+    });
+    return c.json({ Bio: newBio });
   } catch (error) {
     return c.json(`Internal server error: ${error}`, 500);
   }
