@@ -10,7 +10,7 @@ function AppBar() {
   }
   return (
     <div className="grid grid-cols-2 px-2 lg:px-20 border-b-2 py-4 border-slate-500">
-      <div>
+      <div className="lg:ml-20">
         <Link to={"/blogs"}>
           <img src={MediumLogo} className="w-40" alt="Medium Logo" />
         </Link>
