@@ -37,7 +37,7 @@ export function ParticularBlogSkeleton() {
         </div>
       </div>
       {/* right-side */}
-      <div className=" px-12  pt-20 max-w-screen-md lg:max-w-screen-2xl  animate-pulse ">
+      <div className=" mx-12 lg:mx-40  pt-20 max-w-screen-md lg:w-full  animate-pulse ">
         <div>
           <div className="flex items-center mb-5">
             <div className="h-8 w-8 rounded-full mr-4 bg-gray-300"> </div>

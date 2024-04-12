@@ -6,6 +6,8 @@ import {
   getUserById,
   loggedUser,
   bioUser,
+  userBioCheck,
+  userBioUpdate,
 } from "../controllers/userControllers";
 import authmiddleware from "../middleware/authmiddleware";
 
@@ -17,5 +19,7 @@ userRouter.get("/:id", getUserById);
 userRouter.post("/loggedinuser", authmiddleware, loggedUser);
 userRouter.post("/loggedinuser", authmiddleware, loggedUser);
 userRouter.post("/userbio", authmiddleware, bioUser);
+userRouter.post("/userbiocheck", authmiddleware, userBioCheck);
+userRouter.post("/bioupdate", authmiddleware, userBioUpdate);
 
 export default userRouter;

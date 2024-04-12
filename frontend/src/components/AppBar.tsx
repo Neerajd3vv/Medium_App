@@ -9,7 +9,7 @@ function AppBar() {
     setDropBox(!dropBox);
   }
   return (
-    <div className="grid grid-cols-2 px-2 lg:px-20 border-b-2 py-4 border-slate-500">
+    <div className="grid grid-cols-2  lg:px-20 border-b-2 py-4 border-slate-500">
       <div className="lg:ml-20">
         <Link to={"/blogs"}>
           <img src={MediumLogo} className="w-40" alt="Medium Logo" />
@@ -39,12 +39,12 @@ function AppBar() {
             <div className="absolute bg-white shadow-xl top-14 border-2 rounded-md py-2 mt-2 w-40 text-center z-10">
               <ul>
                 <Link to={"/signin"}>
-                  <li className="py-2 px-4 font-Afacad font-semibold cursor-pointer hover:bg-slate-200">
+                  <li className="py-2 px-4 font-Poppins text-lg font-semibold cursor-pointer hover:bg-slate-200">
                     Signin
                   </li>
                 </Link>
                 <Link to={"/signup"}>
-                  <li className="py-2 px-4 font-Afacad font-semibold cursor-pointer hover:bg-slate-200">
+                  <li className="py-2 px-4 font-Poppins text-lg font-semibold cursor-pointer hover:bg-slate-200">
                     Signup
                   </li>
                 </Link>

@@ -17,7 +17,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
     <div>
      
       <div className="flex justify-center">
-        <div className="grid grid-cols-1  lg:grid-cols-12 lg:max-w-screen-xl px-12 pt-20">
+        <div className="grid grid-cols-1  lg:grid-cols-12 lg:max-w-screen-2xl px-3 lg:px-12 pt-20">
           {/* Left Part */}
           <div className=" col-span-12 lg:col-span-8">
             <div className="text-4xl lg:text-5xl font-extrabold pb-2 font-Poppins">

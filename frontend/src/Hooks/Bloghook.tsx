@@ -34,7 +34,7 @@ export interface blogIdType {
   authorId: string;
   authorname: string;
   publishDate: string;
-  authorBio: string
+  authorBio: string;
 }
 
 export function useBlogbyId({ id }: { id: string }) {
@@ -120,10 +120,10 @@ export function useLoggedUser() {
     setUserData(userData);
   };
 
-  const fetchUserData =  () => {
+  const fetchUserData = () => {
     const token = localStorage.getItem("token");
     if (token) {
-       getUserData(token);
+      getUserData(token);
     }
   };
 
@@ -140,7 +140,7 @@ export function useLoggedUser() {
 
 export function useTokenExists() {
   const [userTokenExists, setUserTokenExists] = useState(false);
-  const memoizedUserToken = useMemo(() => userTokenExists , [userTokenExists])
+  const memoizedUserToken = useMemo(() => userTokenExists, [userTokenExists]);
   const fetchUserData = async (token: string) => {
     const response = await axios.post(
       `${BACKEND_URL}/api/v1/user/loggedinuser`,
@@ -157,8 +157,8 @@ export function useTokenExists() {
     }
   };
 
-  const getUserData =  () => {
-    const token =  localStorage.getItem("token");
+  const getUserData = () => {
+    const token = localStorage.getItem("token");
     if (token) {
       fetchUserData(token);
     }
@@ -169,6 +169,45 @@ export function useTokenExists() {
   }, [getUserData]);
 
   return {
-  memoizedUserToken
+    memoizedUserToken,
   };
+}
+
+// is user has bio or not
+
+interface userProfileType {
+  id: string;
+  profileId: string;
+  profilePicture: string;
+  bio: string;
+}
+
+export function useUserBioChecking() {
+  const [userBioValue, setUserBioValue] = useState(false);
+  const [userProfile, setUserProfile] = useState<userProfileType>();
+
+  useEffect(() => {
+    axios
+      .post(
+        `${BACKEND_URL}/api/v1/user/userbiocheck`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response) {
+          setUserProfile(response.data.UserProfile);
+        }
+        if (response.data.UserProfile.bio) {
+          setUserBioValue(true);
+        }
+      });
+  },[]);
+  return{
+    userBioValue,
+    userProfile
+  }
 }

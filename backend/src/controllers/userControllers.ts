@@ -175,6 +175,50 @@ export async function bioUser(c: Context) {
   }
 }
 
+// user bio update
+export async function userBioUpdate(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const userBioUpdated = await c.req.text();
+    const updatedBio = await prisma.profile.update({
+      where: {
+        profileId: c.get("authorId"),
+      },
+      data: {
+        bio: userBioUpdated,
+      },
+    });
+    if (updatedBio) {
+      return c.json({ UpdtedProfile: updatedBio });
+    }
+    return c.text("Error while updateding Profile");
+  } catch (error) {
+    return c.json(`Internal server error: ${error}`, 500);
+  }
+}
+
+// check wheather user alredy has bio or not
+export async function userBioCheck(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const userBioExists = await prisma.profile.findUnique({
+      where: {
+        profileId: c.get("authorId"),
+      },
+    });
+    if (userBioExists) {
+      return c.json({ UserProfile: userBioExists });
+    }
+    return c.text("No profile with such authorId found!");
+  } catch (error) {
+    return c.json(`Internal server error: ${error}`, 500);
+  }
+}
+
 export async function firstMount(c: Context) {
   const token = c.req.header("Authorization");
   if (!token || !token.startsWith("Bearer ")) {
