@@ -1,23 +1,28 @@
 import { useState } from "react";
-import { useLoggedUser, useUserBioChecking } from "../Hooks/Bloghook";
+import {
+  useLoggedUser,
+  useTokenExists,
+  useUserBioChecking,
+} from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
 import Blackprofile from "../images/actualProfile.png";
 import BlackLogout from "../images/properLogout.png";
 import MyBlogs from "../images/RealBlog.webp";
 import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
-
 import { ProfilePopupOne, ProfilePopupTwo } from "./ProfilePopup";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 
 function AppBarLogged() {
-  const {userBioValue , userProfile} = useUserBioChecking()
+  const { userBioValue, userProfile } = useUserBioChecking();
   const navigate = useNavigate();
   const [dropBox, setDropBox] = useState(false);
   const [profilePopup, setProfilePopup] = useState(false);
   const [userBio, setUserBio] = useState("");
+  // const [logoutButtonClicked , setLogoutButtonClicked] = useState(false)
+  const { updateAuthenticationStatus } = useTokenExists();
 
   const dropBoxMenu = () => {
     setDropBox(!dropBox);
@@ -32,7 +37,13 @@ function AppBarLogged() {
     setProfilePopup(false);
   };
 
-  // savechanges for new Profile 
+  // navigaate to blogs route
+  const navigateToMyblogs = () => {
+    setProfilePopup(!setProfilePopup);
+    updateAuthenticationStatus(false);
+  };
+
+  // savechanges for new Profile
   const saveChanges = async () => {
     try {
       const response = await axios.post(
@@ -56,25 +67,29 @@ function AppBarLogged() {
     }
   };
 
-  // savechanges for updating Profile 
+  // savechanges for updating Profile
   const saveChangesUpdated = async () => {
-    const response = await axios.post(`${BACKEND_URL}/api/v1/user/bioupdate` ,userBio, {
-      headers: {
-        Authorization : `Bearer ${localStorage.getItem("token")}`
+    const response = await axios.post(
+      `${BACKEND_URL}/api/v1/user/bioupdate`,
+      userBio,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    })
-    const updatedUserProfile = response.data.UpdtedProfile
-    setProfilePopup(!profilePopup)
+    );
+    const updatedUserProfile = response.data.UpdtedProfile;
+    setProfilePopup(!profilePopup);
     if (updatedUserProfile) {
-      window.location.reload()
+      window.location.reload();
     }
-  }
+  };
 
   // logout button logic
   const Logout = () => {
     localStorage.removeItem("token");
     setDropBox(false);
-    window.location.reload();
+    navigate("/logoutDone");
   };
 
   const { userData } = useLoggedUser();
@@ -95,19 +110,18 @@ function AppBarLogged() {
         {dropBox && (
           <div className="absolute right-4 bg-white flex justify-center shadow-xl top-14 border-2 rounded-md  py-2 mt-2 w-48 text-center z-10">
             <ul className="w-full">
-              <Link to={"/myblogs"}>
-                <li className="  py-4   cursor-pointer hover:bg-slate-200">
-                  <div className=" flex justify-between mx-10">
-                    <div>
-                      <img className="w-8 " src={MyBlogs} alt="myblogs" />
-                    </div>
-
-                    <div className=" font-Afacad text-xl ">
-                      My Blogs
-                    </div>
+              <li
+                onClick={navigateToMyblogs}
+                className="  py-4   cursor-pointer hover:bg-slate-200"
+              >
+                <div className=" flex justify-between mx-10">
+                  <div>
+                    <img className="w-8 " src={MyBlogs} alt="myblogs" />
                   </div>
-                </li>
-              </Link>
+
+                  <div className=" font-Afacad text-xl ">My Blogs</div>
+                </div>
+              </li>
 
               <li
                 className="py-4   cursor-pointer hover:bg-slate-200"
@@ -119,9 +133,7 @@ function AppBarLogged() {
                     <img className="w-8 " src={Blackprofile} alt="Profile" />
                   </div>
 
-                  <div className=" font-Afacad text-xl ">
-                    Profile
-                  </div>
+                  <div className=" font-Afacad text-xl ">Profile</div>
                 </div>
               </li>
 
@@ -134,28 +146,30 @@ function AppBarLogged() {
                     <img className="w-8 " src={BlackLogout} alt="logout" />
                   </div>
 
-                  <div className=" font-Afacad text-xl ">
-                    Logout
-                  </div>
+                  <div className=" font-Afacad text-xl ">Logout</div>
                 </div>
               </li>
             </ul>
           </div>
         )}
       </div>
-    {profilePopup && (
-      userBioValue ? (
-        <ProfilePopupTwo currentBio={userProfile?.bio} onclick={saveChangesUpdated} onchange={(e) => {
-          setUserBio(e.target.value)
-        }} closeProfilePopup={closeProfilePopup}/>
-      ) : (
-        <ProfilePopupOne
-        onchange={(e) => setUserBio(e.target.value)}
-        onclick={saveChanges}
-        closeProfilePopup={closeProfilePopup}
-        />
-      )
-    )}
+      {profilePopup &&
+        (userBioValue ? (
+          <ProfilePopupTwo
+            currentBio={userProfile?.bio}
+            onclick={saveChangesUpdated}
+            onchange={(e) => {
+              setUserBio(e.target.value);
+            }}
+            closeProfilePopup={closeProfilePopup}
+          />
+        ) : (
+          <ProfilePopupOne
+            onchange={(e) => setUserBio(e.target.value)}
+            onclick={saveChanges}
+            closeProfilePopup={closeProfilePopup}
+          />
+        ))}
     </div>
   );
 }

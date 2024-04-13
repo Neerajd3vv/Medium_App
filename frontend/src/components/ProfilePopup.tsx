@@ -124,8 +124,8 @@ export function ProfilePopupTwo({
 
 
 interface SigninToReadBlogType {
-  cancel: MouseEventHandler<HTMLButtonElement>
-  signin: MouseEventHandler<HTMLButtonElement>
+  cancel?: MouseEventHandler<HTMLButtonElement>
+  signin?: MouseEventHandler<HTMLButtonElement>
 }
 
 export function SigninToReadBlog({cancel , signin}:SigninToReadBlogType) {
@@ -137,10 +137,20 @@ export function SigninToReadBlog({cancel , signin}:SigninToReadBlogType) {
       </div>
       <div className="flex justify-between">
       <button onClick={cancel} className="bg-red-600 hover:bg-red-500 text-white w-60 py-2 rounded-xl font-Afacad text-lg">Cancel</button>
-      <button onClick={signin} className="bg-heheblu font-Afacad text-lg hover:bg-Myblue text-white w-60 py-2 rounded-xl" >Sigin</button>
+      <button onClick={signin} className="bg-heheblu font-Afacad text-lg hover:bg-Myblue text-white w-60 py-2 rounded-xl" >Signin</button>
       </div>
       
      </div>
     </div>
   );
+}
+
+export function userLoggedOutSuccessfully () {
+  return (
+    <div className="h-full w-full right-0 top-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+      <div className="py-40 px-40 bg-white ">
+        hello
+      </div>
+    </div>
+  )
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
@@ -140,7 +140,7 @@ export function useLoggedUser() {
 
 export function useTokenExists() {
   const [userTokenExists, setUserTokenExists] = useState(false);
-  const memoizedUserToken = useMemo(() => userTokenExists, [userTokenExists]);
+  const [userAuthentication, setUserAuthentication] = useState(false);
   const fetchUserData = async (token: string) => {
     const response = await axios.post(
       `${BACKEND_URL}/api/v1/user/loggedinuser`,
@@ -154,6 +154,8 @@ export function useTokenExists() {
     const userData = response.data.User;
     if (userData) {
       setUserTokenExists(true);
+    } else {
+      setUserTokenExists(false);
     }
   };
 
@@ -166,10 +168,17 @@ export function useTokenExists() {
 
   useEffect(() => {
     getUserData();
-  }, [getUserData]);
+  }, [userAuthentication]);
+
+  function updateAuthenticationStatus(
+    isLoggedInOrNot: SetStateAction<boolean>
+  ) {
+    setUserAuthentication(isLoggedInOrNot);
+  }
 
   return {
-    memoizedUserToken,
+    userTokenExists,
+    updateAuthenticationStatus,
   };
 }
 
@@ -205,9 +214,9 @@ export function useUserBioChecking() {
           setUserBioValue(true);
         }
       });
-  },[]);
-  return{
+  }, []);
+  return {
     userBioValue,
-    userProfile
-  }
+    userProfile,
+  };
 }

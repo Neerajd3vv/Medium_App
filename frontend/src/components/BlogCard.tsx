@@ -17,7 +17,7 @@ function BlogCard({
   publishDate,
   id,
 }: blogCardType) {
-  const { memoizedUserToken } = useTokenExists();
+  const { userTokenExists } = useTokenExists();
   const [showSignInPopup, setShowSignInPopup] = useState(false);
   const navigate = useNavigate();
   const bodyWord = mainbody.split(" ");
@@ -28,7 +28,7 @@ function BlogCard({
       : mainbody;
 
   const readBlog = () => {
-    if (memoizedUserToken) {
+    if (userTokenExists) {
       navigate(`/blog/${id}`);
     } else {
       setShowSignInPopup(true);

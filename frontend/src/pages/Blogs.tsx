@@ -3,15 +3,17 @@ import Skeleton from "../components/Skeleton";
 import useBlog, { useTokenExists } from "../Hooks/Bloghook";
 import AppBar from "../components/AppBar";
 import AppBarLogged from "../components/AppBarLogged";
+// import DummyAppBar from "../components/DummyAppbar";
 
 function Blog() {
   const { loading, allBlogs } = useBlog();
-  const { memoizedUserToken } = useTokenExists();
+  const { userTokenExists } = useTokenExists();
 
   if (loading) {
     return (
       <div>
-        {memoizedUserToken ? <AppBarLogged /> : <AppBar />}
+        {/* <DummyAppBar/> */}
+        {userTokenExists ? <AppBarLogged /> : <AppBar />}
         <div>
           <Skeleton />
           <Skeleton />
@@ -25,7 +27,7 @@ function Blog() {
 
   return (
     <div>
-      {memoizedUserToken ? <AppBarLogged /> : <AppBar />}
+      {userTokenExists ? <AppBarLogged /> : <AppBar />}
       <div>
         {allBlogs.map((blog) => (
           <BlogCard

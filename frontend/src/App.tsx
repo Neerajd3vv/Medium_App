@@ -6,14 +6,19 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import NewBlog from "./pages/NewBlog";
 import BlogsMine from "./pages/BlogsMine";
-// import Me from "./pages/Me";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
+import UserLoggedOut from "./pages/UserLoggedOut";
+// import AppBarLogged from "./components/AppBarLogged";
+// import AppBar from "./components/AppBar";
+// import { useTokenExists } from "./Hooks/Bloghook";
 
 function App() {
+  // const {userTokenExists} = useTokenExists()
+ 
   return (
     <>
       <BrowserRouter>
+      {/* {userTokenExists ? <AppBarLogged /> : <AppBar />} */}
+      
         <Routes>
           <Route path="/" element={<Blogs/>} />
           <Route path="/signup" element={<Signup />} />
@@ -22,8 +27,8 @@ function App() {
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/create-blog" element={<NewBlog />} />
           <Route path="/myblogs" element={<BlogsMine />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/logoutDone" element={<UserLoggedOut />} />
+        
         </Routes>
       </BrowserRouter>
     </>
