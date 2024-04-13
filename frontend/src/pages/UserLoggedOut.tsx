@@ -1,13 +1,26 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import tick from "../images/Tick.png";
+function userLoggedOutSuccessfully() {
+    const navigate = useNavigate();
+    useEffect(() => {
+      setTimeout(() => {
+        navigate("/blogs");
+      }, 1000);
+    });
 
-function userLoggedOutSuccessfully () {
-    return (
-     <div className="bg-black flex justify-center  items-center bg-opacity-50 h-screen w-screen ">
-        <div className="bg-white w-96 h-96 lg:h-1/2 lg:w-1/2  ">
-            hello
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-slate-300 bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg border-slate-300 shadow-2xl border-2 px-10 pt-12 pb-14 max-w-xl  w-full">
+        <div className="text-4xl text-center font-poppions font-bold mb-20">
+          User Successfully Signed Off
         </div>
-     </div>
-    )
-  }
+        <div className="flex justify-center">
+          <img className="w-40" src={tick} alt="success" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-
-  export default userLoggedOutSuccessfully
+export default userLoggedOutSuccessfully;

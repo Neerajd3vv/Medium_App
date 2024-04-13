@@ -39,6 +39,7 @@ function AppBarLogged() {
 
   // navigaate to blogs route
   const navigateToMyblogs = () => {
+    navigate("/myblogs")
     setProfilePopup(!setProfilePopup);
     updateAuthenticationStatus(false);
   };
