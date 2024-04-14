@@ -73,7 +73,7 @@ function AppBarLogged() {
   // savechanges for updating Profile
   const saveChangesUpdated = async () => {
     const response = await axios.post(
-      `${BACKEND_URL}/api/v1/user/profile`,
+      `${BACKEND_URL}/api/v1/user/userprofileupdate`,
       userBio,
       {
         headers: {
