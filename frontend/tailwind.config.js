@@ -1,25 +1,36 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
+  darkMode: ["class"],
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
+  prefix: "",
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
-      fontFamily:{
-        Hind:["Manrope", "sans-serif"],
-        Actor:["Actor", "sans-serif"],
-        Afacad:["Afacad", "sans-serif"],
-        Fjalla:["Fjalla One", "sans-serif"],
-        Abril:["Abril Fatface", "serif"],
-        Protest:["Protest Strike", "sans-serif"],
-        Merri:["Merriweather", "serif"],
-        Poppins:["Manrope", "sans-serif"],
-        Poppins:["Poppins", "sans-serif"],
-        Mullish:["Mulish", "sans-serif"],
-        Bebus:["Bebas Neue", "sans-serif"],
-        Kanit:["Kanit", "sans-serif"],
-        Sora : ["Sora", "sans-serif"],
+      fontFamily: {
+        Hind: ["Manrope", "sans-serif"],
+        Actor: ["Actor", "sans-serif"],
+        Afacad: ["Afacad", "sans-serif"],
+        Fjalla: ["Fjalla One", "sans-serif"],
+        Abril: ["Abril Fatface", "serif"],
+        Protest: ["Protest Strike", "sans-serif"],
+        Merri: ["Merriweather", "serif"],
+        Poppins: ["Manrope", "sans-serif"],
+        Poppins: ["Poppins", "sans-serif"],
+        Mullish: ["Mulish", "sans-serif"],
+        Bebus: ["Bebas Neue", "sans-serif"],
+        Kanit: ["Kanit", "sans-serif"],
+        Sora: ["Sora", "sans-serif"],
         rowdies: ["Rowdies", "sans-serif"],
         proteststrike: ["Protest Strike", "sans-serif"],
         passion: ["Passion One", "sans-serif"],
@@ -27,33 +38,83 @@ export default {
         railway: ["Raleway", "sans-serif"],
         playflair: ["Playfair Display", "serif"],
         ptserif: ["PT Serif", "serif"],
-        lora: [ "Lora", "serif"],
-        Gelasio: ["Gelasio", "serif"]
-        
+        lora: ["Lora", "serif"],
+        Gelasio: ["Gelasio", "serif"],
+
       },
       colors: {
-        "MainBlack": "#111111",
-        "Myblue" : "#1F75FE",
-        "heheblu" : "#6F00FF",
-        "dukeblue" : "#012169",
-        "redMe": "#fb8500",
-        "bubblyblue": "#003049",
-        "peela": "#f7b801",
-        "tans": "#e5e5e5",
-        "oceangreen" : "#a8dadc",
-        "pata": "#4361ee",
-        "mast" :"#eae2b7",
-        "chuma": "#c4fff9",
-        "skin": "#fefae0",
-        "hehe": "#8ecae6",
-        "hehetwo" : "#219ebc",
-        "kuch" :"#f4f1de",
-        "kuch1" : "#284b63"
-        
-      }
-      
+        MainBlack: "#111111",
+        actualBlack:"#0a0908",
+        Myblue: "#1F75FE",
+        heheblu: "#6F00FF",
+        dukeblue: "#012169",
+        redMe: "#fb8500",
+        bubblyblue: "#003049",
+        peela: "#f7b801",
+        tans: "#cbf3f0",
+        oceangreen: "#a8dadc",
+        pata: "#4361ee",
+        mast: "#eae2b7",
+        chuma: "#c4fff9",
+        skin: "#fefae0",
+        hehe: "#8ecae6",
+        hehetwo: "#219ebc",
+        kuch: "#f4f1de",
+        kuch1: "#284b63",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
-    
   },
-  plugins: [],
-}
+  plugins: [require("tailwindcss-animate")],
+};

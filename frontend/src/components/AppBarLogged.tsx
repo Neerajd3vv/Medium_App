@@ -5,9 +5,9 @@ import {
   useUserBioChecking,
 } from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
-import Blackprofile from "../images/blackProfile.png";
-import BlackLogout from "../images/logoutTwo.png";
-import MyBlogs from "../images/RealBlog.webp";
+// import Blackprofile from "../images/blackProfile.png";
+// import BlackLogout from "../images/logoutTwo.png";
+// import MyBlogs from "../images/RealBlog.webp";
 import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
 import { ProfilePopupOne, ProfilePopupTwo } from "./ProfilePopup";
@@ -73,7 +73,7 @@ function AppBarLogged() {
   // savechanges for updating Profile
   const saveChangesUpdated = async () => {
     const response = await axios.post(
-      `${BACKEND_URL}/api/v1/user/userprofileupdate`,
+      `${BACKEND_URL}/api/v1/user/profile`,
       userBio,
       {
         headers: {
@@ -111,46 +111,25 @@ function AppBarLogged() {
           <Avatar authorName={userData?.username} size={8} />
         </div>
         {dropBox && (
-          <div className="absolute right-4 bg-white flex justify-center shadow-xl top-14 border-2 rounded-md  py-2 mt-2 w-48 text-center z-10">
+          <div className="absolute right-4 bg-actualBlack flex justify-center items-center shadow-xl  top-14 border-2 rounded-xl  py-4 mt-2 w-48 text-center z-10">
             <ul className="w-full">
               <li
                 onClick={navigateToMyblogs}
-                className="  py-4 rounded-full   cursor-pointer  hover:bg-slate-200"
+                className="py-2 px-4 text-white rounded-full font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black"
               >
-                <div className=" flex justify-between items-center  mx-10">
-                  <div>
-                    <img className="w-8 " src={MyBlogs} alt="myblogs" />
-                  </div>
-
-                  <div className=" font-Gelasio  ">My Blogs</div>
-                </div>
+                My Blogs
               </li>
-
               <li
-                className="py-4 rounded-full  cursor-pointer hover:bg-slate-200"
                 onClick={profileClick}
+                className="py-2 px-4 text-white rounded-full  font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black"
               >
-                {" "}
-                <div className="flex justify-between items-center mx-10">
-                  <div>
-                    <img className="w-8 " src={Blackprofile} alt="Profile" />
-                  </div>
-
-                  <div className=" font-Gelasio  ">Profile</div>
-                </div>
+                Profile
               </li>
-
               <li
-                className="py-4 rounded-full   cursor-pointer hover:bg-slate-200"
                 onClick={Logout}
+                className="py-2 px-4 text-white rounded-full  font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black"
               >
-                <div className="flex justify-between items-center  mx-10">
-                  <div>
-                    <img className="w-8 " src={BlackLogout} alt="logout" />
-                  </div>
-
-                  <div className=" font-Gelasio  ">Logout</div>
-                </div>
+                Logout
               </li>
             </ul>
           </div>
