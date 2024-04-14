@@ -160,28 +160,38 @@ export async function loggedUser(c: Context) {
 // user bio api endpoint
 
 // import { v2 as cloudinary } from "cloudinary";
-// import fs from "fs"
-// import storage from "../middleware/MulterMiddleware";
+
 // cloudinary.config({
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
 //   api_key: process.env.CLOUDINARY_API_KEY,
 //   api_secret: process.env.CLOUDINARY_API_SECRET,
 // });
 
-// export async function bioUser(req) {
-//   const prisma = new PrismaClient({
-//     datasourceUrl: c.env.DATABASE_URL,
-//   }).$extends(withAccelerate());
-//  try {
-//   const result = await cloudinary.uploader.upload(c.req.file.path)
+// const prisma = new PrismaClient();
 
-//   fs.unlinkSync(c.req.file.path)
-//   // Upload bio and profilePicture in database
-//  } catch (error) {
-//   return c.json(`Internal server error: ${error}`, 500);
-//  }
+// export async function userProfile(c: Context) {
+//   try {
+//     const file = c.req.files?.image;
+//     const bioUser = c.req.text(); // Assuming bio is sent in the request body
+
+//     if (!file) {
+//       return c.json({ error: "No image uploaded" });
+//     }
+
+//     const imageUpload = await cloudinary.uploader.upload(file.path);
+    
+//     const profileSet = await prisma.profile.create({
+//       data: {
+//         bio: bioUser,
+//         profilePicture: imageUpload.secure_url,
+//       },
+//     });
+
+//     return c.json(profileSet);
+//   } catch (error) {
+//     return c.json({ error: `Internal server error: ${error.message}` }, 500);
+//   }
 // }
-
 
 // user profie update endpoint
 export async function userProfileUpdate(c: Context) {
@@ -227,23 +237,4 @@ export async function userBioCheck(c: Context) {
   }
 }
 
-export async function firstMount(c: Context) {
-  const token = c.req.header("Authorization");
-  if (!token || !token.startsWith("Bearer ")) {
-    return c.json({ msg: "Token format incorrect" });
-  }
-  const actualToken = token.split(" ")[1];
-  // console.log(actualToken);
 
-  try {
-    const decoded = await verify(actualToken, c.env.JWT_KEY);
-    console.log(decoded);
-    // console.log(decoded.authorId);
-    if (!decoded) {
-      return c.text("Decoding failed");
-    }
-    return c.json({ Userid: decoded });
-  } catch (error) {
-    return c.json(`Internal server error: ${error}`, 500);
-  }
-}

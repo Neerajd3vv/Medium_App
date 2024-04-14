@@ -36,7 +36,7 @@ function AppBar() {
             </button>
           </div>
           {dropBox && (
-            <div className="absolute bg-MainBlack shadow-xl top-14 border-2 rounded-md py-2 mt-2 w-40 h-40 flex items-center justify-center text-center z-10">
+            <div className="absolute bg-MainBlack shadow-xl top-14 border-2 rounded-md py-2 mt-2 w-40 h-36 flex items-center justify-center text-center z-10">
               <ul className="w-full">
                 <Link to={"/signin"}>
                   <li className="py-2 px-4 text-white rounded-full font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black">
