@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { signupSchema, signinSchema } from "@neerajrandom/medium-common";
 import { sign, verify } from "hono/jwt";
 
+
 export async function signup(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -157,26 +158,33 @@ export async function loggedUser(c: Context) {
 }
 
 // user bio api endpoint
-export async function bioUser(c: Context) {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-  try {
-    const userBio = await c.req.text();
-    const newBio = await prisma.profile.create({
-      data: {
-        bio: userBio,
-        profileId: c.get("authorId"),
-      },
-    });
-    return c.json({ Bio: newBio });
-  } catch (error) {
-    return c.json(`Internal server error: ${error}`, 500);
-  }
-}
 
-// user bio update
-export async function userBioUpdate(c: Context) {
+// import { v2 as cloudinary } from "cloudinary";
+// import fs from "fs"
+// import storage from "../middleware/MulterMiddleware";
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
+
+// export async function bioUser(req) {
+//   const prisma = new PrismaClient({
+//     datasourceUrl: c.env.DATABASE_URL,
+//   }).$extends(withAccelerate());
+//  try {
+//   const result = await cloudinary.uploader.upload(c.req.file.path)
+
+//   fs.unlinkSync(c.req.file.path)
+//   // Upload bio and profilePicture in database
+//  } catch (error) {
+//   return c.json(`Internal server error: ${error}`, 500);
+//  }
+// }
+
+
+// user profie update endpoint
+export async function userProfileUpdate(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());

@@ -1,13 +1,14 @@
 import { Hono } from "hono";
+import storage from "../middleware/MulterMiddleware";
 import {
   signin,
   signup,
   userDelete,
   getUserById,
   loggedUser,
-  bioUser,
+  // bioUser,
   userBioCheck,
-  userBioUpdate,
+  userProfileUpdate,
 } from "../controllers/userControllers";
 import authmiddleware from "../middleware/authmiddleware";
 
@@ -18,8 +19,11 @@ userRouter.delete("/deleteuser/:id", userDelete);
 userRouter.get("/:id", getUserById);
 userRouter.post("/loggedinuser", authmiddleware, loggedUser);
 userRouter.post("/loggedinuser", authmiddleware, loggedUser);
-userRouter.post("/userbio", authmiddleware, bioUser);
 userRouter.post("/userbiocheck", authmiddleware, userBioCheck);
-userRouter.post("/bioupdate", authmiddleware, userBioUpdate);
+userRouter.post("/userbiocheck", authmiddleware, userBioCheck);
+userRouter.post("/userprofileupdate", authmiddleware,   userProfileUpdate);
+
+
 
 export default userRouter;
+ 

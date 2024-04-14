@@ -38,8 +38,8 @@ function SignupInputs() {
     <div className="flex flex-col justify-center h-screen ">
       {/* {JSON.stringify(authInputs)} */}
       <div className="flex justify-center ">
-        <div>
-          <div className="  font-Poppins text-3xl mb-4 font-bold flex justify-center  text-bubblyblue ">
+        <div className="border-2 py-14 px-8 shadow-lg rounded-xl">
+          <div className="  font-Gelasio text-4xl mb-4  flex justify-center  text-bubblyblue ">
             Create an account
           </div>
 

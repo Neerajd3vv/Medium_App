@@ -34,9 +34,9 @@ function SigninInputs() {
   return (
     <div className="flex flex-col justify-center h-screen ">
       <div className=" flex justify-center">
-        <div>
-          <div className="font-Poppins mb-4 text-3xl font-bold flex justify-center  text-bubblyblue">
-            Signin
+        <div className="border-2 py-14 px-8 shadow-lg rounded-xl">
+          <div className="font-Gelasio mb-4 text-4xl  flex justify-center  text-bubblyblue">
+            Welcome Back!
           </div>
           <Inputbox
             label="Email"

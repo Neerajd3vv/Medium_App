@@ -28,6 +28,7 @@ export default {
         playflair: ["Playfair Display", "serif"],
         ptserif: ["PT Serif", "serif"],
         lora: [ "Lora", "serif"],
+        Gelasio: ["Gelasio", "serif"]
         
       },
       colors: {
@@ -56,4 +57,3 @@ export default {
   },
   plugins: [],
 }
-

@@ -7,13 +7,16 @@
     "@neerajrandom/medium-common": "^1.0.0",
     "@prisma/client": "^5.11.0",
     "@prisma/extension-accelerate": "^1.0.0",
+    "cloudinary": "^2.1.0",
     "hono": "^4.1.7",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "prisma": "^5.11.0"
-    
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.12.7",
     "wrangler": "^3.32.0"
   }
 }

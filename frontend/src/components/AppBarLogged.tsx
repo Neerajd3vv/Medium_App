@@ -21,6 +21,7 @@ function AppBarLogged() {
   const [dropBox, setDropBox] = useState(false);
   const [profilePopup, setProfilePopup] = useState(false);
   const [userBio, setUserBio] = useState("");
+  const [userProfilePicture, setUserProfilePicture] = useState("");
   // const [logoutButtonClicked , setLogoutButtonClicked] = useState(false)
   const { updateAuthenticationStatus } = useTokenExists();
 
@@ -39,7 +40,7 @@ function AppBarLogged() {
 
   // navigaate to blogs route
   const navigateToMyblogs = () => {
-    navigate("/myblogs")
+    navigate("/myblogs");
     setProfilePopup(!setProfilePopup);
     updateAuthenticationStatus(false);
   };
@@ -49,7 +50,8 @@ function AppBarLogged() {
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/user/userbio`,
-        userBio,
+        { bio: userBio, profilePicture: userProfilePicture },
+
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -71,7 +73,7 @@ function AppBarLogged() {
   // savechanges for updating Profile
   const saveChangesUpdated = async () => {
     const response = await axios.post(
-      `${BACKEND_URL}/api/v1/user/bioupdate`,
+      `${BACKEND_URL}/api/v1/user/userprofileupdate`,
       userBio,
       {
         headers: {
@@ -113,19 +115,19 @@ function AppBarLogged() {
             <ul className="w-full">
               <li
                 onClick={navigateToMyblogs}
-                className="  py-4   cursor-pointer hover:bg-slate-200"
+                className="  py-4 rounded-full   cursor-pointer  hover:bg-slate-200"
               >
                 <div className=" flex justify-between items-center  mx-10">
                   <div>
                     <img className="w-8 " src={MyBlogs} alt="myblogs" />
                   </div>
 
-                  <div className=" font-ptserif  ">My Blogs</div>
+                  <div className=" font-Gelasio  ">My Blogs</div>
                 </div>
               </li>
 
               <li
-                className="py-4   cursor-pointer hover:bg-slate-200"
+                className="py-4 rounded-full  cursor-pointer hover:bg-slate-200"
                 onClick={profileClick}
               >
                 {" "}
@@ -134,12 +136,12 @@ function AppBarLogged() {
                     <img className="w-8 " src={Blackprofile} alt="Profile" />
                   </div>
 
-                  <div className=" font-ptserif  ">Profile</div>
+                  <div className=" font-Gelasio  ">Profile</div>
                 </div>
               </li>
 
               <li
-                className="py-4  cursor-pointer hover:bg-slate-200"
+                className="py-4 rounded-full   cursor-pointer hover:bg-slate-200"
                 onClick={Logout}
               >
                 <div className="flex justify-between items-center  mx-10">
@@ -147,7 +149,7 @@ function AppBarLogged() {
                     <img className="w-8 " src={BlackLogout} alt="logout" />
                   </div>
 
-                  <div className=" font-ptserif  ">Logout</div>
+                  <div className=" font-Gelasio  ">Logout</div>
                 </div>
               </li>
             </ul>
@@ -157,6 +159,9 @@ function AppBarLogged() {
       {profilePopup &&
         (userBioValue ? (
           <ProfilePopupTwo
+            onchangeTwo={(e) => {
+              setUserProfilePicture(e.target.value[0]);
+            }}
             currentBio={userProfile?.bio}
             onclick={saveChangesUpdated}
             onchange={(e) => {
@@ -166,6 +171,9 @@ function AppBarLogged() {
           />
         ) : (
           <ProfilePopupOne
+            onchangeTwo={(e) => {
+              setUserProfilePicture(e.target.value[0]);
+            }}
             onchange={(e) => setUserBio(e.target.value)}
             onclick={saveChanges}
             closeProfilePopup={closeProfilePopup}
@@ -181,7 +189,7 @@ function AppBarSearchbox() {
   return (
     <div className="hidden lg:flex">
       <input
-        className="border-gray-200 focus:outline-none border-2 px-3 py-1 rounded-2xl"
+        className="border-gray-100 font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
         type="text"
         placeholder="Search"
       />
