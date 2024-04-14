@@ -145,12 +145,3 @@ export function SigninToReadBlog({cancel , signin}:SigninToReadBlogType) {
   );
 }
 
-export function userLoggedOutSuccessfully () {
-  return (
-    <div className="h-full w-full right-0 top-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-      <div className="py-40 px-40 bg-white ">
-        hello
-      </div>
-    </div>
-  )
-}

@@ -6,7 +6,7 @@ function userLoggedOutSuccessfully() {
     useEffect(() => {
       setTimeout(() => {
         navigate("/blogs");
-      }, 1000);
+      }, 2000);
     });
 
   return (

@@ -5,8 +5,8 @@ import {
   useUserBioChecking,
 } from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
-import Blackprofile from "../images/actualProfile.png";
-import BlackLogout from "../images/properLogout.png";
+import Blackprofile from "../images/blackProfile.png";
+import BlackLogout from "../images/logoutTwo.png";
 import MyBlogs from "../images/RealBlog.webp";
 import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
@@ -115,12 +115,12 @@ function AppBarLogged() {
                 onClick={navigateToMyblogs}
                 className="  py-4   cursor-pointer hover:bg-slate-200"
               >
-                <div className=" flex justify-between mx-10">
+                <div className=" flex justify-between items-center  mx-10">
                   <div>
                     <img className="w-8 " src={MyBlogs} alt="myblogs" />
                   </div>
 
-                  <div className=" font-Afacad text-xl ">My Blogs</div>
+                  <div className=" font-ptserif  ">My Blogs</div>
                 </div>
               </li>
 
@@ -129,12 +129,12 @@ function AppBarLogged() {
                 onClick={profileClick}
               >
                 {" "}
-                <div className="flex justify-between mx-10">
+                <div className="flex justify-between items-center mx-10">
                   <div>
                     <img className="w-8 " src={Blackprofile} alt="Profile" />
                   </div>
 
-                  <div className=" font-Afacad text-xl ">Profile</div>
+                  <div className=" font-ptserif  ">Profile</div>
                 </div>
               </li>
 
@@ -142,12 +142,12 @@ function AppBarLogged() {
                 className="py-4  cursor-pointer hover:bg-slate-200"
                 onClick={Logout}
               >
-                <div className="flex justify-between mx-10">
+                <div className="flex justify-between items-center  mx-10">
                   <div>
                     <img className="w-8 " src={BlackLogout} alt="logout" />
                   </div>
 
-                  <div className=" font-Afacad text-xl ">Logout</div>
+                  <div className=" font-ptserif  ">Logout</div>
                 </div>
               </li>
             </ul>

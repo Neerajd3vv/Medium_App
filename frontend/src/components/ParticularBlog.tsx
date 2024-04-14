@@ -26,7 +26,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             <div className="font-bold text-md text-slate-500 font-poppins">
               {blogById?.publishDate}
             </div>
-            <div className="font-lora  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-normal tracking-wide">
+            <div className="font-roboto  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-relaxed tracking-wider">
              {blogById?.content}
             </div>
           </div>

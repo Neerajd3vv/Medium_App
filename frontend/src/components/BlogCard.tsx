@@ -60,7 +60,7 @@ function BlogCard({
           <div className="text-gray-400  font-Afacad">{publishDate}</div>
         </div>
         <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
-        <div className="text-lg text-slate-500 mb-8 font-semibold font-lora">
+        <div className="text-lg text-slate-700 mb-8  font-ptserif">
           {truncatedBody}
         </div>
         <div className="font-Afacad font-semibold text-gray-600 ">
