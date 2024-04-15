@@ -1,4 +1,4 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
@@ -140,7 +140,6 @@ export function useLoggedUser() {
 
 export function useTokenExists() {
   const [userTokenExists, setUserTokenExists] = useState(false);
-  const [userAuthentication, setUserAuthentication] = useState(false);
   const fetchUserData = async (token: string) => {
     const response = await axios.post(
       `${BACKEND_URL}/api/v1/user/loggedinuser`,
@@ -168,17 +167,11 @@ export function useTokenExists() {
 
   useEffect(() => {
     getUserData();
-  }, [userAuthentication]);
+  }, []);
 
-  function updateAuthenticationStatus(
-    isLoggedInOrNot: SetStateAction<boolean>
-  ) {
-    setUserAuthentication(isLoggedInOrNot);
-  }
-
+ 
   return {
     userTokenExists,
-    updateAuthenticationStatus,
   };
 }
 

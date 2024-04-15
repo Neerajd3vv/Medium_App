@@ -6,29 +6,26 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import NewBlog from "./pages/NewBlog";
 import BlogsMine from "./pages/BlogsMine";
-// import UserLoggedOut from "./pages/UserLoggedOut";
-// import AppBarLogged from "./components/AppBarLogged";
-// import AppBar from "./components/AppBar";
-// import { useTokenExists } from "./Hooks/Bloghook";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  // const {userTokenExists} = useTokenExists()
- 
   return (
     <>
       <BrowserRouter>
-      {/* {userTokenExists ? <AppBarLogged /> : <AppBar />} */}
-      
+        <ToastContainer
+          toastStyle={{ fontFamily: "Poppins" }}
+          position="top-center"
+          pauseOnHover
+        />
         <Routes>
-          <Route path="/" element={<Blogs/>} />
+          <Route path="/" element={<Blogs />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/create-blog" element={<NewBlog />} />
           <Route path="/myblogs" element={<BlogsMine />} />
-          {/* <Route path="/logoutDone" element={<UserLoggedOut />} /> */}
-        
         </Routes>
       </BrowserRouter>
     </>

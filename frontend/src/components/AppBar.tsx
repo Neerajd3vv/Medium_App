@@ -30,7 +30,7 @@ function AppBar() {
           <div className="font-Hind flex justify-center items-center relative">
             <button
               onClick={dropBoxAction}
-              className="bg-black font-hind hover:bg-MainBlack text-white font-bold py-2 px-4 w-32 lg:w-40 rounded-3xl"
+              className="bg-black font-hind hover:bg-MainBlack text-white font-bold py-2  mx-4 lg:mx-0 w-32 lg:w-40 rounded-3xl"
             >
               Get Started
             </button>

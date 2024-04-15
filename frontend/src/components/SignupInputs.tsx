@@ -81,7 +81,7 @@ function SignupInputs() {
               Signin
             </Link>
           </div>
-          <Button button="signup" onClick={signupBackend} />
+          <Button button="Signup" onClick={signupBackend} />
         </div>
       </div>
     </div>

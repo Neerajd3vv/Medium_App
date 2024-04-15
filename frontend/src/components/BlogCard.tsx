@@ -23,9 +23,7 @@ function BlogCard({
   const bodyWord = mainbody.split(" ");
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
-    bodyWord.length > 50
-      ? `${bodyWord.slice(0, 30).join(" ")}`
-      : mainbody;
+    bodyWord.length > 50 ? `${bodyWord.slice(0, 30).join(" ")}` : mainbody;
 
   const readBlog = () => {
     if (userTokenExists) {
@@ -37,43 +35,41 @@ function BlogCard({
 
   // cancel of popup asking for signing in to red full aticle
 
-  function cancel (){
-    setShowSignInPopup(false)
+  function cancel() {
+    setShowSignInPopup(false);
   }
 
   // redirectin to sigin in page
-  function signin () {
-    navigate("/signin")
+  function signin() {
+    navigate("/signin");
   }
 
   return (
-   
     <>
-    <div className="flex justify-center mb-2 " onClick={readBlog}>
-      <div className="py-12 px-8 border-b-2 cursor-pointer  border-slate-300 max-w-3xl w-full rounded-md ">
-        <div className="flex col items-center mb-4">
-          <div>
-            <Avatar authorName={authorName} />
-          </div>
+      <div className="flex justify-center mb-2 " onClick={readBlog}>
+        <div className="py-12 px-8 border-b-2 cursor-pointer  border-slate-300 max-w-3xl w-full rounded-md ">
+          <div className="flex col items-center mb-4">
+            <div>
+              <Avatar authorName={authorName} />
+            </div>
 
-          <div className="px-2 font-Afacad text-lg ">{authorName} •</div>
-          <div className="text-gray-400  font-Afacad">{publishDate}</div>
-        </div>
-        <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
-        <div className="text-lg text-slate-700 mb-8  font-ptserif">
-          {truncatedBody}
-          <div className="text-black">Readmore ...</div>
-        </div>
-        <div className="font-Afacad font-semibold text-gray-600 ">
-          {Math.ceil(bodyWordLength / 100)} min read{" "}
+            <div className="px-2 font-Afacad text-lg ">{authorName} •</div>
+            <div className="text-gray-400  font-Afacad">{publishDate}</div>
+          </div>
+          <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
+          <div className="text-lg text-slate-700 mb-8  font-ptserif">
+            {truncatedBody}
+            <div className="text-Myblue">Readmore ...</div>
+          </div>
+          <div className="font-Afacad font-semibold text-gray-600 ">
+            {Math.ceil(bodyWordLength / 100)} min read{" "}
+          </div>
         </div>
       </div>
-    </div>
-   {showSignInPopup ? (
-    <SigninToReadBlog cancel={cancel} signin={signin}/>
-   ) : null}
-   </>
-   
+      {showSignInPopup ? (
+        <SigninToReadBlog cancel={cancel} signin={signin} />
+      ) : null}
+    </>
   );
 }
 

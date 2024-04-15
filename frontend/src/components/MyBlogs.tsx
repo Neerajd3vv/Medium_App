@@ -14,7 +14,7 @@ function MyBlogs({ id, title, body, publishDate, authorName }: MineBlogType) {
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
     bodyWord.length > 100
-      ? `${bodyWord.slice(0, 60).join(" ")}  Readmore...`
+      ? `${bodyWord.slice(0, 60).join(" ")}`
       : body;
   return (
     <Link to={"/blog/" + id}>
@@ -31,6 +31,7 @@ function MyBlogs({ id, title, body, publishDate, authorName }: MineBlogType) {
           <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
           <div className="text-lg font-Gelasio mb-8 ">
             {truncatedBody}
+            <div className="text-Myblue">Readmore...</div>
           </div>
           <div className="font-Afacad font-semibold text-gray-600 ">
             {Math.ceil(bodyWordLength / 100)} min read{" "}
