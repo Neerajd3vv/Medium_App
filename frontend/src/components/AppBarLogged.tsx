@@ -5,15 +5,17 @@ import {
   useUserBioChecking,
 } from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
-// import Blackprofile from "../images/blackProfile.png";
-// import BlackLogout from "../images/logoutTwo.png";
-// import MyBlogs from "../images/RealBlog.webp";
+
 import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
 import { ProfilePopupOne, ProfilePopupTwo } from "./ProfilePopup";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+//React toast
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "../index.css"
 
 function AppBarLogged() {
   const { userBioValue, userProfile } = useUserBioChecking();
@@ -22,8 +24,8 @@ function AppBarLogged() {
   const [profilePopup, setProfilePopup] = useState(false);
   const [userBio, setUserBio] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
-  // const [logoutButtonClicked , setLogoutButtonClicked] = useState(false)
   const { updateAuthenticationStatus } = useTokenExists();
+  // const [userlogout , setUserLogout] = useState(false)
 
   const dropBoxMenu = () => {
     setDropBox(!dropBox);
@@ -92,12 +94,15 @@ function AppBarLogged() {
   const Logout = () => {
     localStorage.removeItem("token");
     setDropBox(false);
-    navigate("/logoutDone");
+    toast("Logout Successful!")
+    // navigate("/blogs");
   };
 
   const { userData } = useLoggedUser();
 
   return (
+    <div>
+      <ToastContainer/>
     <div className="flex justify-between px-4 lg:px-20 border-b-2 py-4 border-slate-500">
       <div className="flex items-center">
         <Link to={"/blogs"}>
@@ -158,6 +163,7 @@ function AppBarLogged() {
             closeProfilePopup={closeProfilePopup}
           />
         ))}
+    </div>
     </div>
   );
 }

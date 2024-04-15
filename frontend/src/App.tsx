@@ -6,7 +6,7 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import NewBlog from "./pages/NewBlog";
 import BlogsMine from "./pages/BlogsMine";
-import UserLoggedOut from "./pages/UserLoggedOut";
+// import UserLoggedOut from "./pages/UserLoggedOut";
 // import AppBarLogged from "./components/AppBarLogged";
 // import AppBar from "./components/AppBar";
 // import { useTokenExists } from "./Hooks/Bloghook";
@@ -27,7 +27,7 @@ function App() {
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/create-blog" element={<NewBlog />} />
           <Route path="/myblogs" element={<BlogsMine />} />
-          <Route path="/logoutDone" element={<UserLoggedOut />} />
+          {/* <Route path="/logoutDone" element={<UserLoggedOut />} /> */}
         
         </Routes>
       </BrowserRouter>

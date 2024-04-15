@@ -23,8 +23,8 @@ function BlogCard({
   const bodyWord = mainbody.split(" ");
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
-    bodyWord.length > 100
-      ? `${bodyWord.slice(0, 60).join(" ")}  Readmore...`
+    bodyWord.length > 50
+      ? `${bodyWord.slice(0, 30).join(" ")}`
       : mainbody;
 
   const readBlog = () => {
@@ -62,6 +62,7 @@ function BlogCard({
         <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
         <div className="text-lg text-slate-700 mb-8  font-ptserif">
           {truncatedBody}
+          <div className="text-black">Readmore ...</div>
         </div>
         <div className="font-Afacad font-semibold text-gray-600 ">
           {Math.ceil(bodyWordLength / 100)} min read{" "}

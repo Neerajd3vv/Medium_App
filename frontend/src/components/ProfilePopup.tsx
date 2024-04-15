@@ -153,3 +153,5 @@ export function SigninToReadBlog({cancel , signin}:SigninToReadBlogType) {
   );
 }
 
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Alert dialog

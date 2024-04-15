@@ -22,6 +22,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Override toast styles for dark mode */
+.Toastify__toast {
+  background-color: #012169; /* Background color for individual toast */
+  color: #fff; /* Text color for individual toast */
+}
+
+/* Override toastify progress bar styles */
+.Toastify__progress-bar {
+  transition-duration: 0.1s; /* Adjust the animation duration for the progress bar */
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
