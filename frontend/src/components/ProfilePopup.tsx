@@ -1,5 +1,5 @@
 import { ChangeEvent, MouseEventHandler } from "react";
-import RedCross from "../images/RedCross.png";
+import RedCross from "../images/blackcross.webp";
 
 interface profilePopUpType {
   onchange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -22,7 +22,7 @@ export function ProfilePopupOne({
             onClick={closeProfilePopup}
             src={RedCross}
             alt="Cross"
-            className="w-8 cursor-pointer"
+            className="w-4 cursor-pointer"
           />
         </div>
         <h2 className="text-2xl font-semibold mb-4 font-ptserif">

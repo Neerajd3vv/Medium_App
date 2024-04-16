@@ -49,7 +49,7 @@ function SignupInputs() {
             onChange={(e) => {
               setAuthInputs({
                 ...authInputs,
-                username: e.target.value,
+                username: e.target.value.trim(),
               });
             }}
           />
@@ -59,7 +59,7 @@ function SignupInputs() {
             onChange={(e) => {
               setAuthInputs({
                 ...authInputs,
-                email: e.target.value,
+                email: e.target.value.trim(),
               });
             }}
           />
@@ -70,7 +70,7 @@ function SignupInputs() {
             onChange={(e) => {
               setAuthInputs({
                 ...authInputs,
-                password: e.target.value,
+                password: e.target.value.trim(),
               });
             }}
           />

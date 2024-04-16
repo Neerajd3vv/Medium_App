@@ -12,7 +12,7 @@ function AppBar() {
     <div className="grid grid-cols-2  lg:px-20 border-b-2 py-4 border-slate-500">
       <div className="lg:ml-20">
         <Link to={"/blogs"}>
-          <img src={MediumLogo} className="w-40" alt="Medium Logo" />
+          <img src={MediumLogo} className="w-40 ml-3 lg:ml-0 " alt="Medium Logo" />
         </Link>
       </div>
 
@@ -30,7 +30,7 @@ function AppBar() {
           <div className="font-Hind flex justify-center items-center relative">
             <button
               onClick={dropBoxAction}
-              className="bg-black font-hind hover:bg-MainBlack text-white font-bold py-2  mx-4 lg:mx-0 w-32 lg:w-40 rounded-3xl"
+              className="bg-black font-hind hover:bg-MainBlack text-white font-bold py-2   lg:mx-0 w-40 rounded-3xl"
             >
               Get Started
             </button>

@@ -25,8 +25,8 @@
 
 /* Override toast styles for dark mode */
 .Toastify__toast {
-  background-color: #f0f0f0; /* Background color for individual toast */
-  color: #000000; /* Text color for individual toast */
+  background-color: #181616; /* Background color for individual toast */
+  color: #ffffff; /* Text color for individual toast */
 }
 
 

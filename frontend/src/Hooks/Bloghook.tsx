@@ -11,19 +11,25 @@ export interface BlogType {
   publishDate: string;
 }
 
-function useBlog() {
+export function useBlog() {
   const [loading, setloading] = useState(true);
   const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
-
+  const [blogSearch , setBlogSearch] = useState("")
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/api/v1/blog/bulk`).then((response) => {
+    // console.log("search query" , blogSearch);
+    const encodedTitle =  encodeURIComponent(blogSearch)
+    console.log(encodedTitle);
+    
+    axios.get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`).then((response) => {
       setAllBlogs(response.data.Blogs);
       setloading(false);
     });
-  }, []);
+  }, [blogSearch]);
   return {
     allBlogs,
     loading,
+    setBlogSearch,
+    blogSearch
   };
 }
 
@@ -176,7 +182,6 @@ export function useTokenExists() {
 }
 
 // is user has bio or not
-
 interface userProfileType {
   id: string;
   profileId: string;

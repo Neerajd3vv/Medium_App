@@ -13,8 +13,8 @@ function MyBlogs({ id, title, body, publishDate, authorName }: MineBlogType) {
   const bodyWord = body.split(" ");
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
-    bodyWord.length > 100
-      ? `${bodyWord.slice(0, 60).join(" ")}`
+    bodyWord.length > 50
+      ? `${bodyWord.slice(0, 30).join(" ")}`
       : body;
   return (
     <Link to={"/blog/" + id}>

@@ -44,7 +44,7 @@ function SigninInputs() {
             onChange={(e) => {
               setSigninInputs({
                 ...signinInputs,
-                email: e.target.value,
+                email: e.target.value.trim(),
               });
             }}
           />
@@ -55,7 +55,7 @@ function SigninInputs() {
             onChange={(e) => {
               setSigninInputs({
                 ...signinInputs,
-                password: e.target.value,
+                password: e.target.value.trim(),
               });
             }}
           />

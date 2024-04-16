@@ -70,7 +70,15 @@ export async function getallblogs(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
+    const  {title} =  c.req.query as {title? :string} || ""
+    console.log(title)
     const multipleBlogs = await prisma.blogs.findMany({
+      where: {
+        title: {
+          contains : title,
+          mode : "insensitive"
+        },
+      },
       include: {
         author: true,
       },
@@ -104,6 +112,9 @@ export async function getallblogs(c: Context) {
     });
   } catch (error) {
     return c.body(`Internal server down:`, 500);
+  }
+  finally {
+    await prisma.$disconnect()  // disconnect the prisma for efficieny 
   }
 }
 
@@ -164,18 +175,18 @@ export async function blogById(c: Context) {
       where: {
         id: id,
       },
-    include:{
-      author:{
-        select:{
-          username: true,
-          profile: {
-            select:{
-              bio:true
-            }
-          }
-        }
-      }
-    }
+      include: {
+        author: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                bio: true,
+              },
+            },
+          },
+        },
+      },
     });
     if (!blogExists) {
       return c.body("Post does not exists", 404);
@@ -206,7 +217,7 @@ export async function blogById(c: Context) {
       authorId: blogExists.authorId,
       authorname: blogExists.author.username,
       publishDate: properDate,
-      authorBio: blogExists.author.profile?.bio
+      authorBio: blogExists.author.profile?.bio,
     });
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);
@@ -288,3 +299,4 @@ export async function deleteBlog(c: Context) {
     return c.body(`Internal server error: ${error}`, 500);
   }
 }
+

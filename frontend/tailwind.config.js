@@ -44,7 +44,7 @@ module.exports = {
       },
       colors: {
         MainBlack: "#111111",
-        actualBlack:"#0a0908",
+        actualBlack:"#181616",
         Myblue: "#1F75FE",
         heheblu: "#6F00FF",
         dukeblue: "#012169",

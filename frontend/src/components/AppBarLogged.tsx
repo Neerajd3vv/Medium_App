@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLoggedUser, useUserBioChecking } from "../Hooks/Bloghook";
+import { ChangeEvent, useState } from "react";
+import useBlog, { useLoggedUser, useUserBioChecking } from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
 import { useLocation } from "react-router-dom";
 import { Avatar } from "./BlogCard";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function AppBarLogged() {
+  const {setBlogSearch} = useBlog()
   const location = useLocation();
   const { userBioValue, userProfile } = useUserBioChecking();
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ function AppBarLogged() {
   const [profilePopup, setProfilePopup] = useState(false);
   const [userBio, setUserBio] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
-
+ 
+   
   const dropBoxMenu = () => {
     setDropBox(!dropBox);
   };
@@ -107,7 +109,11 @@ function AppBarLogged() {
           <Link to={"/blogs"}>
             <img src={MediumLogo} className="w-40 mr-8 " alt="Medium Logo" />
           </Link>
-          <AppBarSearchbox />
+          <AppBarSearchbox onchange={(e) => {
+            console.log(e.target.value);
+            
+            setBlogSearch(e.target.value)
+          }} />
         </div>
         <div className="flex items-center">
           <div className="cursor-pointer mx-8 font-Afacad text-lg">Write</div>
@@ -168,11 +174,15 @@ function AppBarLogged() {
 }
 
 export default AppBarLogged;
+interface AppsearchBoxType {
+  onchange : (e: ChangeEvent<HTMLInputElement>) => void
+}
 
-function AppBarSearchbox() {
+function AppBarSearchbox({onchange}:AppsearchBoxType) {
   return (
     <div className="hidden lg:flex">
       <input
+      onChange={onchange}
         className="border-gray-100 font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
         type="text"
         placeholder="Search"

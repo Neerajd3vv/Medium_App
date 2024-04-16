@@ -34,7 +34,7 @@ model Profile {
 model Blogs {
   id          String   @id @default(uuid())
   authorId    String
-  title       String
+  title       String   
   body        String   @db.Text
   published   Boolean  @default(false)
   publishDate DateTime @default(now())
