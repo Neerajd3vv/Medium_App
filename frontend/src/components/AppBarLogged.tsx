@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function AppBarLogged() {
-  const {setBlogSearch} = useBlog()
+  const {setBlogSearch } = useBlog()
   const location = useLocation();
   const { userBioValue, userProfile } = useUserBioChecking();
   const navigate = useNavigate();

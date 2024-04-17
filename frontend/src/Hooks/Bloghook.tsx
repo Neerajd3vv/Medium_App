@@ -18,13 +18,15 @@ export function useBlog() {
   useEffect(() => {
     // console.log("search query" , blogSearch);
     const encodedTitle =  encodeURIComponent(blogSearch)
-    console.log(encodedTitle);
+    // console.log(encodedTitle);
     
     axios.get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`).then((response) => {
       setAllBlogs(response.data.Blogs);
       setloading(false);
     });
   }, [blogSearch]);
+  console.log(allBlogs);
+  
   return {
     allBlogs,
     loading,

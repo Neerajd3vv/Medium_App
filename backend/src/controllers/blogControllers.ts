@@ -70,7 +70,7 @@ export async function getallblogs(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const  {title} =  c.req.query as {title? :string} || ""
+   const { title } = (c.req.query() as { title?: string })
     console.log(title)
     const multipleBlogs = await prisma.blogs.findMany({
       where: {

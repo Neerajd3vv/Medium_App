@@ -3,11 +3,23 @@ import Skeleton from "../components/Skeleton";
 import useBlog, { useTokenExists } from "../Hooks/Bloghook";
 import AppBar from "../components/AppBar";
 import AppBarLogged from "../components/AppBarLogged";
+import { useEffect, useState } from "react";
 // import DummyAppBar from "../components/DummyAppbar";
+
+
 
 function Blog() {
   const { loading, allBlogs } = useBlog();
   const { userTokenExists } = useTokenExists();
+  
+  
+ const [MyBlogs , setMyBlogs] = useState(allBlogs)
+//  console.log(MyBlogs);
+  
+
+useEffect(()=>{
+  setMyBlogs(MyBlogs)
+},[MyBlogs])
 
   if (loading) {
     return (
@@ -29,7 +41,7 @@ function Blog() {
     <div>
       {userTokenExists ? <AppBarLogged /> : <AppBar />}
       <div>
-        {allBlogs.map((blog) => (
+        {MyBlogs.length > 0 && MyBlogs.map((blog) => (
           <BlogCard
             key={blog.id}
             title={blog.title}
