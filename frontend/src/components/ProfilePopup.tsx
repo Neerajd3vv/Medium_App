@@ -4,15 +4,14 @@ import RedCross from "../images/blackcross.webp";
 interface profilePopUpType {
   onchange: (e: ChangeEvent<HTMLInputElement>) => void;
   onclick: MouseEventHandler<HTMLButtonElement>;
-  onchangeTwo: (e: ChangeEvent<HTMLInputElement>) => void;
   closeProfilePopup: MouseEventHandler<HTMLDivElement>;
+  onchangetwo : (e : ChangeEvent<HTMLInputElement>) => void
 }
-
 export function ProfilePopupOne({
   onchange,
   onclick,
   closeProfilePopup,
-  onchangeTwo,
+  onchangetwo
 }: profilePopUpType) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -29,6 +28,7 @@ export function ProfilePopupOne({
           Edit Profile
         </h2>
         <input
+          
           type="text"
           placeholder="Enter your bio"
           className="border border-gray-300 focus:outline-none rounded-md px-3 py-2 mb-4 w-full"
@@ -39,10 +39,11 @@ export function ProfilePopupOne({
           Upload Profile Picture
         </label>
         <input
-          onChange={onchangeTwo}
+        onChange={onchangetwo}
           id="profileImage"
           placeholder="Choose Image"
           type="file"
+          name="image"
           accept="image/*"
           className="block mt-2 mb-6"
         />
@@ -64,17 +65,17 @@ export function ProfilePopupOne({
 interface ProfilePopTwoType {
   onclick: MouseEventHandler<HTMLButtonElement>;
   onchange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onchangeTwo: (e: ChangeEvent<HTMLInputElement>) => void;
   closeProfilePopup: MouseEventHandler<HTMLDivElement>;
   currentBio: string | undefined;
+  onchangetwo: (e:ChangeEvent<HTMLInputElement>) => void
 }
 
 export function ProfilePopupTwo({
   onclick,
   onchange,
-  onchangeTwo,
   closeProfilePopup,
   currentBio,
+  onchangetwo
 }: ProfilePopTwoType) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -84,7 +85,7 @@ export function ProfilePopupTwo({
             onClick={closeProfilePopup}
             src={RedCross}
             alt="Cross"
-            className="w-7 cursor-pointer"
+            className="w-4 cursor-pointer"
           />
         </div>
         <h2 className="text-2xl  font-semibold mb-4 font-ptserif">
@@ -108,10 +109,11 @@ export function ProfilePopupTwo({
           Upload Profile Picture
         </label>
         <input
-          onChange={onchangeTwo}
+        onChange={onchangetwo}
           id="profileImage"
           placeholder="Choose Image"
           type="file"
+          name="image"
           accept="image/*"
           className="block mt-2 mb-6"
         />

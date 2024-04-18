@@ -10,18 +10,24 @@ import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 // React toast
 import { toast } from "react-toastify";
+//firebase imports
+import { storage } from "../Firebase";
+// ref to create ref to where ProfilePicture will be saved in storage bucket , uploadbyte help us to uload files to firebase
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 function AppBarLogged() {
-  const {setBlogSearch } = useBlog()
+  const { setBlogSearch } = useBlog();
   const location = useLocation();
   const { userBioValue, userProfile } = useUserBioChecking();
   const navigate = useNavigate();
   const [dropBox, setDropBox] = useState(false);
   const [profilePopup, setProfilePopup] = useState(false);
   const [userBio, setUserBio] = useState("");
-  const [userProfilePicture, setUserProfilePicture] = useState("");
- 
-   
+  const [userProfilePicture, setUserProfilePicture] = useState<File | null>(
+    null
+  );
+  const [userPublicProfileUrl, setUserPublicProfileUrl] = useState("");
   const dropBoxMenu = () => {
     setDropBox(!dropBox);
   };
@@ -39,31 +45,52 @@ function AppBarLogged() {
   const navigateToMyblogs = () => {
     setProfilePopup(!setProfilePopup);
     navigate("/myblogs");
-
     // updateAuthenticationStatus(false);
   };
-
   // savechanges for new Profile
   const saveChanges = async () => {
     try {
+      // storing userImgage to firebase storage
+      try {
+        if (userProfilePicture === null) {
+          return;
+        }
+        //ref to upload file in firebase storage
+        const ProfilePictureRef = ref(
+          storage,
+          `Images/${userProfilePicture.name + v4()}`
+        );
+        //upload the image to firebase
+        await uploadBytes(ProfilePictureRef, userProfilePicture);
+        // getting Public url and saving it to UserPublicProfileUrl state
+        getDownloadURL(ProfilePictureRef).then((url) => {
+          setUserPublicProfileUrl(url);
+        });
+        // setUserPublicProfileUrl(publicUrl);
+        console.log("userPublicProfileUrl" , userPublicProfileUrl);
+      } catch (error) {
+        console.log("Error while uploading image", error);
+        toast.error(
+          "An error occurred while uploading your image. Please try again."
+        );
+      }
+      // storing bio to database
       const response = await axios.post(
-        `${BACKEND_URL}/api/v1/user/userbio`,
-        { bio: userBio, profilePicture: userProfilePicture },
-
+        `${BACKEND_URL}/api/v1/user/userprofile`,
+        { userBio, userPublicProfileUrl },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
-      setProfilePopup(!profilePopup);
-      const userData = response.data.Bio;
-      if (userData) {
-        navigate("/blogs");
+      const updatedUserProfile = response.data.ProfileData;
+      if (updatedUserProfile) {
+        setProfilePopup(!profilePopup);
+        // window.location.reload();
       }
     } catch (error) {
-      console.error("Error saving bio:", error);
+      console.error("Error saving profile:", error);
       // Handle error, e.g., display an error message to the user
     }
   };
@@ -72,16 +99,19 @@ function AppBarLogged() {
   const saveChangesUpdated = async () => {
     const response = await axios.post(
       `${BACKEND_URL}/api/v1/user/userprofileupdate`,
-      userBio,
+      { userBio },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
+    console.log(userProfilePicture);
+
     const updatedUserProfile = response.data.UpdtedProfile;
-    setProfilePopup(!profilePopup);
+
     if (updatedUserProfile) {
+      setProfilePopup(!profilePopup);
       window.location.reload();
     }
   };
@@ -94,10 +124,22 @@ function AppBarLogged() {
     if (location.pathname === "/blogs") {
       setTimeout(() => {
         window.location.reload();
-      }, 1600)
+      }, 1600);
     } else {
       navigate("/blogs");
     }
+  };
+
+  // Handle profile set
+  const maxImageSize = 4 * 1024 * 1024;
+  const handleImageChange = (event: any) => {
+    const file = event.target.files[0];
+    // Validate file type
+    if (!file || file.size > maxImageSize) {
+      toast.error("Image size should'nt be more than 4mb");
+      return;
+    }
+    setUserProfilePicture(file);
   };
 
   const { userData } = useLoggedUser();
@@ -109,11 +151,13 @@ function AppBarLogged() {
           <Link to={"/blogs"}>
             <img src={MediumLogo} className="w-40 mr-8 " alt="Medium Logo" />
           </Link>
-          <AppBarSearchbox onchange={(e) => {
-            console.log(e.target.value);
-            
-            setBlogSearch(e.target.value)
-          }} />
+          <AppBarSearchbox
+            onchange={(e) => {
+              // console.log(e.target.value);
+
+              setBlogSearch(e.target.value);
+            }}
+          />
         </div>
         <div className="flex items-center">
           <div className="cursor-pointer mx-8 font-Afacad text-lg">Write</div>
@@ -148,9 +192,7 @@ function AppBarLogged() {
         {profilePopup &&
           (userBioValue ? (
             <ProfilePopupTwo
-              onchangeTwo={(e) => {
-                setUserProfilePicture(e.target.value[0]);
-              }}
+              onchangetwo={handleImageChange}
               currentBio={userProfile?.bio}
               onclick={saveChangesUpdated}
               onchange={(e) => {
@@ -160,9 +202,7 @@ function AppBarLogged() {
             />
           ) : (
             <ProfilePopupOne
-              onchangeTwo={(e) => {
-                setUserProfilePicture(e.target.value[0]);
-              }}
+              onchangetwo={handleImageChange}
               onchange={(e) => setUserBio(e.target.value)}
               onclick={saveChanges}
               closeProfilePopup={closeProfilePopup}
@@ -175,14 +215,14 @@ function AppBarLogged() {
 
 export default AppBarLogged;
 interface AppsearchBoxType {
-  onchange : (e: ChangeEvent<HTMLInputElement>) => void
+  onchange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function AppBarSearchbox({onchange}:AppsearchBoxType) {
+function AppBarSearchbox({ onchange }: AppsearchBoxType) {
   return (
     <div className="hidden lg:flex">
       <input
-      onChange={onchange}
+        onChange={onchange}
         className="border-gray-100 font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
         type="text"
         placeholder="Search"

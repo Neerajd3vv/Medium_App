@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client/edge";
 import { signupSchema, signinSchema } from "@neerajrandom/medium-common";
 import { sign, verify } from "hono/jwt";
 
-
 export async function signup(c: Context) {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -157,41 +156,29 @@ export async function loggedUser(c: Context) {
   }
 }
 
-// user bio api endpoint
+// user profile endpoint
 
-// import { v2 as cloudinary } from "cloudinary";
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-
-// const prisma = new PrismaClient();
-
-// export async function userProfile(c: Context) {
-//   try {
-//     const file = c.req.files?.image;
-//     const bioUser = c.req.text(); // Assuming bio is sent in the request body
-
-//     if (!file) {
-//       return c.json({ error: "No image uploaded" });
-//     }
-
-//     const imageUpload = await cloudinary.uploader.upload(file.path);
-    
-//     const profileSet = await prisma.profile.create({
-//       data: {
-//         bio: bioUser,
-//         profilePicture: imageUpload.secure_url,
-//       },
-//     });
-
-//     return c.json(profileSet);
-//   } catch (error) {
-//     return c.json({ error: `Internal server error: ${error.message}` }, 500);
-//   }
-// }
+export async function userProfile(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const body : {userBio: string , userPublicProfileUrl:string } = await c.req.json()
+    const userBioCreated = await prisma.profile.create({
+      data: {
+        bio: body.userBio,
+        profilePicture: body.userPublicProfileUrl,
+        profileId: c.get("authorId"),
+      },
+    });
+    if (userBioCreated) {
+      return c.json({ ProfileData: userBioCreated });
+    }
+    return c.text("Could not create userProfile");
+  } catch (error) {
+    return c.json(`Internal server error: ${error}`, 500);
+  }
+}
 
 // user profie update endpoint
 export async function userProfileUpdate(c: Context) {
@@ -199,13 +186,13 @@ export async function userProfileUpdate(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const userBioUpdated = await c.req.text();
+    const body: { userBio: string } = await c.req.json();
     const updatedBio = await prisma.profile.update({
       where: {
         profileId: c.get("authorId"),
       },
       data: {
-        bio: userBioUpdated,
+        bio: body.userBio,
       },
     });
     if (updatedBio) {
@@ -236,5 +223,3 @@ export async function userBioCheck(c: Context) {
     return c.json(`Internal server error: ${error}`, 500);
   }
 }
-
-

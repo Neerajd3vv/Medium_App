@@ -14,24 +14,25 @@ export interface BlogType {
 export function useBlog() {
   const [loading, setloading] = useState(true);
   const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
-  const [blogSearch , setBlogSearch] = useState("")
+  const [blogSearch, setBlogSearch] = useState("");
   useEffect(() => {
-    // console.log("search query" , blogSearch);
-    const encodedTitle =  encodeURIComponent(blogSearch)
-    // console.log(encodedTitle);
-    
-    axios.get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`).then((response) => {
-      setAllBlogs(response.data.Blogs);
-      setloading(false);
-    });
+    const encodedTitle = encodeURIComponent(blogSearch);
+
+    axios
+      .get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`)
+      .then((response) => {
+        setAllBlogs(response.data.Blogs);
+        setloading(false);
+      });
   }, [blogSearch]);
-  console.log(allBlogs);
-  
+
+  // console.log(allBlogs);
+
   return {
     allBlogs,
     loading,
     setBlogSearch,
-    blogSearch
+    blogSearch,
   };
 }
 
@@ -177,7 +178,6 @@ export function useTokenExists() {
     getUserData();
   }, []);
 
- 
   return {
     userTokenExists,
   };
@@ -208,9 +208,12 @@ export function useUserBioChecking() {
       )
       .then((response) => {
         if (response) {
+          // console.log(response.data);
+
           setUserProfile(response.data.UserProfile);
         }
         if (response.data.UserProfile.bio) {
+          // console.log(response.data.UserProfile);
           setUserBioValue(true);
         }
       });

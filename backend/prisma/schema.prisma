@@ -26,8 +26,8 @@ model User {
 model Profile {
   id             String  @id @default(uuid())
   profileId      String  @unique
-  profilePicture String?
   bio            String?
+  profilePicture  String?
   user           User    @relation(fields: [profileId], references: [id])
 }
 
