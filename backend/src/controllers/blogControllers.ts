@@ -70,17 +70,26 @@ export async function getallblogs(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-   const { title } = (c.req.query() as { title?: string }) || ""
-    console.log(title)
+    const { title } = (c.req.query() as { title?: string }) || "";
+    console.log(title);
     const multipleBlogs = await prisma.blogs.findMany({
       where: {
         title: {
-          contains : title,
-          mode : "insensitive"
+          contains: title,
+          mode: "insensitive",
         },
       },
       include: {
-        author: true,
+        author: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                profilePicture: true,
+              },
+            },
+          },
+        },
       },
     });
     const months = [
@@ -108,13 +117,13 @@ export async function getallblogs(c: Context) {
         publishDate: `${res.publishDate.getDate()} ${
           months[res.publishDate.getMonth()]
         } ${res.publishDate.getFullYear()}`,
+        profilePicture : res.author.profile?.profilePicture
       })),
     });
   } catch (error) {
     return c.body(`Internal server down:`, 500);
-  }
-  finally {
-    await prisma.$disconnect()  // disconnect the prisma for efficieny 
+  } finally {
+    await prisma.$disconnect(); // disconnect the prisma for efficieny
   }
 }
 
@@ -182,6 +191,7 @@ export async function blogById(c: Context) {
             profile: {
               select: {
                 bio: true,
+                profilePicture: true,
               },
             },
           },
@@ -216,6 +226,7 @@ export async function blogById(c: Context) {
       content: blogExists.body,
       authorId: blogExists.authorId,
       authorname: blogExists.author.username,
+      profileImage: blogExists.author.profile?.profilePicture,
       publishDate: properDate,
       authorBio: blogExists.author.profile?.bio,
     });
@@ -299,4 +310,3 @@ export async function deleteBlog(c: Context) {
     return c.body(`Internal server error: ${error}`, 500);
   }
 }
-

@@ -1,8 +1,7 @@
-import { ChangeEvent, useState } from "react";
-import useBlog, { useLoggedUser, useUserBioChecking } from "../Hooks/Bloghook";
+import { ChangeEvent, useEffect, useState } from "react";
+import useBlog, { useUserBioChecking } from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
 import { useLocation } from "react-router-dom";
-import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
 import { ProfilePopupOne, ProfilePopupTwo } from "./ProfilePopup";
 import axios from "axios";
@@ -11,12 +10,19 @@ import { useNavigate } from "react-router-dom";
 // React toast
 import { toast } from "react-toastify";
 //firebase imports
-import { storage } from "../Firebase";
+import { storage } from "../../Firebase";
 // ref to create ref to where ProfilePicture will be saved in storage bucket , uploadbyte help us to uload files to firebase
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 
 function AppBarLogged() {
+  useEffect(() => {
+    const storedImageLocally = localStorage.getItem("userProfileImage");
+    if (storedImageLocally) {
+      setuserProfileImage(storedImageLocally);
+    }
+  }, []);
+
   const { setBlogSearch } = useBlog();
   const location = useLocation();
   const { userBioValue, userProfile } = useUserBioChecking();
@@ -27,7 +33,7 @@ function AppBarLogged() {
   const [userProfilePicture, setUserProfilePicture] = useState<File | null>(
     null
   );
-  const [userPublicProfileUrl, setUserPublicProfileUrl] = useState("");
+  const [userProfileImage, setuserProfileImage] = useState<string | null>(null);
   const dropBoxMenu = () => {
     setDropBox(!dropBox);
   };
@@ -47,72 +53,83 @@ function AppBarLogged() {
     navigate("/myblogs");
     // updateAuthenticationStatus(false);
   };
+
   // savechanges for new Profile
   const saveChanges = async () => {
     try {
       // storing userImgage to firebase storage
-      try {
-        if (userProfilePicture === null) {
-          return;
-        }
-        //ref to upload file in firebase storage
-        const ProfilePictureRef = ref(
-          storage,
-          `Images/${userProfilePicture.name + v4()}`
-        );
-        //upload the image to firebase
-        await uploadBytes(ProfilePictureRef, userProfilePicture);
-        // getting Public url and saving it to UserPublicProfileUrl state
-        getDownloadURL(ProfilePictureRef).then((url) => {
-          setUserPublicProfileUrl(url);
-        });
-        // setUserPublicProfileUrl(publicUrl);
-        console.log("userPublicProfileUrl" , userPublicProfileUrl);
-      } catch (error) {
-        console.log("Error while uploading image", error);
-        toast.error(
-          "An error occurred while uploading your image. Please try again."
-        );
+      if (userProfilePicture === null) {
+        return;
       }
-      // storing bio to database
-      const response = await axios.post(
-        `${BACKEND_URL}/api/v1/user/userprofile`,
-        { userBio, userPublicProfileUrl },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+      //ref to upload file in firebase storage
+      const ProfilePictureRef = ref(
+        storage,
+        `Images/${userProfilePicture.name + v4()}`
       );
-      const updatedUserProfile = response.data.ProfileData;
-      if (updatedUserProfile) {
-        setProfilePopup(!profilePopup);
-        // window.location.reload();
-      }
+
+      //upload the image to firebase
+      await uploadBytes(ProfilePictureRef, userProfilePicture);
+
+      // getting Public url and saving it to UserPublicProfileUrl state
+      getDownloadURL(ProfilePictureRef).then(async (PublicUrl) => {
+        const response = await axios.post(
+          `${BACKEND_URL}/api/v1/user/userprofile`,
+          { userBio, PublicUrl },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const updatedUserProfile = response.data.ProfileData;
+        if (updatedUserProfile) {
+          setProfilePopup(!profilePopup);
+          toast("Profile Saved", { autoClose: 1200 });
+        }
+      });
     } catch (error) {
-      console.error("Error saving profile:", error);
+      toast.error("Error! Occurred while setting profile");
       // Handle error, e.g., display an error message to the user
     }
   };
 
   // savechanges for updating Profile
   const saveChangesUpdated = async () => {
-    const response = await axios.post(
-      `${BACKEND_URL}/api/v1/user/userprofileupdate`,
-      { userBio },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+    try {
+      if (userProfilePicture == null) {
+        return;
       }
-    );
-    console.log(userProfilePicture);
+      // ref to storage bucket
+      const ProfilePictureRef = ref(
+        storage,
+        `Images/${userProfilePicture.name + v4()}`
+      );
+      // upload images to firebase
+      await uploadBytes(ProfilePictureRef, userProfilePicture);
+      getDownloadURL(ProfilePictureRef).then(async (PublicUrl) => {
+        const response = await axios.post(
+          `${BACKEND_URL}/api/v1/user/userprofileupdate`,
+          { userBio, PublicUrl },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const updatedProfileUser = response.data.UpdatedProfile;
+        if (updatedProfileUser) {
+          localStorage.setItem(
+            "userProfileImage",
+            updatedProfileUser.profileUrl
+          );
+          setuserProfileImage(updatedProfileUser.profileUrl);
 
-    const updatedUserProfile = response.data.UpdtedProfile;
-
-    if (updatedUserProfile) {
-      setProfilePopup(!profilePopup);
-      window.location.reload();
+          setProfilePopup(!profilePopup);
+          toast("Profile Updated", { autoClose: 1200 });
+        }
+      });
+    } catch (error) {
+      toast.error("Error! Occurred while updating profile");
     }
   };
 
@@ -136,13 +153,13 @@ function AppBarLogged() {
     const file = event.target.files[0];
     // Validate file type
     if (!file || file.size > maxImageSize) {
-      toast.error("Image size should'nt be more than 4mb");
+      toast.error("Image size should'nt be more than 4mb", { autoClose: 1300 });
       return;
     }
     setUserProfilePicture(file);
   };
 
-  const { userData } = useLoggedUser();
+  // const { userData } = useLoggedUser();
 
   return (
     <div>
@@ -160,9 +177,11 @@ function AppBarLogged() {
           />
         </div>
         <div className="flex items-center">
-          <div className="cursor-pointer mx-8 font-Afacad text-lg">Write</div>
+          <Link to={"/create-blog"}>
+            <div className="cursor-pointer mx-8 font-Afacad text-lg">Write</div>
+          </Link>
           <div className="cursor-pointer" onClick={dropBoxMenu}>
-            <Avatar authorName={userData?.username} size={8} />
+            <AvatarProfile userImage={userProfileImage} />
           </div>
           {dropBox && (
             <div className="absolute right-4 bg-actualBlack flex justify-center items-center shadow-xl  top-14 border-2 rounded-xl  py-4 mt-2 w-48 text-center z-10">
@@ -226,6 +245,18 @@ function AppBarSearchbox({ onchange }: AppsearchBoxType) {
         className="border-gray-100 font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
         type="text"
         placeholder="Search"
+      />
+    </div>
+  );
+}
+
+export function AvatarProfile({ userImage }: { userImage?: any }) {
+  return (
+    <div className="flex items-center gap-4">
+      <img
+        className="w-10 h-10 object-fill rounded-full"
+        src={userImage}
+        alt="image"
       />
     </div>
   );

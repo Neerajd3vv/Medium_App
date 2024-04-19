@@ -45,6 +45,7 @@ function Blog() {
               mainbody={blog.content}
               publishDate={blog.publishDate}
               id={blog.id}
+              profilePicture={blog.profilePicture}
             />
           ))
         ) : (

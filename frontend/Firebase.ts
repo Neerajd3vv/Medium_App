@@ -1,3 +1,4 @@
+require('dotenv').config();
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -7,12 +8,12 @@ import {getStorage} from "firebase/storage"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB5CTn-16Ej7X1ARvardQNDfb6jTkNGwE0",
-  authDomain: "imgaesmedium.firebaseapp.com",
-  projectId: "imgaesmedium",
-  storageBucket: "imgaesmedium.appspot.com",
-  messagingSenderId: "415956736227",
-  appId: "1:415956736227:web:3df57be49bd4c934b20dd6"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
 };
 
 // Initialize Firebase

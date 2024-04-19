@@ -1,21 +1,21 @@
+import { AvatarProfile } from "./AppBarLogged";
 
-import { Avatar } from "./BlogCard";
+import { useUserBioChecking } from "@/Hooks/Bloghook";
 
 interface BlogtypeId {
   id: string;
   title: string;
   content: string;
   authorname: string;
-  publishDate: string
-  authorBio: string
+  publishDate: string;
+  authorBio: string;
 }
 
 function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
   console.log(blogById);
-
+  const { userProfile } = useUserBioChecking();
   return (
     <div>
-     
       <div className="flex justify-center">
         <div className="grid grid-cols-1  lg:grid-cols-12 lg:max-w-screen-2xl px-3 lg:px-12 pt-20">
           {/* Left Part */}
@@ -27,7 +27,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
               {blogById?.publishDate}
             </div>
             <div className="font-Gelasio text-meblack  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-relaxed tracking-wider">
-             {blogById?.content}
+              {blogById?.content}
             </div>
           </div>
           {/* Right Part */}
@@ -37,15 +37,13 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             </div>
             <div className="flex">
               <div className="flex   items-center pr-4">
-                <Avatar authorName={blogById?.authorname} />
+                <AvatarProfile userImage={userProfile?.profilePicture} />
               </div>
               <div>
                 <div className="text-2xl font-Gelasio  font-semibold">
                   {blogById?.authorname}
                 </div>
-                <div className="font-Afacad text-xl">
-                 {blogById?.authorBio}
-                </div>
+                <div className="font-Afacad text-xl">{blogById?.authorBio}</div>
               </div>
             </div>
           </div>

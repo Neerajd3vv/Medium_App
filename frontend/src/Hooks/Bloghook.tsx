@@ -9,12 +9,14 @@ export interface BlogType {
   authorId: string;
   authorname: string;
   publishDate: string;
+  profilePicture:string
 }
 
 export function useBlog() {
   const [loading, setloading] = useState(true);
   const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
   const [blogSearch, setBlogSearch] = useState("");
+  const [profileUrlExists , setProfileUrlExists] = useState(false)
   useEffect(() => {
     const encodedTitle = encodeURIComponent(blogSearch);
 
@@ -22,6 +24,9 @@ export function useBlog() {
       .get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`)
       .then((response) => {
         setAllBlogs(response.data.Blogs);
+        // Checking if blog has profilePicture or not 
+        const hasProfilePicture = response.data.Blogs.some((blog: BlogType) => blog.profilePicture !== null)
+        setProfileUrlExists(hasProfilePicture)
         setloading(false);
       });
   }, [blogSearch]);
@@ -33,6 +38,7 @@ export function useBlog() {
     loading,
     setBlogSearch,
     blogSearch,
+    profileUrlExists
   };
 }
 
@@ -212,7 +218,7 @@ export function useUserBioChecking() {
 
           setUserProfile(response.data.UserProfile);
         }
-        if (response.data.UserProfile.bio) {
+        if (response.data.UserProfile) {
           // console.log(response.data.UserProfile);
           setUserBioValue(true);
         }

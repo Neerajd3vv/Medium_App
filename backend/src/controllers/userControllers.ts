@@ -163,16 +163,31 @@ export async function userProfile(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const body : {userBio: string , userPublicProfileUrl:string } = await c.req.json()
-    const userBioCreated = await prisma.profile.create({
+    const body: { userBio: string; PublicUrl: string } = await c.req.json();
+    console.log("ProfileBody", body);
+
+    const userProfileCreated = await prisma.profile.create({
       data: {
         bio: body.userBio,
-        profilePicture: body.userPublicProfileUrl,
+        profilePicture: body.PublicUrl,
         profileId: c.get("authorId"),
       },
+      include: {
+        user: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
-    if (userBioCreated) {
-      return c.json({ ProfileData: userBioCreated });
+    if (userProfileCreated) {
+      return c.json({
+        ProfileData: {
+          bio: userProfileCreated.bio,
+          profileUrl: userProfileCreated.profilePicture,
+          username: userProfileCreated.user.username,
+        },
+      });
     }
     return c.text("Could not create userProfile");
   } catch (error) {
@@ -186,17 +201,31 @@ export async function userProfileUpdate(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const body: { userBio: string } = await c.req.json();
-    const updatedBio = await prisma.profile.update({
+    const body: { userBio: string; PublicUrl: string } = await c.req.json();
+    const updatedProfileUser = await prisma.profile.update({
       where: {
         profileId: c.get("authorId"),
       },
       data: {
         bio: body.userBio,
+        profilePicture: body.PublicUrl,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
-    if (updatedBio) {
-      return c.json({ UpdtedProfile: updatedBio });
+    if (updatedProfileUser) {
+      return c.json({
+        UpdatedProfile: {
+          bio: updatedProfileUser.bio,
+          profileUrl: updatedProfileUser.profilePicture,
+          username: updatedProfileUser.user.username,
+        },
+      });
     }
     return c.text("Error while updateding Profile");
   } catch (error) {

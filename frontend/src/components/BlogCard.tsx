@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useTokenExists } from "../Hooks/Bloghook";
+import  useBlog, { useTokenExists } from "../Hooks/Bloghook";
 import { useState } from "react";
 import { SigninToReadBlog } from "./ProfilePopup";
 interface blogCardType {
@@ -8,6 +8,7 @@ interface blogCardType {
   mainbody: string;
   publishDate: string;
   id: string;
+  profilePicture:string
 }
 
 function BlogCard({
@@ -16,7 +17,9 @@ function BlogCard({
   mainbody,
   publishDate,
   id,
+  profilePicture,
 }: blogCardType) {
+  const {profileUrlExists} = useBlog()
   const { userTokenExists } = useTokenExists();
   const [showSignInPopup, setShowSignInPopup] = useState(false);
   const navigate = useNavigate();
@@ -49,9 +52,11 @@ function BlogCard({
       <div className="flex justify-center mb-2 " onClick={readBlog}>
         <div className="py-12 px-8 border-b-2 cursor-pointer  border-slate-300 max-w-3xl w-full rounded-md ">
           <div className="flex col items-center mb-4">
-            <div>
-              <Avatar authorName={authorName} />
-            </div>
+           {profileUrlExists ? (
+            <AvatarProfile  userImage={profilePicture}/>
+           ): (
+            <Avatar authorName={authorName}/>
+           )}
 
             <div className="px-2 font-Afacad text-lg ">{authorName} •</div>
             <div className="text-gray-400  font-Afacad">{publishDate}</div>
@@ -73,27 +78,30 @@ function BlogCard({
   );
 }
 
-export function Avatar({
-  authorName,
-  size = 8,
-}: {
-  authorName?: string;
-  size?: number;
-}) {
-  if (!authorName) {
-    // Handle the case when authorName is undefined
-    return; // or render a placeholder avatar
-  }
-
+export function Avatar({authorName}:{authorName: string}) {
   return (
-    <div
-      className={`relative w-${size} inline-flex items-center h-${size} justify-center  overflow-hidden bg-redMe rounded-full `}
-    >
-      <span className="font-medium  text-white font-Merri  dark:text-black">
-        {authorName.toUpperCase()[0]}
-      </span>
+    <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+    <span className="font-medium text-gray-600 dark:text-gray-300">{authorName.toLocaleUpperCase()[0]}</span>
+</div>
+  )
+}
+
+function AvatarProfile({ userImage }: { userImage?: any }) {
+  return (
+    <div className="flex items-center gap-4">
+      <img
+        className="w-10 h-10 object-fill rounded-full"
+        src={userImage}
+        alt="image"
+      />
     </div>
   );
 }
+
+  
+
+
+
+
 
 export default BlogCard;

@@ -1,12 +1,12 @@
-import AppBar from "../components/AppBar";
+import AppBarLogged from "@/components/AppBarLogged";
 import CreateBlog from "../components/CreateBlog";
 function NewBlog() {
   return (
     <div>
-      <AppBar />
+      <AppBarLogged/>
       <div className="mx-2  xl:mx-80">
         <div>
-          <div className="flex justify-center my-4 font-Poppins font-bold text-3xl" >Create Blog</div>
+          <div className="flex justify-center my-6 font-ptserif font-bold text-4xl text-MainBlack" >Create Your Blog Post</div>
           <CreateBlog />
         </div>
       </div>

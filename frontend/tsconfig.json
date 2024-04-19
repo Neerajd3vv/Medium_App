@@ -28,6 +28,6 @@
       }
       // ...
   },
-  "include": ["src"],
+  "include": ["src", "Firebase.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

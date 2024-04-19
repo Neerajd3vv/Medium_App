@@ -1,91 +1,63 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Editor } from "@tinymce/tinymce-react";
-import Button from "./Button";
-import Inputbox from "./Inputbox";
+import { useState } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
-
+import { BACKEND_URL } from "@/config";
+import { toast } from "react-toastify";
 function CreateBlog() {
-  const navigate = useNavigate();
-  const [title, setTitle] = useState<string>();
-  const [blogBody, setBlogBody] = useState<string>();
-  const editorRef = useRef<any>(null);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-  function handleEditorChange(content: string) {
-    setBlogBody(content);
-    // console.log(blogBody);
-  }
-
-  async function AddBlog() {
-    const response = await axios.post(
-      `${BACKEND_URL}/api/v1/blog/createblog`,
-      {
-        title,
-        body: blogBody,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+  const PublishPost = async () => {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/blog/createblog`,
+        { title, body },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const userBlog = response.data.Blog;
+      if (userBlog) {
+        setTitle("")
+        setBody("")
+        toast("Blog created successfully!" , {autoClose: 1200})
       }
-    );
-    if (!response) {
-      return;
+    } catch (error) {
+      toast.error("Error creating blog" )
     }
-    navigate("/blogs");
-  }
+  };
+
   return (
-    <>
-      <Inputbox
-        label="Title"
-        placeholder="my first blog!"
+    <div>
+      <input
+      value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
+        className="bg-slate-100 font-Afacad text-xl focus:ring focus:ring-blue-500 w-1/3 px-3 py-3 focus:outline-none  mb-3 rounded-lg"
+        placeholder="Blog title!"
       />
-      <Editor
-        apiKey="3imvf494pp3ers6orsvx7kfbodefbbm2xin6hdicsrz5lhra"
-        onInit={(editor) => (editorRef.current = editor)}
-        initialValue="Your blog body here!</p>"
-        value={blogBody} // here it helps in binding content of editor to blogBody statevarible
-        onEditorChange={handleEditorChange}
-        init={{
-          height: 600,
-
-          menubar: true,
-          plugins: [
-            "advlist",
-            "autolink",
-            "emoticons",
-            "lists",
-            "link",
-            "image",
-            "charmap",
-            "preview",
-            "anchor",
-            "searchreplace",
-            "visualblocks",
-            "code",
-            "fullscreen",
-            "insertdatetime",
-            "media",
-            "table",
-            "code",
-            "help",
-            "wordcount",
-          ],
-          toolbar:
-            "undo redo | blocks | " +
-            "bold italic forecolor | alignleft aligncenter " +
-            "alignright alignjustify | bullist numlist outdent indent | " +
-            "removeformat | help",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-        }}
-      />
-      <Button button="Add blog" onClick={AddBlog} />
-    </>
+      
+        <textarea
+          onChange={(e) => {
+            setBody(e.target.value);
+          }}
+         value={body}
+          id="editor"
+          rows={14}
+          className="w-full font-Afacad text-2xl px-3 shadow-xl rounded-lg py-3  border-2 border-gray-200 focus:outline-none  "
+          placeholder="Write your blog post..."
+          required
+        ></textarea>
+        <button
+          onClick={PublishPost}
+          className="w-full py-3 font-hind text-white bg-heheblu hover:bg-Myblue rounded-b-lg focus:outline-none "
+        >
+          Publish Post
+        </button>
+      
+    </div>
   );
 }
 

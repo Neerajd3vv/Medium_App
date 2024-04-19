@@ -35,7 +35,7 @@ model Blogs {
   id          String   @id @default(uuid())
   authorId    String
   title       String   
-  body        String   @db.Text
+  body        String   
   published   Boolean  @default(false)
   publishDate DateTime @default(now())
   author      User     @relation(fields: [authorId], references: [id])
