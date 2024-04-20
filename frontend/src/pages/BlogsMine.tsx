@@ -29,6 +29,7 @@ function BlogsMine() {
       <div>
         {myPersonalblog.map((blog) => (
           <MyBlogs
+           profilePicture={blog.profilePicture}
             id={blog.id}
             body={blog.body}
             title={blog.title}

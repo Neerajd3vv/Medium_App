@@ -9,14 +9,13 @@ export interface BlogType {
   authorId: string;
   authorname: string;
   publishDate: string;
-  profilePicture:string
+  profilePicture: string;
 }
 
 export function useBlog() {
   const [loading, setloading] = useState(true);
   const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
   const [blogSearch, setBlogSearch] = useState("");
-  const [profileUrlExists , setProfileUrlExists] = useState(false)
   useEffect(() => {
     const encodedTitle = encodeURIComponent(blogSearch);
 
@@ -24,9 +23,7 @@ export function useBlog() {
       .get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`)
       .then((response) => {
         setAllBlogs(response.data.Blogs);
-        // Checking if blog has profilePicture or not 
-        const hasProfilePicture = response.data.Blogs.some((blog: BlogType) => blog.profilePicture !== null)
-        setProfileUrlExists(hasProfilePicture)
+
         setloading(false);
       });
   }, [blogSearch]);
@@ -38,7 +35,6 @@ export function useBlog() {
     loading,
     setBlogSearch,
     blogSearch,
-    profileUrlExists
   };
 }
 
@@ -50,6 +46,7 @@ export interface blogIdType {
   authorname: string;
   publishDate: string;
   authorBio: string;
+  profileImage: string;
 }
 
 export function useBlogbyId({ id }: { id: string }) {
@@ -81,6 +78,7 @@ interface AuthorBlogs {
   body: string;
   authorname: string;
   publishDate: string;
+  profilePicture: string | null
 }
 
 export function usePersonalBlogs() {

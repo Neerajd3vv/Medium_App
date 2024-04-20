@@ -124,6 +124,7 @@ export async function getUserById(c: Context) {
       where: {
         id: id,
       },
+     
     });
     if (!userFound) {
       return c.text("No user found!");

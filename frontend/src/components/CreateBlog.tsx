@@ -30,14 +30,15 @@ function CreateBlog() {
 
   return (
     <div>
-      <input
+     <input
       value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
-        className="bg-slate-100 font-Afacad text-xl focus:ring focus:ring-blue-500 w-1/3 px-3 py-3 focus:outline-none  mb-3 rounded-lg"
+        className="bg-slate-100 font-Afacad text-xl focus:ring w-2/4 focus:ring-blue-500 lg:w-2/4  p-3  focus:outline-none  mb-3 rounded-lg"
         placeholder="Blog title!"
       />
+     
       
         <textarea
           onChange={(e) => {
@@ -50,9 +51,15 @@ function CreateBlog() {
           placeholder="Write your blog post..."
           required
         ></textarea>
+         <input
+      className="bg-green-500  font-Afacad my-3 p-3 text-white   rounded-lg"
+      type="file"
+      accept="images/*"
+      placeholder="Choose Image"
+      />
         <button
           onClick={PublishPost}
-          className="w-full py-3 font-hind text-white bg-heheblu hover:bg-Myblue rounded-b-lg focus:outline-none "
+          className="w-full py-3 font-Afacad text-lg text-white bg-heheblu hover:bg-Myblue rounded-b-lg focus:outline-none "
         >
           Publish Post
         </button>

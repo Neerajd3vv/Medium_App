@@ -1,6 +1,5 @@
 import { AvatarProfile } from "./AppBarLogged";
-
-import { useUserBioChecking } from "@/Hooks/Bloghook";
+import { Avatar } from "./BlogCard";
 
 interface BlogtypeId {
   id: string;
@@ -8,12 +7,13 @@ interface BlogtypeId {
   content: string;
   authorname: string;
   publishDate: string;
+  profileImage:string | null
   authorBio: string;
 }
 
 function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
   console.log(blogById);
-  const { userProfile } = useUserBioChecking();
+  // const { userProfile } = useUserBioChecking();
   return (
     <div>
       <div className="flex justify-center">
@@ -37,7 +37,11 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             </div>
             <div className="flex">
               <div className="flex   items-center pr-4">
-                <AvatarProfile userImage={userProfile?.profilePicture} />
+                {blogById?.profileImage ? (
+                  <AvatarProfile userImage={blogById?.profileImage}/>
+                ): (
+                  <Avatar authorName={blogById?.authorname}/>
+                )}
               </div>
               <div>
                 <div className="text-2xl font-Gelasio  font-semibold">

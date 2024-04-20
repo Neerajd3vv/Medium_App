@@ -14,29 +14,30 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+
 model User {
-  id       String   @id @default(uuid())
-  username String
-  email    String   @unique
-  password String
-  blog     Blogs[]
-  profile  Profile?
+  id           String  @id @default(uuid())
+  username     String
+  email        String  @unique
+  password     String
+  blog         Blogs[] 
+  profile      Profile? 
 }
 
 model Profile {
-  id             String  @id @default(uuid())
-  profileId      String  @unique
-  bio            String?
-  profilePicture  String?
-  user           User    @relation(fields: [profileId], references: [id])
+  id           String  @id @default(uuid())
+  profileId    String  @unique
+  bio          String?
+  profilePicture String?
+  user          User    @relation(fields: [profileId], references: [id],  onDelete:Cascade)
 }
 
 model Blogs {
-  id          String   @id @default(uuid())
-  authorId    String
-  title       String   
-  body        String   
-  published   Boolean  @default(false)
-  publishDate DateTime @default(now())
-  author      User     @relation(fields: [authorId], references: [id])
+  id           String  @id @default(uuid())
+  authorId     String
+  title         String
+  body          String
+  published     Boolean @default(false)
+  publishDate  DateTime @default(now())
+  author       User    @relation(fields: [authorId], references: [id] , onDelete: Cascade)
 }

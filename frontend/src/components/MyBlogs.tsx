@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Avatar } from "./BlogCard";
+import { AvatarProfile } from "./AppBarLogged";
 
 interface MineBlogType {
   id: string;
@@ -7,9 +8,10 @@ interface MineBlogType {
   body: string;
   publishDate: string;
   authorName: string;
+  profilePicture: string | null
 }
 
-function MyBlogs({ id, title, body, publishDate, authorName }: MineBlogType) {
+function MyBlogs({ id, title, body, publishDate, authorName , profilePicture }: MineBlogType) {
   const bodyWord = body.split(" ");
   const bodyWordLength = bodyWord.length;
   const truncatedBody =
@@ -22,7 +24,11 @@ function MyBlogs({ id, title, body, publishDate, authorName }: MineBlogType) {
         <div className="py-12 px-8 border-b-2 cursor-pointer  border-slate-300 max-w-3xl w-full rounded-md ">
           <div className="flex col items-center mb-4">
             <div>
-              <Avatar authorName={authorName} />
+              {profilePicture ? (
+                <AvatarProfile userImage={profilePicture}/>
+              ): (
+                <Avatar authorName={authorName}/>
+              )}
             </div>
 
             <div className="px-2 font-rowdies ">{authorName} •</div>

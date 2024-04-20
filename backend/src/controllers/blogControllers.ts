@@ -138,7 +138,16 @@ export async function authorblogs(c: Context) {
         authorId: c.get("authorId"),
       },
       include: {
-        author: true,
+        author: {
+          select: {
+            username: true,
+            profile:{
+              select:{
+                profilePicture: true
+              }
+            }
+          }
+        }
       },
     });
     const months = [
@@ -164,6 +173,7 @@ export async function authorblogs(c: Context) {
         publishDate: `${res.publishDate.getDate()} ${
           months[res.publishDate.getMonth()]
         } ${res.publishDate.getFullYear()}`,
+        profilePicture : res.author.profile?.profilePicture
       })),
     });
   } catch (error) {
