@@ -10,6 +10,7 @@ export interface BlogType {
   authorname: string;
   publishDate: string;
   profilePicture: string;
+  coverphoto: string
 }
 
 export function useBlog() {
@@ -47,6 +48,8 @@ export interface blogIdType {
   publishDate: string;
   authorBio: string;
   profileImage: string;
+  coverphoto: string
+  
 }
 
 export function useBlogbyId({ id }: { id: string }) {
@@ -78,7 +81,8 @@ interface AuthorBlogs {
   body: string;
   authorname: string;
   publishDate: string;
-  profilePicture: string | null
+  profilePicture: string | null;
+  coverphoto: string | undefined;
 }
 
 export function usePersonalBlogs() {
@@ -87,7 +91,7 @@ export function usePersonalBlogs() {
 
   useEffect(() => {
     axios
-      .get(`${BACKEND_URL}/api/v1/blog/author-blog`, {
+      .get(`${BACKEND_URL}/api/v1/blog/authorblog`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -227,3 +231,6 @@ export function useUserBioChecking() {
     userProfile,
   };
 }
+
+
+/// blog delete

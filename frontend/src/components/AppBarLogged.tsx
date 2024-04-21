@@ -7,6 +7,7 @@ import { ProfilePopupOne, ProfilePopupTwo } from "./ProfilePopup";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import balckprofile from "../images/blackProfile.png";
 // React toast
 import { toast } from "react-toastify";
 //firebase imports
@@ -20,9 +21,12 @@ function AppBarLogged() {
     const storedImageLocally = localStorage.getItem("userProfileImage");
     if (storedImageLocally) {
       setuserProfileImage(storedImageLocally);
+    } else {
+      setProfileUrlExitsLoclStorage(true);
     }
   }, []);
 
+  const [profileUrlExistsInLocalStorage, setProfileUrlExitsLoclStorage] = useState(false);
   const { setBlogSearch } = useBlog();
   const location = useLocation();
   const { userBioValue, userProfile } = useUserBioChecking();
@@ -33,6 +37,7 @@ function AppBarLogged() {
   const [userProfilePicture, setUserProfilePicture] = useState<File | null>(
     null
   );
+  // Here we are saving the firebase url to this follwing state
   const [userProfileImage, setuserProfileImage] = useState<string | null>(null);
   const dropBoxMenu = () => {
     setDropBox(!dropBox);
@@ -81,8 +86,10 @@ function AppBarLogged() {
             },
           }
         );
-        const updatedUserProfile = response.data.ProfileData;
-        if (updatedUserProfile) {
+        const UserProfile = response.data.ProfileData;
+        if (UserProfile) {
+          localStorage.setItem("userProfileImage", UserProfile.profileUrl);
+          setuserProfileImage(UserProfile.profileUrl);
           setProfilePopup(!profilePopup);
           toast("Profile Saved", { autoClose: 1200 });
         }
@@ -135,6 +142,7 @@ function AppBarLogged() {
 
   // logout button logic
   const Logout = () => {
+    localStorage.removeItem("userProfileImage");
     localStorage.removeItem("token");
     setDropBox(false);
     toast("Successfully logged out!", { autoClose: 1200 });
@@ -181,7 +189,11 @@ function AppBarLogged() {
             <div className="cursor-pointer mx-8 font-Afacad text-lg">Write</div>
           </Link>
           <div className="cursor-pointer" onClick={dropBoxMenu}>
-            <AvatarProfile userImage={userProfileImage} />
+            {profileUrlExistsInLocalStorage ? (
+              <Avatar />
+            ) : (
+              <AvatarProfile userImage={userProfileImage}/>
+            )}
           </div>
           {dropBox && (
             <div className="absolute right-4 bg-actualBlack flex justify-center items-center shadow-xl  top-14 border-2 rounded-xl  py-4 mt-2 w-48 text-center z-10">
@@ -242,7 +254,7 @@ function AppBarSearchbox({ onchange }: AppsearchBoxType) {
     <div className="hidden lg:flex">
       <input
         onChange={onchange}
-        className="border-gray-100 font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
+        className="border-gray-300 text-black font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-200"
         type="text"
         placeholder="Search"
       />
@@ -250,14 +262,12 @@ function AppBarSearchbox({ onchange }: AppsearchBoxType) {
   );
 }
 
+function Avatar() {
+  return <img className="w-10" src={balckprofile} />;
+}
+
 export function AvatarProfile({ userImage }: { userImage?: any }) {
   return (
-    <div className="flex items-center gap-4">
-      <img
-        className="w-10 h-10 object-fill rounded-full"
-        src={userImage}
-        alt="image"
-      />
-    </div>
+    <img className="w-12 h-12  rounded-full" src={userImage} alt="image" />
   );
 }

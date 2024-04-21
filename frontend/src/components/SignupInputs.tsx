@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Inputbox from "./Inputbox";
 import { useState } from "react";
-import { SignupSchema } from "@neerajrandom/medium-common";
+import { SignupSchema } from "@neerajrandom/medium-cloned";
 import Button from "./Button";
 import axios from "axios";
 import { BACKEND_URL } from "../config";

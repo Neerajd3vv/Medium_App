@@ -11,7 +11,6 @@ import {
   // userProfile,
 } from "../controllers/userControllers";
 import authmiddleware from "../middleware/authmiddleware";
-import upload from "../middleware/MulterMiddleware";
 
 const userRouter = new Hono();
 userRouter.post("/signup", signup);

@@ -17,7 +17,7 @@ function Blog() {
 
   // console.log("queriedBlogs", MyBlogs);
 
-  if (loading) {
+   if (loading) {
     return (
       <div>
         {userTokenExists ? <AppBarLogged /> : <AppBar />}
@@ -30,7 +30,7 @@ function Blog() {
         </div>
       </div>
     );
-  }
+   }
 
   return (
     <div>
@@ -46,6 +46,7 @@ function Blog() {
               publishDate={blog.publishDate}
               id={blog.id}
               profilePicture={blog.profilePicture}
+              coverPhotoUrl={blog.coverphoto}
             />
           ))
         ) : (

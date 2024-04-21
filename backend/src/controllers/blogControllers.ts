@@ -1,5 +1,5 @@
 import { Context } from "hono/";
-import { newBlogSchema, updateSchema } from "@neerajrandom/medium-common";
+import { newBlogSchema, updateSchema } from "@neerajrandom/medium-cloned";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
@@ -11,6 +11,7 @@ export async function createBlog(c: Context) {
     const body: {
       title: string;
       body: string;
+      coverphoto: string;
     } = await c.req.json();
 
     const { success } = newBlogSchema.safeParse(body);
@@ -21,6 +22,7 @@ export async function createBlog(c: Context) {
       data: {
         title: body.title,
         body: body.body,
+        coverphoto: body.coverphoto,
         authorId: c.get("authorId"),
       },
       include: {
@@ -28,6 +30,8 @@ export async function createBlog(c: Context) {
       },
     });
 
+    console.log("newBlogPost", newBlogPost);
+    
     const months = [
       "January",
       "February",
@@ -57,6 +61,7 @@ export async function createBlog(c: Context) {
         authorId: newBlogPost.authorId,
         authorName: newBlogPost.author.username,
         publishDate: properDate,
+        coverPhotoUrl : newBlogPost.coverphoto
       },
     });
   } catch (error) {
@@ -117,7 +122,8 @@ export async function getallblogs(c: Context) {
         publishDate: `${res.publishDate.getDate()} ${
           months[res.publishDate.getMonth()]
         } ${res.publishDate.getFullYear()}`,
-        profilePicture : res.author.profile?.profilePicture
+        profilePicture: res.author.profile?.profilePicture,
+        coverphoto: res.coverphoto
       })),
     });
   } catch (error) {
@@ -141,13 +147,13 @@ export async function authorblogs(c: Context) {
         author: {
           select: {
             username: true,
-            profile:{
-              select:{
-                profilePicture: true
-              }
-            }
-          }
-        }
+            profile: {
+              select: {
+                profilePicture: true,
+              },
+            },
+          },
+        },
       },
     });
     const months = [
@@ -173,7 +179,8 @@ export async function authorblogs(c: Context) {
         publishDate: `${res.publishDate.getDate()} ${
           months[res.publishDate.getMonth()]
         } ${res.publishDate.getFullYear()}`,
-        profilePicture : res.author.profile?.profilePicture
+        profilePicture: res.author.profile?.profilePicture,
+        coverphoto : res.coverphoto
       })),
     });
   } catch (error) {
@@ -197,13 +204,13 @@ export async function blogById(c: Context) {
       include: {
         author: {
           select: {
-            username: true,
-            profile: {
-              select: {
-                bio: true,
-                profilePicture: true,
-              },
-            },
+          username :true,
+          profile:{
+            select:{
+              bio: true,
+              profilePicture:true
+            }
+          }
           },
         },
       },
@@ -239,6 +246,7 @@ export async function blogById(c: Context) {
       profileImage: blogExists.author.profile?.profilePicture,
       publishDate: properDate,
       authorBio: blogExists.author.profile?.bio,
+      coverphoto: blogExists.coverphoto
     });
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);
@@ -309,11 +317,11 @@ export async function deleteBlog(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const id = c.req.param("id");
+    const body : {id: string} = await c.req.json()
     await prisma.blogs.delete({
-      where: {
-        id: id,
-      },
+      where:{
+        id:body.id
+      }
     });
     return c.text("Blog post deleted!");
   } catch (error) {

@@ -35,6 +35,7 @@ function BlogsMine() {
             title={blog.title}
             authorName={blog.authorname}
             publishDate={blog.publishDate}
+            coverphoto={blog.coverphoto}
           />
         ))}
       </div>

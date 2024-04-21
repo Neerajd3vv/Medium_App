@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { PrismaClient } from "@prisma/client/edge";
-import { signupSchema, signinSchema } from "@neerajrandom/medium-common";
+import { signupSchema, signinSchema } from "@neerajrandom/medium-cloned";
 import { sign, verify } from "hono/jwt";
 
 export async function signup(c: Context) {

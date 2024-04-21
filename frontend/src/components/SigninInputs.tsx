@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Inputbox from "./Inputbox";
-import { SigninSchema } from "@neerajrandom/medium-common";
+import { SigninSchema } from "@neerajrandom/medium-cloned";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
