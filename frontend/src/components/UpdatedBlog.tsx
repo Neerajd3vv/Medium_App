@@ -5,10 +5,12 @@ import { toast } from "react-toastify";
 import { storage } from "../../Firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
-import { NewBlogSchema } from "@neerajrandom/medium-cloned";
+import { UpdateSchema } from "@neerajrandom/medium-cloned";
+import { useParams } from "react-router-dom";
 function CreateBlog() {
+  const { id } = useParams();
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
-  const [userInfo, setUserInfo] = useState<NewBlogSchema>({
+  const [userInfo, setUserInfo] = useState<UpdateSchema>({
     title: "",
     body: "",
     coverphoto: "",
@@ -16,7 +18,9 @@ function CreateBlog() {
   const PublishPost = async () => {
     try {
       if (coverPhoto == null) {
-        toast.error("Please select cover photo!", { autoClose: 1200 });
+        toast.error("Please select cover photo for your Blog!", {
+          autoClose: 1200,
+        });
         return;
       }
       const CoverPhotoRef = ref(
@@ -25,8 +29,10 @@ function CreateBlog() {
       );
       await uploadBytes(CoverPhotoRef, coverPhoto);
       getDownloadURL(CoverPhotoRef).then(async (url) => {
-        const response = await axios.post(
-          `${BACKEND_URL}/api/v1/blog/createblog`,
+        // console.log("backend api hit");
+
+        await axios.put(
+          `${BACKEND_URL}/api/v1/blog/updateblog/${id}`,
           { title: userInfo.title, body: userInfo.body, coverphoto: url },
           {
             headers: {
@@ -34,15 +40,8 @@ function CreateBlog() {
             },
           }
         );
-        const userBlog = response.data.Blog;
-        if (userBlog) {
-          setUserInfo({
-            title: "",
-            body: "",
-            coverphoto: "",
-          });
-          toast("Blog created successfully!", { autoClose: 1300 });
-        }
+
+        toast("Blog updated successfully!", { autoClose: 1300 });
       });
     } catch (error) {
       toast.error("Error in creating blog", { autoClose: 1300 });
@@ -76,7 +75,7 @@ function CreateBlog() {
         onChange={(e) => {
           setUserInfo({
             ...userInfo,
-            body: e.target.value.replace(/\n\n/g , "<p></p>"),
+            body: e.target.value,
           });
         }}
         id="editor"

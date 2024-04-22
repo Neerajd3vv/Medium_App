@@ -2,9 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useTokenExists } from "../Hooks/Bloghook";
 import { useState } from "react";
 import { SigninToReadBlog } from "./ProfilePopup";
-import { Link } from "react-router-dom";
-// import nature from "../images/nature.jpg";
-// import tick from "../images/Tick.png"
 interface blogCardType {
   authorName: string;
   title: string;
@@ -59,7 +56,7 @@ function BlogCard({
       <div className="text-3xl font-bold font-Poppins mb-2">{title}</div>
       <div className="text-lg max-w-2xl text-slate-700 mb-8 font-ptserif">
         {truncatedBody}
-        <div onClick={readBlog} className="text-Myblue cursor-pointer font-mono">Read more...</div>
+        <div onClick={readBlog} className="text-Myblue underline cursor-pointer font-Afacad">Read more...</div>
       </div>
       <div className="font-Afacad font-semibold text-gray-600">
         {Math.ceil(bodyWordLength / 100)} min read

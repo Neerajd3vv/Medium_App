@@ -22,7 +22,7 @@ function Skeleton() {
 
 export function ParticularBlogSkeleton() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2  lg:ml-40">
+    <div className="grid grid-cols-1 lg:grid-cols-2  lg:ml-32">
       {/* left-side */}
       <div className="animate-pulse">
         <div className="flex justify-center  px-12 pt-20 ">

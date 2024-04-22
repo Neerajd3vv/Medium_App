@@ -16,7 +16,7 @@ const router = new Hono<{
   };
 }>();
 router.post("/createblog", authmiddleware, createBlog); //
-router.put("/:id", authmiddleware, updateBlog); //
+router.put("/updateblog/:id", authmiddleware, updateBlog); //
 router.delete("/blogdeleted", authmiddleware, deleteBlog); //
 router.get("/bulk", getallblogs);
 router.get("/authorblog", authmiddleware, authorblogs);

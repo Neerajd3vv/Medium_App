@@ -6,6 +6,7 @@ import deleteblog from "../images/deleteBlog.png";
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 interface MineBlogType {
   id: string;
   title: string;
@@ -53,6 +54,11 @@ function MyBlogs({
     
   };
 
+ const navigate = useNavigate()
+ const navigateUpdateBlog = () => {
+   navigate("/updateblog/" + id)
+ }
+
   return (
     <div className="flex justify-center mb-2">
       <div className="py-12 px-8 border-b-2 grid grid-cols-3 bg-slate-200  border-slate-300 max-w-5xl w-full rounded-md">
@@ -73,7 +79,7 @@ function MyBlogs({
           <div className="text-lg font-Gelasio mb-8 pr-1">
             {truncatedBody}
             <div>
-              <Link to={`/blog/${id}`} className="text-Myblue font-mono">
+              <Link to={`/blog/${id}`} className="text-Myblue font-Afacad underline">
                 Read more...
               </Link>
             </div>
@@ -86,7 +92,7 @@ function MyBlogs({
           <img className="" src={coverphoto} alt="img" />
           {/* Update and Delete functionality */}
           <div className="flex justify-end">
-            <img className="w-6 cursor-pointer mx-4" src={updateBlog} alt="Update-blog" />
+            <img onClick={navigateUpdateBlog} className="w-6 cursor-pointer mx-4" src={updateBlog} alt="Update-blog" />
             <img
               
               onClick={deleteBlog}

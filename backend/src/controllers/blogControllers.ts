@@ -31,7 +31,7 @@ export async function createBlog(c: Context) {
     });
 
     console.log("newBlogPost", newBlogPost);
-    
+
     const months = [
       "January",
       "February",
@@ -61,7 +61,7 @@ export async function createBlog(c: Context) {
         authorId: newBlogPost.authorId,
         authorName: newBlogPost.author.username,
         publishDate: properDate,
-        coverPhotoUrl : newBlogPost.coverphoto
+        coverPhotoUrl: newBlogPost.coverphoto,
       },
     });
   } catch (error) {
@@ -123,7 +123,7 @@ export async function getallblogs(c: Context) {
           months[res.publishDate.getMonth()]
         } ${res.publishDate.getFullYear()}`,
         profilePicture: res.author.profile?.profilePicture,
-        coverphoto: res.coverphoto
+        coverphoto: res.coverphoto,
       })),
     });
   } catch (error) {
@@ -180,7 +180,7 @@ export async function authorblogs(c: Context) {
           months[res.publishDate.getMonth()]
         } ${res.publishDate.getFullYear()}`,
         profilePicture: res.author.profile?.profilePicture,
-        coverphoto : res.coverphoto
+        coverphoto: res.coverphoto,
       })),
     });
   } catch (error) {
@@ -204,13 +204,13 @@ export async function blogById(c: Context) {
       include: {
         author: {
           select: {
-          username :true,
-          profile:{
-            select:{
-              bio: true,
-              profilePicture:true
-            }
-          }
+            username: true,
+            profile: {
+              select: {
+                bio: true,
+                profilePicture: true,
+              },
+            },
           },
         },
       },
@@ -246,7 +246,7 @@ export async function blogById(c: Context) {
       profileImage: blogExists.author.profile?.profilePicture,
       publishDate: properDate,
       authorBio: blogExists.author.profile?.bio,
-      coverphoto: blogExists.coverphoto
+      coverphoto: blogExists.coverphoto,
     });
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);
@@ -262,7 +262,10 @@ export async function updateBlog(c: Context) {
     const body: {
       title: string;
       body: string;
+      coverphoto: string;
     } = await c.req.json();
+    console.log("body", body);
+
     const { success } = updateSchema.safeParse(body);
     if (!success) {
       return c.text("Zod validtion failed!");
@@ -276,6 +279,7 @@ export async function updateBlog(c: Context) {
         title: body.title,
         body: body.body,
         authorId: c.get("authorId"),
+        coverphoto: body.coverphoto,
       },
       include: {
         author: true,
@@ -317,11 +321,11 @@ export async function deleteBlog(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const body : {id: string} = await c.req.json()
+    const body: { id: string } = await c.req.json();
     await prisma.blogs.delete({
-      where:{
-        id:body.id
-      }
+      where: {
+        id: body.id,
+      },
     });
     return c.text("Blog post deleted!");
   } catch (error) {
