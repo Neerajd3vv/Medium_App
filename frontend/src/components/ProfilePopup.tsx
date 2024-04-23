@@ -140,8 +140,8 @@ interface SigninToReadBlogType {
 export function SigninToReadBlog({ cancel, signin }: SigninToReadBlogType) {
   return (
     <div className="w-full h-full fixed flex justify-center items-center top-0 right-0 bg-black bg-opacity-50 z-50 ">
-      <div className="rounded-lg bg-white max-w-md py-10 px-10 lg:max-w-3xl lg:px-20 lg:py-20">
-        <div className="flex text-lg lg:text-4xl mb-10  font-Gelasio ">
+      <div className="rounded-lg bg-MainBlack max-w-md py-10 px-10 lg:max-w-3xl lg:px-20 lg:py-20">
+        <div className="flex text-white text-lg lg:text-4xl font-semibold mb-10  font-rowdies ">
           Upgrade Your Read: Sign in for Full Access to Blogs!
         </div>
         <div className="flex justify-between">

@@ -6,6 +6,9 @@ import { storage } from "../../Firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { NewBlogSchema } from "@neerajrandom/medium-cloned";
+// react quill
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 function CreateBlog() {
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
   const [userInfo, setUserInfo] = useState<NewBlogSchema>({
@@ -13,10 +16,13 @@ function CreateBlog() {
     body: "",
     coverphoto: "",
   });
+
   const PublishPost = async () => {
     try {
-      if (coverPhoto == null) {
-        toast.error("Please select cover photo!", { autoClose: 1200 });
+      if (!userInfo.title || !userInfo.body || !coverPhoto) {
+        toast.error("Please fill in all fields and select a cover photo!", {
+          autoClose: 1300,
+        });
         return;
       }
       const CoverPhotoRef = ref(
@@ -53,48 +59,49 @@ function CreateBlog() {
 
   const HandleImages = (event: any) => {
     const file = event.target.files[0];
-    if (!file || file.size > maxImageSize) {
+    if (file.size > maxImageSize) {
       toast("Image size exceeds 8mb");
       return;
     }
     setCoverPhoto(file);
   };
+
   return (
     <div>
       <input
+        // value={userInfo.title}
         onChange={(e) => {
           setUserInfo({
             ...userInfo,
             title: e.target.value,
           });
         }}
-        className="bg-slate-100 font-Afacad text-xl focus:ring w-2/4 focus:ring-blue-500 lg:w-2/4  p-3  focus:outline-none  mb-3 rounded-lg"
+        className="bg-slate-100 font-Afacad text-xl focus:ring  focus:ring-black w-full lg:w-1/3  p-3  focus:outline-none  mb-3 rounded-lg"
         placeholder="Blog title!"
       />
-
-      <textarea
-        onChange={(e) => {
-          setUserInfo({
-            ...userInfo,
-            body: e.target.value.replace(/\n\n/g , "<p></p>"),
-          });
-        }}
-        id="editor"
-        rows={14}
-        className="w-full font-Afacad text-2xl px-3 shadow-xl rounded-lg py-3  border-2 border-gray-200 focus:outline-none  "
-        placeholder="Write your blog post..."
-        required
-      ></textarea>
       <input
+        // value={userInfo.coverphoto}
         onChange={HandleImages}
-        className="bg-green-500  font-Afacad my-3 p-3 text-white   rounded-lg"
+        className="bg-MainBlack block font-rowdies w-full lg:w-1/3 my-3 p-3 text-white   rounded-lg"
         type="file"
         accept="images/*"
         placeholder="Choose Image"
       />
+
+      <ReactQuill
+        onChange={(value) => {
+          setUserInfo({
+            ...userInfo,
+            body: value,
+          });
+        }}
+        // value={userInfo.body}
+        className=" h-96 mb-20 lg:mb-12"
+        theme="snow"
+      />
       <button
         onClick={PublishPost}
-        className="w-full py-3 font-Afacad text-lg text-white bg-heheblu hover:bg-Myblue rounded-b-lg focus:outline-none "
+        className="w-full py-3 font-rowdies text-lg text-white bg-heheblu hover:bg-Myblue  rounded-b-lg focus:outline-none "
       >
         Publish Post
       </button>

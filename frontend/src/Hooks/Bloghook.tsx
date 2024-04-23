@@ -50,6 +50,7 @@ export interface blogIdType {
   profileImage: string;
   coverphoto: string
   
+  
 }
 
 export function useBlogbyId({ id }: { id: string }) {

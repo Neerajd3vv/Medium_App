@@ -7,6 +7,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { UpdateSchema } from "@neerajrandom/medium-cloned";
 import { useParams } from "react-router-dom";
+// react quill
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 function CreateBlog() {
   const { id } = useParams();
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
@@ -17,9 +20,9 @@ function CreateBlog() {
   });
   const PublishPost = async () => {
     try {
-      if (coverPhoto == null) {
-        toast.error("Please select cover photo for your Blog!", {
-          autoClose: 1200,
+      if (!userInfo.title || !userInfo.title || !coverPhoto) {
+        toast.error("Please fill in all fields and select a cover photo!", {
+          autoClose: 1300,
         });
         return;
       }
@@ -70,20 +73,17 @@ function CreateBlog() {
         className="bg-slate-100 font-Afacad text-xl focus:ring w-2/4 focus:ring-blue-500 lg:w-2/4  p-3  focus:outline-none  mb-3 rounded-lg"
         placeholder="Blog title!"
       />
-
-      <textarea
-        onChange={(e) => {
+      <ReactQuill
+        onChange={(value) => {
           setUserInfo({
             ...userInfo,
-            body: e.target.value,
+            body: value,
           });
         }}
-        id="editor"
-        rows={14}
-        className="w-full font-Afacad text-2xl px-3 shadow-xl rounded-lg py-3  border-2 border-gray-200 focus:outline-none  "
-        placeholder="Write your blog post..."
-        required
-      ></textarea>
+        className="h-96 mb-20 lg:mb-12"
+        theme="snow"
+      />
+
       <input
         onChange={HandleImages}
         className="bg-green-500  font-Afacad my-3 p-3 text-white   rounded-lg"

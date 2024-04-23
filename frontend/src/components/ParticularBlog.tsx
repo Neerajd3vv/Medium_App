@@ -5,13 +5,15 @@ interface BlogtypeId {
   content: string;
   authorname: string;
   publishDate: string;
-  profileImage:string | null
+  profileImage: string | null;
   authorBio: string;
-  coverphoto: string
+  coverphoto: string;
 }
 
-function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
-  console.log(blogById);
+function ParticularBlog({ blogById }: { blogById: BlogtypeId }) {
+  const renderContent = () => {
+    return { __html: blogById.content };
+  };
   return (
     <div>
       <div className="flex justify-center mb-20">
@@ -25,11 +27,16 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
               {blogById?.publishDate}
             </div>
             <div>
-              <img className="mt-4 mb-8" src={blogById?.coverphoto} alt="Cover_Image" />
+              <img
+                className="mt-4 mb-8"
+                src={blogById?.coverphoto}
+                alt="Cover_Image"
+              />
             </div>
-            <div className="font-Gelasio text-meblack  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-relaxed tracking-wider">
-              {blogById?.content}
-            </div>
+            <div
+              className="font-Gelasio text-meblack  w-full max-w-4xl pt-4 text-xl lg:text-xl leading-relaxed tracking-wider"
+              dangerouslySetInnerHTML={renderContent()}
+            ></div>
           </div>
           {/* Right Part */}
           <div className="col-span-12 pb-12 lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
@@ -39,9 +46,9 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             <div className="flex">
               <div className="flex   items-center pr-4">
                 {blogById?.profileImage ? (
-                  <AvatarProfile userImage={blogById?.profileImage}/>
-                ): (
-                  <Avatar authorName={blogById?.authorname}/>
+                  <AvatarProfile userImage={blogById?.profileImage} />
+                ) : (
+                  <Avatar authorName={blogById?.authorname} />
                 )}
               </div>
               <div>
@@ -58,15 +65,12 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
   );
 }
 
-
-
 export default ParticularBlog;
 
-
-function AvatarProfile({ userImage }: { userImage: string  }) {
+function AvatarProfile({ userImage }: { userImage: string }) {
   return (
     <div className="bg-slate-200 flex justify-center items-center h-20 w-20 rounded-full">
-   <img className="rounded-full h-20 w-20" src={userImage} alt="Image"/>
+      <img className="rounded-full h-20 w-20" src={userImage} alt="Image" />
     </div>
   );
 }

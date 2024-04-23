@@ -254,7 +254,7 @@ function AppBarSearchbox({ onchange }: AppsearchBoxType) {
     <div className="hidden lg:flex">
       <input
         onChange={onchange}
-        className="border-gray-300 text-black font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-200"
+        className="border-black text-black font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
         type="text"
         placeholder="Search"
       />
