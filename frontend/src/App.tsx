@@ -9,6 +9,7 @@ import BlogsMine from "./pages/BlogsMine";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateBlog from "./pages/UpdateBlog";
+import SearchedBlogs from "./pages/SearchedBlogs";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/create-blog" element={<NewBlog />} />
           <Route path="/updateblog/:id" element={<UpdateBlog />} />
           <Route path="/myblogs" element={<BlogsMine />} />
+          <Route path="/searchblog" element={<SearchedBlogs />} />
         </Routes>
       </BrowserRouter>
     </>

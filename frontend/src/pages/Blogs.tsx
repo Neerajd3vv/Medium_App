@@ -2,22 +2,13 @@ import BlogCard from "../components/BlogCard";
 import Skeleton from "../components/Skeleton";
 import AppBar from "../components/AppBar";
 import AppBarLogged from "../components/AppBarLogged";
-import { useEffect, useState } from "react";
 import useBlog, { useTokenExists } from "@/Hooks/Bloghook";
 
 function Blog() {
-  const {loading , allBlogs} = useBlog()
+  const { loading, allBlogs } = useBlog();
   const { userTokenExists } = useTokenExists();
 
-  const [MyBlogs, setMyBlogs] = useState(allBlogs);
-
-  useEffect(() => {
-    setMyBlogs(allBlogs);
-  }, [allBlogs]);
-
-  // console.log("queriedBlogs", MyBlogs);
-
-   if (loading) {
+  if (loading) {
     return (
       <div>
         {userTokenExists ? <AppBarLogged /> : <AppBar />}
@@ -30,31 +21,27 @@ function Blog() {
         </div>
       </div>
     );
-   }
+  }
 
   return (
     <div>
       {userTokenExists ? <AppBarLogged /> : <AppBar />}
       <div>
-        {MyBlogs.length > 0 ? (
-          MyBlogs.map((blog) => (
-            <BlogCard
-              key={blog.id}
-              title={blog.title}
-              authorName={blog.authorname}
-              mainbody={blog.content}
-              publishDate={blog.publishDate}
-              id={blog.id}
-              profilePicture={blog.profilePicture}
-              coverPhotoUrl={blog.coverphoto}
-            />
-          ))
-        ) : (
-          <div>No blogs found.</div>
-        )}
+        {allBlogs.map((blog) => (
+          <BlogCard
+            key={blog.id}
+            title={blog.title}
+            authorName={blog.authorname}
+            mainbody={blog.content}
+            publishDate={blog.publishDate}
+            id={blog.id}
+            profilePicture={blog.profilePicture}
+            coverPhotoUrl={blog.coverphoto}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
-export default Blog
+export default Blog;

@@ -75,15 +75,7 @@ export async function getallblogs(c: Context) {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const { title } = (c.req.query() as { title?: string }) || "";
-    console.log(title);
     const multipleBlogs = await prisma.blogs.findMany({
-      where: {
-        title: {
-          contains: title,
-          mode: "insensitive",
-        },
-      },
       include: {
         author: {
           select: {
@@ -330,5 +322,68 @@ export async function deleteBlog(c: Context) {
     return c.text("Blog post deleted!");
   } catch (error) {
     return c.body(`Internal server error: ${error}`, 500);
+  }
+}
+
+// Searched blogs by user
+
+export async function userSearchedBlogs(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const { query } = c.req.query();
+    const SearchedBlogs = await prisma.blogs.findMany({
+      where: {
+        title: {
+          contains: query,
+        },
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                profilePicture: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    if (SearchedBlogs) {
+      return c.json({
+        blogsFoundByTitle: SearchedBlogs.map((blog) => ({
+          id: blog.id,
+          title: blog.title,
+          content: blog.body,
+          authorId: blog.authorId,
+          authorname: blog.author.username,
+          publishDate: `${blog.publishDate.getDate()} ${
+            months[blog.publishDate.getMonth()]
+          } ${blog.publishDate.getFullYear()}`,
+          profilePicture: blog.author.profile?.profilePicture,
+          coverPhoto: blog.coverphoto,
+        })),
+      });
+    }
+  } catch (error) {
+    return c.body(`Internal server down:`, 500);
   }
 }

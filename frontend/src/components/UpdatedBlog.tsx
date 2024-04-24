@@ -70,9 +70,18 @@ function CreateBlog() {
             title: e.target.value,
           });
         }}
-        className="bg-slate-100 font-Afacad text-xl focus:ring w-2/4 focus:ring-blue-500 lg:w-2/4  p-3  focus:outline-none  mb-3 rounded-lg"
+        className="bg-slate-100 font-Afacad text-xl focus:ring w-full focus:ring-blue-500 lg:w-1/3  p-3  focus:outline-none   rounded-lg"
         placeholder="Blog title!"
       />
+      <input
+        // value={userInfo.coverphoto}
+        onChange={HandleImages}
+        className="bg-MainBlack block file font-rowdies w-full lg:w-1/3 my-3 p-3 text-white   rounded-lg"
+        type="file"
+        accept="images/*"
+        placeholder="Choose Image"
+      />
+
       <ReactQuill
         onChange={(value) => {
           setUserInfo({
@@ -84,16 +93,9 @@ function CreateBlog() {
         theme="snow"
       />
 
-      <input
-        onChange={HandleImages}
-        className="bg-green-500  font-Afacad my-3 p-3 text-white   rounded-lg"
-        type="file"
-        accept="images/*"
-        placeholder="Choose Image"
-      />
       <button
         onClick={PublishPost}
-        className="w-full py-3 font-Afacad text-lg text-white bg-heheblu hover:bg-Myblue rounded-b-lg focus:outline-none "
+        className="w-full py-3 font-rowdies text-lg text-white bg-MainBlack hover:bg-heheblu  rounded-b-lg focus:outline-none "
       >
         Publish Post
       </button>

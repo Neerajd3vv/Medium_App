@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useTokenExists } from "../Hooks/Bloghook";
 import { useState } from "react";
 import { SigninToReadBlog } from "./ProfilePopup";
-interface blogCardType {
+interface BlogByTitleType {
   authorName: string;
   title: string;
   mainbody: string;
@@ -12,15 +12,15 @@ interface blogCardType {
   coverPhotoUrl: string;
 }
 
-function BlogCard({
-  authorName,
+function BlogByTitle({
+  authorName, ///
   title,
   mainbody,
   publishDate,
   id,
-  profilePicture,
+  profilePicture, ///
   coverPhotoUrl,
-}: blogCardType) {
+}: BlogByTitleType) {
   const { userTokenExists } = useTokenExists();
   const [showSignInPopup, setShowSignInPopup] = useState(false);
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ function BlogCard({
             </div>
           </div>
           <div className=" justify-center  items-center grid col-span-1 ">
-            <img className="" src={coverPhotoUrl} alt="cover_image" />
+            <img  src={coverPhotoUrl} alt="cover_image" />
           </div>
         </div>
       </div>
@@ -105,4 +105,4 @@ function AvatarProfile({ userImage }: { userImage?: any }) {
   );
 }
 
-export default BlogCard;
+export default BlogByTitle;

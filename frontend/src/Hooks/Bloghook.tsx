@@ -10,32 +10,23 @@ export interface BlogType {
   authorname: string;
   publishDate: string;
   profilePicture: string;
-  coverphoto: string
+  coverphoto: string;
 }
 
 export function useBlog() {
   const [loading, setloading] = useState(true);
   const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
-  const [blogSearch, setBlogSearch] = useState("");
   useEffect(() => {
-    const encodedTitle = encodeURIComponent(blogSearch);
+    axios.get(`${BACKEND_URL}/api/v1/blog/bulk`).then((response) => {
+      setAllBlogs(response.data.Blogs);
 
-    axios
-      .get(`${BACKEND_URL}/api/v1/blog/bulk?title=${encodedTitle}`)
-      .then((response) => {
-        setAllBlogs(response.data.Blogs);
-
-        setloading(false);
-      });
-  }, [blogSearch]);
-
-  // console.log(allBlogs);
+      setloading(false);
+    });
+  }, []);
 
   return {
     allBlogs,
     loading,
-    setBlogSearch,
-    blogSearch,
   };
 }
 
@@ -48,9 +39,7 @@ export interface blogIdType {
   publishDate: string;
   authorBio: string;
   profileImage: string;
-  coverphoto: string
-  
-  
+  coverphoto: string;
 }
 
 export function useBlogbyId({ id }: { id: string }) {
@@ -233,5 +222,38 @@ export function useUserBioChecking() {
   };
 }
 
+/// blog by title
 
-/// blog delete
+export interface BlogType {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  authorname: string;
+  publishDate: string;
+  profilePicture: string;
+  coverPhoto: string;
+}
+
+export function useBlogByTitle({searchQuery} : any ) {
+  const [loading, setloading] = useState(true);
+  const [searchedBlogs, setSearchedBlogs] = useState<BlogType[]>([]);
+  useEffect(() => {
+    axios
+      .post(`${BACKEND_URL}/api/v1/blog/searchedblogs?query=${searchQuery}` ,{}, {
+        headers: {
+          Authorization : `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      .then((response) => {
+        setSearchedBlogs(response.data.blogsFoundByTitle);
+
+        setloading(false);
+      });
+  }, [searchQuery]);
+
+  return {
+    searchedBlogs,
+    loading,
+  };
+}

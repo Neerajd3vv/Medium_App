@@ -76,13 +76,13 @@ function CreateBlog() {
             title: e.target.value,
           });
         }}
-        className="bg-slate-100 font-Afacad text-xl focus:ring  focus:ring-black w-full lg:w-1/3  p-3  focus:outline-none  mb-3 rounded-lg"
+        className="bg-slate-100 font-Afacad text-xl focus:ring  focus:ring-black w-full lg:w-1/3  p-3  focus:outline-none  rounded-lg"
         placeholder="Blog title!"
       />
       <input
         // value={userInfo.coverphoto}
         onChange={HandleImages}
-        className="bg-MainBlack block font-rowdies w-full lg:w-1/3 my-3 p-3 text-white   rounded-lg"
+        className="bg-MainBlack block file font-rowdies w-full lg:w-1/3 my-3 p-3 text-white   rounded-lg"
         type="file"
         accept="images/*"
         placeholder="Choose Image"
@@ -101,7 +101,7 @@ function CreateBlog() {
       />
       <button
         onClick={PublishPost}
-        className="w-full py-3 font-rowdies text-lg text-white bg-heheblu hover:bg-Myblue  rounded-b-lg focus:outline-none "
+        className="w-full py-3 font-rowdies text-lg text-white bg-MainBlack hover:bg-heheblu  rounded-b-lg focus:outline-none "
       >
         Publish Post
       </button>

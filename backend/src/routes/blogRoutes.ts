@@ -6,6 +6,7 @@ import {
   getallblogs,
   authorblogs,
   blogById,
+  userSearchedBlogs,
 } from "../controllers/blogControllers";
 import authmiddleware from "../middleware/authmiddleware";
 import { Bindings } from "hono/types";
@@ -21,5 +22,6 @@ router.delete("/blogdeleted", authmiddleware, deleteBlog); //
 router.get("/bulk", getallblogs);
 router.get("/authorblog", authmiddleware, authorblogs);
 router.get("/:id", authmiddleware, blogById);
+router.post("/searchedblogs", authmiddleware, userSearchedBlogs);
 
 export default router;

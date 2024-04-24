@@ -5,13 +5,13 @@ interface profilePopUpType {
   onchange: (e: ChangeEvent<HTMLInputElement>) => void;
   onclick: MouseEventHandler<HTMLButtonElement>;
   closeProfilePopup: MouseEventHandler<HTMLDivElement>;
-  onchangetwo : (e : ChangeEvent<HTMLInputElement>) => void
+  onchangetwo: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 export function ProfilePopupOne({
   onchange,
   onclick,
   closeProfilePopup,
-  onchangetwo
+  onchangetwo,
 }: profilePopUpType) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -28,7 +28,6 @@ export function ProfilePopupOne({
           Edit Profile
         </h2>
         <input
-          
           type="text"
           placeholder="Enter your bio"
           className="border border-gray-300 focus:outline-none rounded-md px-3 py-2 mb-4 w-full"
@@ -39,7 +38,7 @@ export function ProfilePopupOne({
           Upload Profile Picture
         </label>
         <input
-        onChange={onchangetwo}
+          onChange={onchangetwo}
           id="profileImage"
           placeholder="Choose Image"
           type="file"
@@ -67,7 +66,7 @@ interface ProfilePopTwoType {
   onchange: (e: ChangeEvent<HTMLInputElement>) => void;
   closeProfilePopup: MouseEventHandler<HTMLDivElement>;
   currentBio: string | undefined;
-  onchangetwo: (e:ChangeEvent<HTMLInputElement>) => void
+  onchangetwo: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function ProfilePopupTwo({
@@ -75,7 +74,7 @@ export function ProfilePopupTwo({
   onchange,
   closeProfilePopup,
   currentBio,
-  onchangetwo
+  onchangetwo,
 }: ProfilePopTwoType) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -109,7 +108,7 @@ export function ProfilePopupTwo({
           Upload Profile Picture
         </label>
         <input
-        onChange={onchangetwo}
+          onChange={onchangetwo}
           id="profileImage"
           placeholder="Choose Image"
           type="file"
@@ -162,5 +161,4 @@ export function SigninToReadBlog({ cancel, signin }: SigninToReadBlogType) {
     </div>
   );
 }
-
 

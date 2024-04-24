@@ -1,13 +1,16 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import useBlog, { useUserBioChecking } from "../Hooks/Bloghook";
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
+import { useUserBioChecking } from "../Hooks/Bloghook";
 import MediumLogo from "../images/Medium-Logo.png";
+import smallMedium from "../images/smallMedium.png";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+
 import { ProfilePopupOne, ProfilePopupTwo } from "./ProfilePopup";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import balckprofile from "../images/blackProfile.png";
+
 // React toast
 import { toast } from "react-toastify";
 //firebase imports
@@ -26,8 +29,15 @@ function AppBarLogged() {
     }
   }, []);
 
-  const [profileUrlExistsInLocalStorage, setProfileUrlExitsLoclStorage] = useState(false);
-  const { setBlogSearch } = useBlog();
+  // search blog  by title
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchButtonCicked = () => {
+    navigate(`/searchblog?query=${searchQuery}`);
+  };
+
+  const [profileUrlExistsInLocalStorage, setProfileUrlExitsLoclStorage] =
+    useState(false);
+  // const { setBlogSearch } = useBlog();
   const location = useLocation();
   const { userBioValue, userProfile } = useUserBioChecking();
   const navigate = useNavigate();
@@ -174,36 +184,62 @@ function AppBarLogged() {
       <div className="flex justify-between px-4 lg:px-20 border-b-2 shadow-sm py-4 border-slate-300">
         <div className="flex items-center">
           <Link to={"/blogs"}>
-            <img src={MediumLogo} className="w-40 mr-8 " alt="Medium Logo" />
+            <img src={smallMedium} className="w-10 mr-8 block lg:hidden " />
           </Link>
-          <AppBarSearchbox
+          <Link to={"/blogs"}>
+            <img
+              src={MediumLogo}
+              className="w-40 hidden lg:block mr-8 "
+              alt="Medium Logo"
+            />
+          </Link>
+          {/* will render/ appear on small screen */}
+          <AppBarSearchboxtwo
+            onclick={searchButtonCicked}
             onchange={(e) => {
-              // console.log(e.target.value);
-
-              setBlogSearch(e.target.value);
+              setSearchQuery(e.target.value);
+            }}
+          />
+          {/* will be hidden on small screen */}
+          <AppBarSearchbox
+            onclick={searchButtonCicked}
+            onchange={(e) => {
+              setSearchQuery(e.target.value);
             }}
           />
         </div>
         <div className="flex items-center">
           <Link to={"/create-blog"}>
-            <div className="cursor-pointer mx-8 font-Afacad text-lg">Write</div>
+            <div className=" hidden lg:block cursor-pointer mx-8 font-Afacad text-lg">
+              Write
+            </div>
           </Link>
           <div className="cursor-pointer" onClick={dropBoxMenu}>
             {profileUrlExistsInLocalStorage ? (
               <Avatar />
             ) : (
-              <AvatarProfile userImage={userProfileImage}/>
+              <AvatarProfile userImage={userProfileImage} />
             )}
           </div>
+
           {dropBox && (
-            <div className="absolute right-4 bg-actualBlack flex justify-center items-center shadow-xl  top-14 border-2 rounded-xl  py-4 mt-2 w-48 text-center z-10">
+            <div className="absolute right-4 bg-actualBlack flex justify-center items-center shadow-xl  top-14  rounded-xl  py-4 mt-2 w-48 text-center z-10">
               <ul className="w-full">
+                {window.innerWidth <= 1024 && (
+                  <Link to={"/create-blog"}>
+                    {" "}
+                    <li className="py-2 px-4 text-white rounded-full font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black">
+                      Create Blog
+                    </li>
+                  </Link>
+                )}
                 <li
                   onClick={navigateToMyblogs}
                   className="py-2 px-4 text-white rounded-full font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black"
                 >
                   My Blogs
                 </li>
+
                 <li
                   onClick={profileClick}
                   className="py-2 px-4 text-white rounded-full  font-Mullish  text-lg  cursor-pointer hover:bg-slate-200 hover:text-black"
@@ -245,19 +281,50 @@ function AppBarLogged() {
 }
 
 export default AppBarLogged;
-interface AppsearchBoxType {
+
+interface AppBarSearchboxType {
   onchange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onclick: MouseEventHandler<HTMLButtonElement>;
 }
 
-function AppBarSearchbox({ onchange }: AppsearchBoxType) {
+function AppBarSearchbox({ onchange, onclick }: AppBarSearchboxType) {
   return (
-    <div className="hidden lg:flex">
-      <input
-        onChange={onchange}
-        className="border-black text-black font-Afacad focus:outline-none border-2 px-3 py-2 w-60 rounded-full bg-slate-100"
-        type="text"
-        placeholder="Search"
-      />
+    <div className=" hidden lg:flex border-2   bg-slate-50 rounded-full">
+  <input
+          onChange={onchange}
+          type="search"
+          id="default-search"
+          className="block focus:outline-none bg-slate-50 w-full py-2 pl-3 pr-10 text-md font-Mullish text-gray-900 rounded-full"
+          placeholder="Search blogs"
+        />
+        <button
+          onClick={onclick}
+          className="    text-white font-Mullish bg-MainBlack hover:bg-slate-800 rounded-full  px-4 py-2"
+        >
+          Search
+        </button>
+    </div>
+  );
+}
+
+function AppBarSearchboxtwo({ onchange, onclick }: AppBarSearchboxType) {
+  return (
+    <div className="flex lg:hidden items-center relative">
+      <div className="border-2 bg-slate-50 rounded-full flex-grow">
+        <input
+          onChange={onchange}
+          type="search"
+          id="default-search"
+          className="block focus:outline-none bg-slate-50 w-full py-2 pl-3 pr-10 text-md font-Mullish text-gray-900 rounded-full"
+          placeholder="Search blogs"
+        />
+        <button
+          onClick={onclick}
+          className="absolute right-0 top-0 bottom-0    text-white font-Mullish bg-MainBlack hover:bg-slate-800 rounded-full  px-4 py-2"
+        >
+          Search
+        </button>
+      </div>
     </div>
   );
 }

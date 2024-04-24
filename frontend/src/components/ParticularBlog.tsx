@@ -17,7 +17,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId }) {
   return (
     <div>
       <div className="flex justify-center mb-20">
-        <div className="grid grid-cols-1  lg:grid-cols-12 lg:max-w-screen-2xl px-3 lg:px-12 pt-20">
+        <div className="grid   lg:grid-cols-12 lg:max-w-screen-2xl px-3 lg:px-12 pt-20">
           {/* Left Part */}
           <div className=" col-span-12 lg:col-span-8">
             <div className="text-4xl lg:text-5xl font-extrabold pb-2 font-Poppins">
@@ -39,7 +39,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId }) {
             ></div>
           </div>
           {/* Right Part */}
-          <div className="col-span-12 pb-12 lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
+          <div className=" pb-12 lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
             <div className="font-semibold text-md text-slate-700 pb-2 font-poppins">
               Author
             </div>
