@@ -31,43 +31,41 @@ function SigninInputs() {
       alert("Request failed!");
     }
   }
+
   return (
-    <div className="flex flex-col justify-center h-screen ">
-      <div className=" flex justify-center">
-        <div className="border-2 py-14 px-8 shadow-lg rounded-xl">
-          <div className="font-Gelasio mb-4 text-4xl  flex justify-center  text-bubblyblue">
-            Welcome Back!
-          </div>
-          <Inputbox
-            label="Email"
-            placeholder="test@gmail.com"
-            onChange={(e) => {
-              setSigninInputs({
-                ...signinInputs,
-                email: e.target.value.trim(),
-              });
-            }}
-          />
-          <Inputbox
-            label="Password"
-            type="password"
-            placeholder="Enter your password"
-            onChange={(e) => {
-              setSigninInputs({
-                ...signinInputs,
-                password: e.target.value.trim(),
-              });
-            }}
-          />
-          <div className="font-Poppins pt-2 flex justify-center">
-            Go back to{" "}
-            <Link className="text-heheblu underline" to={"/signup"}>
-              {" "}
-              Signup!
-            </Link>
-          </div>
-          <Button button="Signin" onClick={signinBackend} />
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="w-full max-w-md border-2 py-14 px-8 shadow-lg rounded-xl">
+        <div className="font-Gelasio text-center mb-4 text-4xl text-bubblyblue">
+          Welcome Back!
         </div>
+        <Inputbox
+          label="Email"
+          placeholder="test@gmail.com"
+          onChange={(e) => {
+            setSigninInputs({
+              ...signinInputs,
+              email: e.target.value.trim(),
+            });
+          }}
+        />
+        <Inputbox
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          onChange={(e) => {
+            setSigninInputs({
+              ...signinInputs,
+              password: e.target.value.trim(),
+            });
+          }}
+        />
+        <div className="font-Poppins pt-2 text-center">
+          Go back to{" "}
+          <Link className="text-heheblu underline" to={"/signup"}>
+            Signup!
+          </Link>
+        </div>
+        <Button button="Signin" onClick={signinBackend} />
       </div>
     </div>
   );

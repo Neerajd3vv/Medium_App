@@ -181,10 +181,10 @@ function AppBarLogged() {
 
   return (
     <div>
-      <div className="flex justify-between px-4 lg:px-20 border-b-2 shadow-sm py-4 border-slate-300">
+      <div className="flex justify-between px-2 lg:px-20 border-b-2 shadow-sm py-4 border-slate-300">
         <div className="flex items-center">
           <Link to={"/blogs"}>
-            <img src={smallMedium} className="w-10 mr-8 block lg:hidden " />
+            <img src={smallMedium} className="w-10 mr-2 block lg:hidden " />
           </Link>
           <Link to={"/blogs"}>
             <img

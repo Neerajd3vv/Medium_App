@@ -42,7 +42,7 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
             ></div>
           </div>
           {/* Right Part */}
-          <div className=" pb-12 lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
+          <div className="   lg:w-full pb-12 lg:col-span-4 lg:pl-16  mt-16 lg:mt-0">
             <div className="font-semibold text-md text-slate-700 pb-2 font-poppins">
               Author
             </div>
@@ -54,11 +54,11 @@ function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
                   <Avatar authorName={blogById?.authorname} />
                 )}
               </div>
-              <div>
+              <div className=" w-52">
                 <div className="text-2xl font-Gelasio  font-semibold">
                   {blogById?.authorname}
                 </div>
-                <div className="font-Afacad text-xl">{blogById?.authorBio}</div>
+                <div className="  font-Afacad text-xl">{blogById?.authorBio}</div>
               </div>
             </div>
           </div>

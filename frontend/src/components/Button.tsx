@@ -7,7 +7,7 @@ interface ButtonType {
 
 function Button({button,onClick}: ButtonType) {
   return (
-    <button onClick={onClick} className=" w-96 bg-heheblu hover:bg-Myblue  font-Hind text-white rounded-md py-2">
+    <button onClick={onClick} className=" w-full bg-heheblu hover:bg-Myblue  font-Hind text-white rounded-md py-2">
        {button}
     </button>
   )

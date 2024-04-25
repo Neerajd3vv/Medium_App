@@ -12,7 +12,7 @@ function Inputbox({label, placeholder, onChange,type, }: LabelInput) {
   return (
     <div className="flex flex-col py-2 ">
         <label className="font-Hind font-semibold">{label}</label>
-        <input onChange={onChange} className=" py-4 bg-slate-200 w-96   rounded-md px-3" type={type || "text"} placeholder={placeholder} />
+        <input onChange={onChange} className=" py-4 bg-slate-100 w-full   rounded-md px-3" type={type || "text"} placeholder={placeholder} />
     </div>
   )
 }

@@ -35,10 +35,8 @@ function SignupInputs() {
     }
   }
   return (
-    <div className="flex flex-col justify-center h-screen ">
-      {/* {JSON.stringify(authInputs)} */}
-      <div className="flex justify-center ">
-        <div className="border-2 py-14 px-8 shadow-lg rounded-xl">
+    <div className="flex flex-col justify-center h-screen  items-center">
+        <div className="border-2 py-14 px-8 w-full max-w-md  shadow-lg rounded-xl">
           <div className="  font-Gelasio text-4xl mb-4  flex justify-center  text-bubblyblue ">
             Create an account
           </div>
@@ -84,7 +82,6 @@ function SignupInputs() {
           <Button button="Signup" onClick={signupBackend} />
         </div>
       </div>
-    </div>
   );
 }
 

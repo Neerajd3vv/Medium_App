@@ -146,13 +146,13 @@ export function SigninToReadBlog({ cancel, signin }: SigninToReadBlogType) {
         <div className="flex justify-between">
           <button
             onClick={cancel}
-            className="bg-red-600 hover:bg-red-500 text-white w-40 lg:w-60 py-2 rounded-full font-Afacad text-lg"
+            className="bg-red-600 hover:bg-red-500 text-white w-32 lg:w-60 py-2 rounded-full font-Afacad text-lg"
           >
             Cancel
           </button>
           <button
             onClick={signin}
-            className="bg-heheblu font-Afacad text-lg hover:bg-Myblue w-40 text-white lg:w-60 py-2 rounded-full"
+            className="bg-heheblu font-Afacad text-lg hover:bg-Myblue w-32 text-white lg:w-60 py-2 rounded-full"
           >
             Signin
           </button>
