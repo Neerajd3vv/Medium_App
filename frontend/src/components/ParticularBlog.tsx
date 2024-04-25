@@ -10,7 +10,10 @@ interface BlogtypeId {
   coverphoto: string;
 }
 
-function ParticularBlog({ blogById }: { blogById: BlogtypeId }) {
+function ParticularBlog({ blogById }: { blogById: BlogtypeId | undefined }) {
+  if (!blogById) {
+    return;
+  }
   const renderContent = () => {
     return { __html: blogById.content };
   };

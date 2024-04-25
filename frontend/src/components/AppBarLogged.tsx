@@ -146,7 +146,7 @@ function AppBarLogged() {
         }
       });
     } catch (error) {
-      toast.error("Error! Occurred while updating profile");
+      toast.error("Error! Occurred while updating profile" , {autoClose: 1200});
     }
   };
 
