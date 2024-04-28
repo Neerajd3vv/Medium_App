@@ -1,1 +1,1 @@
-export const BACKEND_URL="https://backend.neerajwdev.workers.dev"
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_CLOUDFLARE_WORKERS
