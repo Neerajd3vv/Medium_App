@@ -13,6 +13,7 @@ import "react-quill/dist/quill.snow.css";
 function CreateBlog() {
   const { id } = useParams();
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
+  const [loading , setLoading] = useState(false)
   const [userInfo, setUserInfo] = useState<UpdateSchema>({
     title: "",
     body: "",
@@ -26,6 +27,7 @@ function CreateBlog() {
         });
         return;
       }
+      setLoading(true) // 
       const CoverPhotoRef = ref(
         storage,
         `CoverPhoto/${coverPhoto.name + v4()}`
@@ -34,7 +36,7 @@ function CreateBlog() {
       getDownloadURL(CoverPhotoRef).then(async (url) => {
         // console.log("backend api hit");
 
-        await axios.put(
+        const response = await axios.put(
           `${BACKEND_URL}/api/v1/blog/updateblog/${id}`,
           { title: userInfo.title, body: userInfo.body, coverphoto: url },
           {
@@ -43,11 +45,20 @@ function CreateBlog() {
             },
           }
         );
-
-        toast("Blog updated successfully!", { autoClose: 1300 });
+        const userUpdatedBlog = response.data.updatedBlog;
+        if (userUpdatedBlog) {
+          setUserInfo({
+            title: "",
+            body: "",
+            coverphoto: "",
+          });
+          toast("Blog updated successfully!", { autoClose: 1300 });
+        }
       });
     } catch (error) {
       toast.error("Error in creating blog", { autoClose: 1300 });
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -64,6 +75,7 @@ function CreateBlog() {
   return (
     <div>
       <input
+      value={userInfo.title}
         onChange={(e) => {
           setUserInfo({
             ...userInfo,
@@ -74,7 +86,7 @@ function CreateBlog() {
         placeholder="Blog title!"
       />
       <input
-        // value={userInfo.coverphoto}
+        value={userInfo.coverphoto}
         onChange={HandleImages}
         className="bg-MainBlack block file font-rowdies w-full lg:w-1/3 my-3 p-3 text-white   rounded-lg"
         type="file"
@@ -83,6 +95,7 @@ function CreateBlog() {
       />
 
       <ReactQuill
+      value={userInfo.body}
         onChange={(value) => {
           setUserInfo({
             ...userInfo,
@@ -97,7 +110,9 @@ function CreateBlog() {
         onClick={PublishPost}
         className="w-full py-3 font-rowdies text-lg text-white bg-MainBlack hover:bg-heheblu  rounded-b-lg focus:outline-none "
       >
-        Publish Post
+        {
+          loading ? "Updating Post..." : "Publish Post"
+        }
       </button>
     </div>
   );

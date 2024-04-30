@@ -1,4 +1,4 @@
-import { useState } from "react";
+import  { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
 import { toast } from "react-toastify";
@@ -6,9 +6,9 @@ import { storage } from "../../Firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { NewBlogSchema } from "@neerajrandom/medium-cloned";
-// react quill
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+
 function CreateBlog() {
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
   const [userInfo, setUserInfo] = useState<NewBlogSchema>({
@@ -16,6 +16,7 @@ function CreateBlog() {
     body: "",
     coverphoto: "",
   });
+  const [loading, setLoading] = useState<boolean>(false); // Add loading state
 
   const PublishPost = async () => {
     try {
@@ -25,6 +26,7 @@ function CreateBlog() {
         });
         return;
       }
+      setLoading(true); // Set loading to true when publishing starts
       const CoverPhotoRef = ref(
         storage,
         `CoverPhoto/${coverPhoto.name + v4()}`
@@ -52,6 +54,8 @@ function CreateBlog() {
       });
     } catch (error) {
       toast.error("Error in creating blog", { autoClose: 1300 });
+    } finally {
+      setLoading(false); // Set loading back to false after publishing completes
     }
   };
 
@@ -69,7 +73,7 @@ function CreateBlog() {
   return (
     <div>
       <input
-        // value={userInfo.title}
+      value={userInfo.title}
         onChange={(e) => {
           setUserInfo({
             ...userInfo,
@@ -80,7 +84,7 @@ function CreateBlog() {
         placeholder="Blog title!"
       />
       <input
-        // value={userInfo.coverphoto}
+      value={userInfo.coverphoto}
         onChange={HandleImages}
         className="bg-MainBlack block file font-rowdies w-full lg:w-1/3 my-3 p-3 text-white   rounded-lg"
         type="file"
@@ -89,13 +93,13 @@ function CreateBlog() {
       />
 
       <ReactQuill
+      value={userInfo.body}
         onChange={(value) => {
           setUserInfo({
             ...userInfo,
             body: value,
           });
         }}
-        // value={userInfo.body}
         className=" h-96 mb-20 lg:mb-12"
         theme="snow"
       />
@@ -103,10 +107,11 @@ function CreateBlog() {
         onClick={PublishPost}
         className="w-full py-3 font-rowdies text-lg text-white bg-MainBlack hover:bg-heheblu  rounded-b-lg focus:outline-none "
       >
-        Publish Post
+        {loading ? "Publishing..." : "Publish Post"} {/* Show loading text */}
       </button>
     </div>
   );
 }
 
 export default CreateBlog;
+

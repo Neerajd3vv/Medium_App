@@ -338,6 +338,7 @@ export async function userSearchedBlogs(c: Context) {
       where: {
         title: {
           contains: query,
+          mode: "insensitive"
         },
       },
       include: {
